@@ -15,11 +15,10 @@ jobs:
       with:
         dotnet-version: 8.0.x
     - name: Build
-      run: dotnet publish --output build
+      run: dotnet build
     - name: Test
       run: dotnet test
     - name: Upload Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
-        name: TikTovenaar
-        path: build
+        path: TikTovenaar\bin\Debug\net8.0-windows
