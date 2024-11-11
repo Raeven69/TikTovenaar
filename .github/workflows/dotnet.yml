@@ -3,8 +3,6 @@ name: .NET
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
   setup:
@@ -19,6 +17,7 @@ jobs:
     runs-on: windows-latest
     needs: setup
     steps:
+      - run: ls
       - run: dotnet build
 
   test:
