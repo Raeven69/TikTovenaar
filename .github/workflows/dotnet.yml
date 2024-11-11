@@ -5,22 +5,15 @@ on:
     branches: [ "main" ]
 
 jobs:
-  Setup:
+  Build:
     runs-on: windows-latest
     steps:
+    - name: Setup
     - uses: actions/checkout@v4
     - uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
-        
-  Build:
-    runs-on: windows-latest
-    needs: Setup
-    steps:
-      - run: dotnet build TikTovenaar.sln
-
-  Test:
-    runs-on: windows-latest
-    needs: Build
-    steps:
-      - run: dotnet test --no-build
+    - name: Build
+      run: dotnet build
+    - name: Test
+      run: dotnet test
