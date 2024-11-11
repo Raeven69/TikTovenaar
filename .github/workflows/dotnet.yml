@@ -21,8 +21,8 @@ jobs:
       with:
         dotnet-version: 8.0.x
     - name: Restore dependencies
-      run: dotnet /p:EnableWindowsTargeting=true restore
+      run: dotnet restore /p:EnableWindowsTargeting=true
     - name: Build
-      run: dotnet /p:EnableWindowsTargeting=true build --no-restore
+      run: dotnet build /p:EnableWindowsTargeting=true --no-restore
     - name: Test
-      run: dotnet /p:EnableWindowsTargeting=true test --no-build --verbosity normal
+      run: dotnet test /p:EnableWindowsTargeting=true --no-build --verbosity normal
