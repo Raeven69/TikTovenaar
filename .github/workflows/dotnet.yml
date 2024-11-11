@@ -5,23 +5,23 @@ on:
     branches: [ "main" ]
 
 jobs:
-  setup:
+  Setup:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
+    - run: dotnet restore
         
-  build:
+  Build:
     runs-on: windows-latest
-    needs: setup
+    needs: Setup
     steps:
-      - run: ls
-      - run: dotnet build
+      - run: dotnet build --no-restore
 
-  test:
+  Test:
     runs-on: windows-latest
-    needs: build
+    needs: Build
     steps:
       - run: dotnet test --no-build
