@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TikTovenaar"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
+        Title="TikTovenaar" WindowState="Maximized" WindowStyle="None" ResizeMode="NoResize"
         KeyUp="OnKeyPress">
     <Grid>
         <TextBlock Name="Text" FontSize="60px" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+        <ContentControl x:Name="MainContentControl"/>
     </Grid>
 </Window>

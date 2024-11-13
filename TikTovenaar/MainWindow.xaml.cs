@@ -15,6 +15,7 @@ namespace TikTovenaar
             InitializeComponent();
             Game = new();
             UpdateWord();
+            MainContentControl.Content = new Loginscreen();
         }
 
         public void OnKeyPress(object sender, KeyEventArgs args)
@@ -58,5 +59,15 @@ namespace TikTovenaar
                 }
             }
         }
+
+        public void SwitchToHomeScreen()
+        {
+            MainContentControl.Content = new Homescreen();
+        }
+
+        public void SwitchToLoginScreen()
+        {
+            MainContentControl.Content = new Loginscreen();
+        } 
     }
 }
