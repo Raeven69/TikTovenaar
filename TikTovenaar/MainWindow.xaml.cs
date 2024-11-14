@@ -18,6 +18,11 @@ namespace TikTovenaar
         public void SwitchToLoginScreen()
         {
             MainContentControl.Content = new Loginscreen();
-        } 
+        }
+
+        public void SwitchToGameScreen()
+        {
+            MainContentControl.Content = new Gamescreen();
+        }
     }
 }

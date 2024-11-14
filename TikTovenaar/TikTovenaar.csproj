@@ -9,7 +9,37 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\Charge_2.png" />
+    <None Remove="Images\Dead.png" />
+    <None Remove="Images\Hurt.png" />
+    <None Remove="Images\Jump.png" />
+    <None Remove="Images\Magic_arrow.png" />
+    <None Remove="Images\Magic_sphere.png" />
+    <None Remove="Images\Run.png" />
+    <None Remove="Images\Walk.png" />
+    <None Remove="Images\wiz.png" />
+    <None Remove="Images\wizard_attack_1.png" />
+    <None Remove="Images\wizard_attack_2.png" />
+    <None Remove="Images\wizard_idle.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TikTovenaar.Logic\TikTovenaar.Logic.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\wizard_attack_1.png" />
+    <Resource Include="Images\wizard_attack_2.png" />
+    <Resource Include="Images\wiz.png" />
+    <Resource Include="Images\Charge_2.png" />
+    <Resource Include="Images\Dead.png" />
+    <Resource Include="Images\Hurt.png" />
+    <Resource Include="Images\wizard_idle.png" />
+    <Resource Include="Images\Jump.png" />
+    <Resource Include="Images\Magic_arrow.png" />
+    <Resource Include="Images\Magic_sphere.png" />
+    <Resource Include="Images\Run.png" />
+    <Resource Include="Images\Walk.png" />
   </ItemGroup>
 
 </Project>
