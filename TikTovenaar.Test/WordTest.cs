@@ -102,5 +102,21 @@ namespace TikTovenaar.Test
             }
             Assert.IsTrue(word.Letters.All(l => l.HasGuessed));
         }
+
+        [TestMethod]
+        public void EnterChar_WrongChar_NotCorrect()
+        {
+            Word word = new("test");
+            word.EnterChar('e');
+            Assert.IsFalse(word.Letters.First().IsCorrect);
+        }
+
+        [TestMethod]
+        public void EnterChar_CorrectChar_Correct()
+        {
+            Word word = new("test");
+            word.EnterChar('t');
+            Assert.IsTrue(word.Letters.First().IsCorrect);
+        }
     }
 }
