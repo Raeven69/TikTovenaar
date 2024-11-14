@@ -8,7 +8,6 @@
         Title="TikTovenaar" WindowState="Maximized" WindowStyle="None" ResizeMode="NoResize"
         KeyUp="OnKeyPress">
     <Grid>
-        <TextBlock Name="Text" FontSize="60px" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
         <ContentControl x:Name="MainContentControl"/>
     </Grid>
 </Window>

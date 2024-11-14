@@ -5,6 +5,9 @@
     <Compile Update="App.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="GameScreen.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Homescreen.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -17,6 +20,9 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="App.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="GameScreen.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Homescreen.xaml">
