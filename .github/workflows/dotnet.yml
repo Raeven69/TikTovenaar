@@ -3,7 +3,7 @@ name: .NET
 on:
   push:
     branches:
-      - **
+      - "**"
 
 jobs:
   Build:
