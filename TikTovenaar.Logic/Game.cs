@@ -12,7 +12,7 @@
             NextWord();
         }
 
-        public void GenerateWords()
+        private void GenerateWords()
         {
             string[] generated = { "random", "words", "for", "testing" };
             foreach (string word in generated)
@@ -21,7 +21,7 @@
             }
         }
 
-        public void NextWord()
+        private void NextWord()
         {
             if (!Words.TryDequeue(out Word? word))
             {
