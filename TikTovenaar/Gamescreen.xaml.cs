@@ -50,8 +50,7 @@ namespace TikTovenaar
             {
                 UpdateWord();
             }
-            Game.CalculateScore(_incorrectPresses, _totalPresses, 60);
-            System.Diagnostics.Debug.WriteLine($"score: {Game.Score}, total presses: {_totalPresses}, incorrect presses: {_incorrectPresses}");
+            Game.CalculateScore(_incorrectPresses, _totalPresses); //calculate the score all the time after a keypress
         }
 
         public void UpdateWord()
