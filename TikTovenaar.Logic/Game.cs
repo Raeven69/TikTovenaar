@@ -6,6 +6,8 @@
         public Word? CurrentWord { get; private set; }
         public bool Finished { get; private set; } = false;
 
+        public int Score { get; private set; }
+
         public Game()
         {
             GenerateWords();
@@ -40,6 +42,13 @@
                     NextWord();
                 }
             }
+        }
+
+        public void CalculateScore(int incorrectKeys, int totalKeys, int timeInSeconds)
+        {
+            double correctPercentage = ((totalKeys - incorrectKeys) / (double)totalKeys) * 100; //calculate percentage
+            double wpm = (totalKeys / 5.0) / (timeInSeconds / 60.0); //calculate wpm based on TypeMonkey's wpm method
+            Score = (int)(wpm * correctPercentage); //calculate score by multiplying them
         }
     }
 }

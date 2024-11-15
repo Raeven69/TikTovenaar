@@ -20,7 +20,8 @@ namespace TikTovenaar
         private int currentFrame = 0;
         private const int TOTAL_FRAMES = 8;
         private const double FRAME_WIDTH = 0.125;
-
+        private int _totalPresses = 0;
+        private int _incorrectPresses = 0;
         public Gamescreen()
         {
             InitializeComponent();
@@ -32,6 +33,7 @@ namespace TikTovenaar
 
         public void OnKeyPress(object sender, KeyEventArgs args)
         {
+            _totalPresses++;
             string key = args.Key.ToString();
             if (key.Equals("Space"))
             {
@@ -48,6 +50,8 @@ namespace TikTovenaar
             {
                 UpdateWord();
             }
+            Game.CalculateScore(_incorrectPresses, _totalPresses, 60);
+            System.Diagnostics.Debug.WriteLine($"score: {Game.Score}, total presses: {_totalPresses}, incorrect presses: {_incorrectPresses}");
         }
 
         public void UpdateWord()
@@ -65,6 +69,7 @@ namespace TikTovenaar
                     else if (letter.HasGuessed)
                     {
                         run.Foreground = new SolidColorBrush(Colors.Red);
+                        _incorrectPresses++;
                     }
                     Text.Inlines.Add(run);
                 }
@@ -87,5 +92,7 @@ namespace TikTovenaar
             // Move to next frame
             currentFrame = (currentFrame + 1) % TOTAL_FRAMES;
         }
+
+        
     }
 }
