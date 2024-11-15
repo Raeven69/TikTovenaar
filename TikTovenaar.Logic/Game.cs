@@ -22,7 +22,7 @@ namespace TikTovenaar.Logic
             _timer.Start();
         }
 
-        public void GenerateWords()
+        private void GenerateWords()
         {
             string[] generated = { "random", "words", "for", "testing" };
             foreach (string word in generated)
@@ -31,7 +31,7 @@ namespace TikTovenaar.Logic
             }
         }
 
-        public void NextWord()
+        private void NextWord()
         {
             if (!Words.TryDequeue(out Word? word))
             {
