@@ -6,6 +6,8 @@
         public Word? CurrentWord { get; private set; }
         public bool Finished { get; private set; } = false;
 
+        public event EventHandler WordChanged;
+
         public Game()
         {
             GenerateWords();
@@ -28,6 +30,7 @@
                 Finished = true;
             }
             CurrentWord = word;
+            WordChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void PressKey(char key)
