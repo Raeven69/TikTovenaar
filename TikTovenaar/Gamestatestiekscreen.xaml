@@ -1,31 +1,97 @@
 ﻿<UserControl x:Class="TikTovenaar.Gamestatestiekscreen"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:TikTovenaar"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
              Background="White">
     <Grid>
-        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,120,0,0" FontSize="14" FontWeight="Bold" Width="115">
-            <Run Language="nl-nl" Text="Aantal woorden"/><Run Text=":"/>
-        </TextBlock>
-        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,42,0,0" Height="40" Width="145" FontWeight="Bold" FontSize="22">
+        <!-- Header Text -->
+        <TextBlock HorizontalAlignment="Center"
+                   VerticalAlignment="Top"
+                   Margin="0,42,0,0"
+                   Height="40"
+                   Width="145"
+                   FontWeight="Bold"
+                   FontSize="22">
             <Run Language="nl-nl" Text="Goed gedaan!"/>
         </TextBlock>
-        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,180,0,0" FontSize="14" FontWeight="Bold" Width="126">
-            <Run Text="Percentage fout"/><Run Text="en"/><Run Language="nl-nl" Text=":"/>
+
+        <!-- Labels for statistics -->
+        <TextBlock HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Margin="100,120,0,0"
+                   FontSize="14"
+                   FontWeight="Bold"
+                   Width="115">
+            <Run Language="nl-nl" Text="Aantal woorden"/>
+            <Run Text=":"/>
         </TextBlock>
-        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,240,0,0" FontSize="14" FontWeight="Bold" Width="158">
+        <Label Content="{Binding AantalWoorden}" 
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Margin="250,120,0,0"
+               FontSize="14"
+               Width="100"/>
+
+        <TextBlock HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Margin="100,180,0,0"
+                   FontSize="14"
+                   FontWeight="Bold"
+                   Width="126">
+            <Run Text="Percentage fout"/>
+            <Run Text="en"/>
+            <Run Language="nl-nl" Text=":"/>
+        </TextBlock>
+        <Label Content="{Binding PercentageFouten}" 
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Margin="250,180,0,0"
+               FontSize="14"
+               Width="100"/>
+
+        <TextBlock HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Margin="100,240,0,0"
+                   FontSize="14"
+                   FontWeight="Bold"
+                   Width="158">
             <Run Language="nl-nl" Text="Woorden per minuut:"/>
         </TextBlock>
-        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,300,0,0" FontSize="14" FontWeight="Bold" Width="113">
-            <Run Text="Totale tijd"/><Run Language="nl-nl" Text=":"/>
-        </TextBlock>
+        <Label Content="{Binding WoordenPerMinuut}" 
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Margin="250,240,0,0"
+               FontSize="14"
+               Width="100"/>
 
-        <!-- Button Styles -->
-        <Button Content="Sluit" HorizontalAlignment="Left" Margin="315,411,0,0" VerticalAlignment="Top" Height="30" Width="76" Click="Sluit_Click">
+        <TextBlock HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Margin="100,300,0,0"
+                   FontSize="14"
+                   FontWeight="Bold"
+                   Width="113">
+            <Run Text="Totale tijd"/>
+            <Run Language="nl-nl" Text=":"/>
+        </TextBlock>
+        <Label Content="{Binding TotaleTijd}" 
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Margin="250,300,0,0"
+               FontSize="14"
+               Width="100"/>
+
+        <!-- Buttons with consistent styling -->
+        <Button Content="Sluit"
+                HorizontalAlignment="Left"
+                Margin="315,411,0,0"
+                VerticalAlignment="Top"
+                Height="30"
+                Width="76"
+                Click="Sluit_Click">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="Background" Value="#007ACC"/>
@@ -37,11 +103,11 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="Button">
-                                <Border Background="{TemplateBinding Background}" 
+                                <Border Background="{TemplateBinding Background}"
                                         BorderBrush="{TemplateBinding BorderBrush}"
                                         BorderThickness="{TemplateBinding BorderThickness}"
                                         CornerRadius="10">
-                                    <ContentPresenter HorizontalAlignment="Center" 
+                                    <ContentPresenter HorizontalAlignment="Center"
                                                       VerticalAlignment="Center"/>
                                 </Border>
                             </ControlTemplate>
@@ -51,7 +117,13 @@
             </Button.Style>
         </Button>
 
-        <Button Content="Opnieuw" HorizontalAlignment="Left" Margin="407,411,0,0" VerticalAlignment="Top" Height="30" Width="76" Click="Opnieuw_Click">
+        <Button Content="Opnieuw"
+                HorizontalAlignment="Left"
+                Margin="407,411,0,0"
+                VerticalAlignment="Top"
+                Height="30"
+                Width="76"
+                Click="Opnieuw_Click">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="Background" Value="#007ACC"/>
@@ -63,11 +135,11 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="Button">
-                                <Border Background="{TemplateBinding Background}" 
+                                <Border Background="{TemplateBinding Background}"
                                         BorderBrush="{TemplateBinding BorderBrush}"
                                         BorderThickness="{TemplateBinding BorderThickness}"
                                         CornerRadius="10">
-                                    <ContentPresenter HorizontalAlignment="Center" 
+                                    <ContentPresenter HorizontalAlignment="Center"
                                                       VerticalAlignment="Center"/>
                                 </Border>
                             </ControlTemplate>
