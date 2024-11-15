@@ -4,7 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TikTovenaar"
-        mc:Ignorable="d">
+        mc:Ignorable="d"
+        d:DesignWidth="1280"
+        d:DesignHeight="720">
     <Grid Background="#000435">
 
         <Button Content="X" Width="30" Height="30" FontSize="16" Foreground="#F0F0F0" Background="#D32F2F" 

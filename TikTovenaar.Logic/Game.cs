@@ -13,6 +13,8 @@ namespace TikTovenaar.Logic
 
         public int Score { get; private set; }
 
+        public event EventHandler WordChanged;
+
         public Game()
         {
             GenerateWords();
@@ -39,6 +41,7 @@ namespace TikTovenaar.Logic
                 _timer.Stop();
             }
             CurrentWord = word;
+            WordChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void PressKey(char key)

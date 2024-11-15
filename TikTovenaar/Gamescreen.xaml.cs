@@ -1,11 +1,13 @@
-﻿
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
+using System.Windows.Media.Imaging;
 using TikTovenaar.Logic;
+using System.Windows.Media.Animation;
 
 namespace TikTovenaar
 {
@@ -22,15 +24,26 @@ namespace TikTovenaar
         private const double FRAME_WIDTH = 0.125;
         private int _totalPresses = 0;
         private int _incorrectPresses = 0;
+        private WizardAnimation _wizardAnimation;
         public Gamescreen()
         {
             InitializeComponent();
-            SetupAnimation();
+            SetupGame();
+            _wizardAnimation = new(wizardImageBrush, 0.16666, 6);
+            _wizardAnimation.StartAnimation(0.16666, 6, "Images/wizard_idle.png");
+        }
+
+        private void SetupGame()
+        {
             Game = new();
+            Game.WordChanged += Game_wordChanged;
             UpdateWord();
             Loaded += (s, e) => Keyboard.Focus(this);
         }
 
+        /// <summary>
+        /// Below this line are all the functions for the word updating and keypresses
+        /// </summary>
         public void OnKeyPress(object sender, KeyEventArgs args)
         {
             _totalPresses++;
@@ -41,7 +54,7 @@ namespace TikTovenaar
             }
             else if (key.Length == 1)
             {
-                key = !Keyboard.Modifiers.HasFlag(ModifierKeys.Shift) && !Console.CapsLock
+                key = !Keyboard.Modifiers.HasFlag(ModifierKeys.Shift) || !Console.CapsLock
                     ? key.ToLower()
                     : key;
                 Game.PressKey(key[0]);
@@ -57,7 +70,7 @@ namespace TikTovenaar
         {
             if (Game.CurrentWord != null)
             {
-                Text.Inlines.Clear();
+                currentWordText.Inlines.Clear();
                 foreach (Letter letter in Game.CurrentWord.Letters)
                 {
                     Run run = new(letter.Received != null ? letter.Received.ToString() : letter.Value.ToString());
@@ -70,26 +83,17 @@ namespace TikTovenaar
                         run.Foreground = new SolidColorBrush(Colors.Red);
                         _incorrectPresses++;
                     }
-                    Text.Inlines.Add(run);
+                    currentWordText.Inlines.Add(run);
                 }
             }
         }
-        private void SetupAnimation()
-        {
-            animationTimer = new DispatcherTimer();
-            animationTimer.Interval = TimeSpan.FromMilliseconds(100);
-            animationTimer.Tick += AnimationTimer_Tick;
-            animationTimer.Start();
-        }
 
-        private void AnimationTimer_Tick(object sender, EventArgs e)
+        /// <summary>
+        /// Below this line are all the event handlers
+        /// </summary>
+        private void Game_wordChanged(object sender, EventArgs e)
         {
-            // Update the Viewbox to show the next frame
-            double frameStart = currentFrame * FRAME_WIDTH;
-            wizardImageBrush.Viewbox = new Rect(frameStart, 0, FRAME_WIDTH, 1);
-
-            // Move to next frame
-            currentFrame = (currentFrame + 1) % TOTAL_FRAMES;
+            _wizardAnimation.UpdateWizard("Images/wizard_attack_1.png", 0.125, 8, true);
         }
 
         
