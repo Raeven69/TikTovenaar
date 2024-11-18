@@ -1,5 +1,6 @@
 ﻿using dotenv.net;
 using Npgsql;
+using TikTovenaar.Api.Exceptions;
 
 namespace TikTovenaar.Api
 {
@@ -18,7 +19,7 @@ namespace TikTovenaar.Api
             List<string> required = ["DB_HOST", "DB_PORT", "DB_USER", "DB_PASS", "DB_NAME"];
             if (!required.All((string item) => env.ContainsKey(item)))
             {
-                throw new Exception("Failure");
+                throw new EnvFileIncomplete(required.Except(env.Keys).ToList());
             }
             return env;
         }
