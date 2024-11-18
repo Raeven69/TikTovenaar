@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TikTovenaar.Logic", "TikTov
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TikTovenaar.Test", "TikTovenaar.Test\TikTovenaar.Test.csproj", "{5BB2BD4F-D259-4560-A257-D7CDDCCDC661}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TikTovenaar.DataAcces", "tiktovenaar.dataAcces\TikTovenaar.DataAcces.csproj", "{522DAD16-9C0C-4D7F-8A11-494B44DFB5C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TikTovenaar.DataAccess", "tiktovenaar.dataAcces\TikTovenaar.DataAccess.csproj", "{522DAD16-9C0C-4D7F-8A11-494B44DFB5C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

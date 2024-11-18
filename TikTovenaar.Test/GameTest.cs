@@ -19,7 +19,7 @@ namespace TikTovenaar.Test
             Word word = game.CurrentWord!;
             foreach (Letter letter in game.CurrentWord!.Letters)
             {
-                game.PressKey(letter.Value ?? ' ');
+                game.PressKey(letter.Value ?? ' ', 3);
             }
             Assert.AreEqual(word, game.CurrentWord);
         }
@@ -29,7 +29,7 @@ namespace TikTovenaar.Test
         {
             Game game = new();
             Word word = game.CurrentWord!;
-            game.PressKey(' ');
+            game.PressKey(' ', 3);
             Assert.AreNotEqual(word, game.CurrentWord);
         }
     }
