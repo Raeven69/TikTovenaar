@@ -25,7 +25,7 @@ jobs:
         name: TikTovenaar
         path: TikTovenaar\bin\Debug\net8.0-windows
   TikTovenaarAPI:
-    runs-on: ubunutu-latest
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v4
