@@ -8,7 +8,7 @@
     <Compile Update="Gamescreen.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Gamestatestiekscreen.xaml.cs">
+    <Compile Update="GameStatisticsScreen.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Homescreen.xaml.cs">
@@ -28,7 +28,7 @@
     <Page Update="Gamescreen.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Gamestatestiekscreen.xaml">
+    <Page Update="GameStatisticsScreen.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Homescreen.xaml">

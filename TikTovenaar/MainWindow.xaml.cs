@@ -24,5 +24,10 @@ namespace TikTovenaar
         {
             MainContentControl.Content = new Gamescreen();
         }
+
+        public void SwitchToGameStatisticsScreen(string totaltime, string wordsperminuut, int score, string errorpercentage, string wordcount)
+        {
+            MainContentControl.Content = new GameStatisticsScreen(totaltime, wordsperminuut, score, errorpercentage, wordcount);
+        }
     }
 }

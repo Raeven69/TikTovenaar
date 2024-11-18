@@ -62,6 +62,10 @@ namespace TikTovenaar
             if (!Game.Finished)
             {
                 UpdateWord();
+            }else
+            {
+                MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+                mainWindow.SwitchToGameStatisticsScreen("miauw", "miauw", 100, "miauw", "miauw");
             }
             Game.CalculateScore(_incorrectPresses, _totalPresses); //calculate the score all the time after a keypress
         }

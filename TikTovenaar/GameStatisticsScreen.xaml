@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="TikTovenaar.Gamestatestiekscreen"
+﻿<UserControl x:Class="TikTovenaar.GameStatisticsScreen"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -16,7 +16,7 @@
                    Width="145"
                    FontWeight="Bold"
                    FontSize="22">
-            <Run Language="nl-nl" Text="Goed gedaan!"/>
+            <Run Language="en-us" Text="Goed gedaan!"/>
         </TextBlock>
 
         <!-- Labels for statistics -->
@@ -26,15 +26,15 @@
                    FontSize="14"
                    FontWeight="Bold"
                    Width="115">
-            <Run Language="nl-nl" Text="Aantal woorden"/>
+            <Run Language="en-us" Text="Aantal woorden"/>
             <Run Text=":"/>
         </TextBlock>
-        <Label Content="{Binding AantalWoorden}" 
+        <Label Content="{Binding WordCount}" 
                HorizontalAlignment="Left"
                VerticalAlignment="Top"
-               Margin="250,120,0,0"
+               Margin="315,120,0,0"
                FontSize="14"
-               Width="100"/>
+               Width="120" RenderTransformOrigin="0.523,0.919" Height="44"/>
 
         <TextBlock HorizontalAlignment="Left"
                    VerticalAlignment="Top"
@@ -42,16 +42,15 @@
                    FontSize="14"
                    FontWeight="Bold"
                    Width="126">
-            <Run Text="Percentage fout"/>
-            <Run Text="en"/>
-            <Run Language="nl-nl" Text=":"/>
+            <Run Text="Fout percentage"/>
+            <Run Language="en-us" Text=":"/>
         </TextBlock>
-        <Label Content="{Binding PercentageFouten}" 
+        <Label Content="{Binding ErrorPercentage}" 
                HorizontalAlignment="Left"
                VerticalAlignment="Top"
-               Margin="250,180,0,0"
+               Margin="315,180,0,0"
                FontSize="14"
-               Width="100"/>
+               Width="120" Height="30"/>
 
         <TextBlock HorizontalAlignment="Left"
                    VerticalAlignment="Top"
@@ -59,14 +58,14 @@
                    FontSize="14"
                    FontWeight="Bold"
                    Width="158">
-            <Run Language="nl-nl" Text="Woorden per minuut:"/>
+            <Run Language="en-us" Text="Woorden per minuut :"/>
         </TextBlock>
-        <Label Content="{Binding WoordenPerMinuut}" 
+        <Label Content="{Binding WordsPerMinute}" 
                HorizontalAlignment="Left"
                VerticalAlignment="Top"
-               Margin="250,240,0,0"
+               Margin="310,240,0,0"
                FontSize="14"
-               Width="100"/>
+               Width="121" Height="42"/>
 
         <TextBlock HorizontalAlignment="Left"
                    VerticalAlignment="Top"
@@ -74,15 +73,15 @@
                    FontSize="14"
                    FontWeight="Bold"
                    Width="113">
-            <Run Text="Totale tijd"/>
-            <Run Language="nl-nl" Text=":"/>
+            <Run Text="Totale Tijd"/>
+            <Run Language="en-us" Text=":"/>
         </TextBlock>
-        <Label Content="{Binding TotaleTijd}" 
+        <Label Content="{Binding TotalTime}" 
                HorizontalAlignment="Left"
                VerticalAlignment="Top"
-               Margin="250,300,0,0"
+               Margin="310,300,0,0"
                FontSize="14"
-               Width="100"/>
+               Width="141" Height="31"/>
 
         <!-- Buttons with consistent styling -->
         <Button Content="Sluit"
@@ -91,8 +90,9 @@
                 VerticalAlignment="Top"
                 Height="30"
                 Width="76"
-                Click="Sluit_Click">
+                Click="Close_Click">
             <Button.Style>
+                <!-- Custom Button Style -->
                 <Style TargetType="Button">
                     <Setter Property="Background" Value="#007ACC"/>
                     <Setter Property="Foreground" Value="White"/>
@@ -123,8 +123,9 @@
                 VerticalAlignment="Top"
                 Height="30"
                 Width="76"
-                Click="Opnieuw_Click">
+                Click="Retry_Click">
             <Button.Style>
+                <!-- Custom Button Style -->
                 <Style TargetType="Button">
                     <Setter Property="Background" Value="#007ACC"/>
                     <Setter Property="Foreground" Value="White"/>
@@ -148,5 +149,7 @@
                 </Style>
             </Button.Style>
         </Button>
+        <Label Content="Score :" HorizontalAlignment="Left" Margin="611,116,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+        <Label x:Name="Miauw" Content="{Binding Score}" HorizontalAlignment="Left" Margin="562,142,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" Height="128" Width="152" Foreground="#FF31BB2C" HorizontalContentAlignment="Center"/>
     </Grid>
 </UserControl>
