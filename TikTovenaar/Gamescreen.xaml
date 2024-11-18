@@ -11,16 +11,22 @@
              Focusable="True">
     <Grid Background="#000435">
 
-        <TextBlock x:Name="Time" Text="Time: 0:00" FontSize="24px" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#F0F0F0" Margin="10,10,0,0"></TextBlock>
-        <TextBlock x:Name="Score" Text="Score: 0" FontSize="24px" HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="#F0F0F0" Margin="0,10,10,0"></TextBlock>
+        <TextBlock x:Name="TimeText" Text="Tijd: 0:00" FontSize="24px" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#F0F0F0" Margin="10,10,0,0"></TextBlock>
+        <TextBlock x:Name="ScoreText" Text="Score: 0" FontSize="24px" HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="#F0F0F0" Margin="0,10,10,0"></TextBlock>
 
         <ProgressBar x:Name="LivesBar" Width="400" Height="30" Background="Red"
                      HorizontalAlignment="Left" VerticalAlignment="Bottom"
                      Padding="20" Margin="10,0,0,10" Value="100"/>
 
-        <TextBlock Name="currentWordText" Text="TestText" FontSize="60px" Foreground="#F0F0F0" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+        <TextBlock x:Name="currentWordText" 
+           Opacity="0"
+           FontSize="60px" 
+           Foreground="#F0F0F0" 
+           HorizontalAlignment="Center"
+           VerticalAlignment="Center">
+        </TextBlock>
 
-            <Rectangle Width="512" Height="512" HorizontalAlignment="Right" VerticalAlignment="Center">
+        <Rectangle Width="512" Height="512" HorizontalAlignment="Right" VerticalAlignment="Center">
             <Rectangle.Fill>
                 <ImageBrush x:Name="wizardImageBrush" 
                     ImageSource="Images/wizard_idle.png"
