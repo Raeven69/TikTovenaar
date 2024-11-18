@@ -18,6 +18,12 @@ namespace TikTovenaar
     {
         private Game Game { get; set; }
 
+        private DispatcherTimer animationTimer;
+        private int currentFrame = 0;
+        private const int TOTAL_FRAMES = 8;
+        private const double FRAME_WIDTH = 0.125;
+        private int _totalPresses = 0;
+        private int _incorrectPresses = 0;
         private WizardAnimation _wizardAnimation;
         public Gamescreen()
         {
@@ -40,6 +46,7 @@ namespace TikTovenaar
         /// </summary>
         public void OnKeyPress(object sender, KeyEventArgs args)
         {
+            _totalPresses++;
             string key = args.Key.ToString();
             if (key.Equals("Space"))
             {
@@ -56,6 +63,7 @@ namespace TikTovenaar
             {
                 UpdateWord();
             }
+            Game.CalculateScore(_incorrectPresses, _totalPresses); //calculate the score all the time after a keypress
         }
 
         public void UpdateWord()
@@ -73,6 +81,7 @@ namespace TikTovenaar
                     else if (letter.HasGuessed)
                     {
                         run.Foreground = new SolidColorBrush(Colors.Red);
+                        _incorrectPresses++;
                     }
                     currentWordText.Inlines.Add(run);
                 }
@@ -86,5 +95,7 @@ namespace TikTovenaar
         {
             _wizardAnimation.UpdateWizard("Images/wizard_attack_1.png", 0.125, 8, true);
         }
+
+        
     }
 }
