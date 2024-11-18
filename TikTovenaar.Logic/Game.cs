@@ -6,13 +6,15 @@
         public Word? CurrentWord { get; private set; }
         public bool Finished { get; private set; } = false;
 
+        public event EventHandler WordChanged;
+
         public Game()
         {
             GenerateWords();
             NextWord();
         }
 
-        public void GenerateWords()
+        private void GenerateWords()
         {
             string[] generated = { "random", "words", "for", "testing" };
             foreach (string word in generated)
@@ -21,13 +23,14 @@
             }
         }
 
-        public void NextWord()
+        private void NextWord()
         {
             if (!Words.TryDequeue(out Word? word))
             {
                 Finished = true;
             }
             CurrentWord = word;
+            WordChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void PressKey(char key)
