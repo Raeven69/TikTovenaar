@@ -11,8 +11,15 @@ namespace TikTovenaar.Api
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             WebApplication app = builder.Build();
-            app.UseSwagger();
-            app.UseSwaggerUI();
+            app.UseSwagger(c =>
+            {
+                c.RouteTemplate = "swagger/{documentName}/swagger.json";
+            });
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "TikTovenaarAPI");
+                c.RoutePrefix = "";
+            });
             app.MapControllers();
             app.Run();
         }
