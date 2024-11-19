@@ -6,7 +6,7 @@ on:
       - "**"
 
 jobs:
-  Build:
+  TikTovenaar:
     runs-on: windows-latest
     steps:
     - name: Checkout
@@ -19,7 +19,15 @@ jobs:
       run: dotnet build
     - name: Test
       run: dotnet test
-    - name: Upload Artifact
+    - name: API
+      run: dotnet build TikTovenaar.Api\TikTovenaar.Api.csproj --runtime linux-x64
+    - name: Upload TikTovenaar
       uses: actions/upload-artifact@v4
       with:
+        name: TikTovenaar
         path: TikTovenaar\bin\Debug\net8.0-windows
+    - name: Upload TikTovenaarAPI
+      uses: actions/upload-artifact@v4
+      with:
+        name: TikTovenaarAPI
+        path: TikTovenaar.Api\bin\Debug\net8.0\linux-x64
