@@ -4,152 +4,136 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d"
-             d:DesignHeight="450"
-             d:DesignWidth="800"
-             Background="White">
-    <Grid>
+             d:DesignHeight="1080"
+             d:DesignWidth="1920"
+             Background="#FF000435">
+    <UserControl.Resources>
+        <!-- Stijl voor de knoppen -->
+        <Style x:Key="StyledButton" TargetType="Button">
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="Height" Value="80"/>
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Background" Value="#FF6200EE"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#FF3700B3"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Margin" Value="0,0,220,50"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FF3700B3"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#FF6200EE"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Width="1920" Height="1080" Background="#FF000435">
         <!-- Header Text -->
         <TextBlock HorizontalAlignment="Center"
                    VerticalAlignment="Top"
-                   Margin="0,42,0,0"
-                   Height="40"
-                   Width="145"
+                   Margin="0,50,0,0"
                    FontWeight="Bold"
-                   FontSize="22">
-            <Run Language="en-us" Text="Goed gedaan!"/>
+                   FontSize="48"
+                   Foreground="#FF235AAE">
+            <Run Text="Goed gedaan!"/>
         </TextBlock>
 
         <!-- Labels for statistics -->
         <TextBlock HorizontalAlignment="Left"
                    VerticalAlignment="Top"
-                   Margin="100,120,0,0"
-                   FontSize="14"
-                   FontWeight="Bold"
-                   Width="115">
-            <Run Language="en-us" Text="Aantal woorden"/>
-            <Run Text=":"/>
+                   Margin="380,271,0,0"
+                   FontSize="36"
+                   FontWeight="Bold" Foreground="White">
+            <Run Text="Aantal woorden:"/>
         </TextBlock>
         <Label Content="{Binding WordCount}" 
                HorizontalAlignment="Left"
                VerticalAlignment="Top"
-               Margin="315,120,0,0"
-               FontSize="14"
-               Width="120" RenderTransformOrigin="0.523,0.919" Height="44"/>
+               Margin="803,271,0,0"
+               FontSize="28"
+               FontWeight="Bold"
+               Foreground="White" Height="70" Width="382"/>
 
         <TextBlock HorizontalAlignment="Left"
                    VerticalAlignment="Top"
-                   Margin="100,180,0,0"
-                   FontSize="14"
-                   FontWeight="Bold"
-                   Width="126">
-            <Run Text="Fout percentage"/>
-            <Run Language="en-us" Text=":"/>
+                   Margin="380,426,0,0"
+                   FontSize="36"
+                   FontWeight="Bold" Foreground="White">
+            <Run Text="Fout percentage:"/>
         </TextBlock>
         <Label Content="{Binding ErrorPercentage}" 
                HorizontalAlignment="Left"
                VerticalAlignment="Top"
-               Margin="315,180,0,0"
-               FontSize="14"
-               Width="120" Height="30"/>
+               Margin="803,426,0,0"
+               FontSize="28"
+               FontWeight="Bold"
+               Foreground="White" Height="65" Width="432"/>
 
         <TextBlock HorizontalAlignment="Left"
                    VerticalAlignment="Top"
-                   Margin="100,240,0,0"
-                   FontSize="14"
-                   FontWeight="Bold"
-                   Width="158">
-            <Run Language="en-us" Text="Woorden per minuut :"/>
+                   Margin="380,591,0,0"
+                   FontSize="36"
+                   FontWeight="Bold" Foreground="White">
+            <Run Text="Woorden per minuut:"/>
         </TextBlock>
         <Label Content="{Binding WordsPerMinute}" 
                HorizontalAlignment="Left"
                VerticalAlignment="Top"
-               Margin="310,240,0,0"
-               FontSize="14"
-               Width="121" Height="42"/>
+               Margin="803,591,0,0"
+               FontSize="28"
+               FontWeight="Bold"
+               Foreground="White" Height="74" Width="470"/>
 
         <TextBlock HorizontalAlignment="Left"
                    VerticalAlignment="Top"
-                   Margin="100,300,0,0"
-                   FontSize="14"
-                   FontWeight="Bold"
-                   Width="113">
-            <Run Text="Totale Tijd"/>
-            <Run Language="en-us" Text=":"/>
+                   Margin="380,749,0,0"
+                   FontSize="36"
+                   FontWeight="Bold" Foreground="White">
+            <Run Text="Totale tijd:"/>
         </TextBlock>
         <Label Content="{Binding TotalTime}" 
                HorizontalAlignment="Left"
                VerticalAlignment="Top"
-               Margin="310,300,0,0"
-               FontSize="14"
-               Width="141" Height="31"/>
+               Margin="803,749,0,0"
+               FontSize="28"
+               FontWeight="Bold"
+               Foreground="White" Height="66" Width="444"/>
 
-        <!-- Buttons with consistent styling -->
-        <Button Content="Sluit"
-                HorizontalAlignment="Left"
-                Margin="315,411,0,0"
-                VerticalAlignment="Top"
-                Height="30"
-                Width="76"
-                Click="Close_Click">
-            <Button.Style>
-                <!-- Custom Button Style -->
-                <Style TargetType="Button">
-                    <Setter Property="Background" Value="#007ACC"/>
-                    <Setter Property="Foreground" Value="White"/>
-                    <Setter Property="FontWeight" Value="Bold"/>
-                    <Setter Property="BorderBrush" Value="#005A9E"/>
-                    <Setter Property="BorderThickness" Value="2"/>
-                    <Setter Property="Padding" Value="5,2"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="Button">
-                                <Border Background="{TemplateBinding Background}"
-                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                        CornerRadius="10">
-                                    <ContentPresenter HorizontalAlignment="Center"
-                                                      VerticalAlignment="Center"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Button.Style>
-        </Button>
+        <!-- Score Section -->
+        <TextBlock HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Margin="1367,220,0,0"
+                   FontSize="36"
+                   FontWeight="Bold"
+                   Foreground="#FF4CAF50">
+            <Run Text="Score:"/>
+        </TextBlock>
+        <Label Content="{Binding Score}" 
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Margin="1345,310,0,0"
+               FontSize="72"
+               FontWeight="Bold"
+               Foreground="#FF4CAF50" Height="230" Width="264"/>
 
-        <Button Content="Opnieuw"
-                HorizontalAlignment="Left"
-                Margin="407,411,0,0"
-                VerticalAlignment="Top"
-                Height="30"
-                Width="76"
-                Click="Retry_Click">
-            <Button.Style>
-                <!-- Custom Button Style -->
-                <Style TargetType="Button">
-                    <Setter Property="Background" Value="#007ACC"/>
-                    <Setter Property="Foreground" Value="White"/>
-                    <Setter Property="FontWeight" Value="Bold"/>
-                    <Setter Property="BorderBrush" Value="#005A9E"/>
-                    <Setter Property="BorderThickness" Value="2"/>
-                    <Setter Property="Padding" Value="5,2"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="Button">
-                                <Border Background="{TemplateBinding Background}"
-                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                        CornerRadius="10">
-                                    <ContentPresenter HorizontalAlignment="Center"
-                                                      VerticalAlignment="Center"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Button.Style>
-        </Button>
-        <Label Content="Score :" HorizontalAlignment="Left" Margin="611,116,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
-        <Label x:Name="Miauw" Content="{Binding Score}" HorizontalAlignment="Left" Margin="562,142,0,0" VerticalAlignment="Top" FontSize="24" FontWeight="Bold" Height="128" Width="152" Foreground="#FF31BB2C" HorizontalContentAlignment="Center"/>
+        <!-- Buttons with the Styled Button Style -->
+        <Button Style="{StaticResource StyledButton}"
+                Content="Sluit"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Margin="0,0,220,50"
+                Click="Close_Click" Background="#FF0D1117" BorderBrush="#FF235AAE"/>
+
+        <Button Style="{StaticResource StyledButton}"
+                Content="Opnieuw"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Margin="220,0,0,50"
+                Click="Retry_Click" Background="#FF0D1117" BorderBrush="#FF235AAE"/>
     </Grid>
 </UserControl>
