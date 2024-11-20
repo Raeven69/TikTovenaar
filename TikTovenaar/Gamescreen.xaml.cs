@@ -21,6 +21,7 @@ namespace TikTovenaar
         private int _totalPresses = 0;
         private int _incorrectPresses = 0;
         private bool wordWrong = false;
+        private int _wordCount = 0;
 
         private WizardAnimation _wizardAnimation;
         public Gamescreen()
@@ -54,6 +55,7 @@ namespace TikTovenaar
             string key = args.Key.ToString();
             if (key.Equals("Space"))
             {
+                _totalPresses--;
                 // if the word is wrong, remove a life
                 if (wordWrong)
                 {
@@ -69,6 +71,10 @@ namespace TikTovenaar
                     ? key.ToLower()
                     : key;
                 Game.PressKey(key[0], remainingLives);
+                if(!Game.CurrentWord.Letters[Game.CurrentWord.Index - 1].IsCorrect)
+                {
+                    _incorrectPresses++;
+                }
             }
             if (!Game.Finished)
             {
@@ -98,7 +104,6 @@ namespace TikTovenaar
                     else if (letter.HasGuessed)
                     {
                         run.Foreground = new SolidColorBrush(Colors.Red);
-                        _incorrectPresses++;
                         wordWrong = true;
                     }
                     currentWordText.Inlines.Add(run);
@@ -111,7 +116,8 @@ namespace TikTovenaar
         /// </summary>
         private void Game_wordChanged(object sender, EventArgs e)
         {
-            ScoreText.Text =  "Score: " + Game.CalculateScore(_incorrectPresses, _totalPresses); //calculate the score all the time after a keypress
+            _wordCount++;
+            ScoreText.Text =  "Score: " + Game.CalculateScore(_incorrectPresses, _totalPresses, _wordCount); //calculate the score all the time after a keypress
 
             Random random = new();
             int randomNumber = random.Next(0, 2);

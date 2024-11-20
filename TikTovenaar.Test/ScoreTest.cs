@@ -17,16 +17,17 @@ namespace TikTovenaar.Test
              game = new();
         }
         [TestMethod]
-        [DataRow(10, 1, 5, 2160)]
-        [DataRow(500, 4, 90, 6613)]
-        [DataRow(50, 50, 10, 0)]
-        public void Score_Test_TimeElapsedIs60(int keyPresses, int incorrectPresses, int TimeInSeconds, int ExpectedOutcome)
+        [DataRow(10, 1, 5, 2, 2160)]
+        [DataRow(500, 4, 90, 60, 3967)]
+        [DataRow(50, 50, 10, 5, 0)]
+
+        public void Score_Test_TimeElapsedIs60(int keyPresses, int incorrectPresses, int TimeInSeconds, int wordsAmount, int ExpectedOutcome)
         {
             for (int i = 0; i < TimeInSeconds; i++)
             {
-                game.TimerElapsed(this, null); //simulate the timer
+                game.TimerElapsed(this, null); // Simulate the timer
             }
-            game.CalculateScore(incorrectPresses, keyPresses);
+            game.CalculateScore(incorrectPresses, keyPresses, wordsAmount);
             Assert.AreEqual(ExpectedOutcome, game.Score);
         }
 
@@ -35,12 +36,13 @@ namespace TikTovenaar.Test
         {
             int incorrectKeys = 5;
             int totalKeys = 50;
+            int totalWords = 10;
             for (int i = 0; i < 120; i++)
             {
                 game.TimerElapsed(this, null); //simulate the timer
             }
 
-            game.CalculateScore(incorrectKeys, totalKeys);
+            game.CalculateScore(incorrectKeys, totalKeys, 10);
             Assert.AreEqual(450, game.Score);
         }
 
@@ -54,7 +56,7 @@ namespace TikTovenaar.Test
                 game.TimerElapsed(this, null); //simulate the timer
             }
 
-            int score = game.CalculateScore(incorrectKeys, totalKeys);
+            int score = game.CalculateScore(incorrectKeys, totalKeys, 10);
 
             Assert.AreEqual(0, score); 
         }
@@ -64,14 +66,15 @@ namespace TikTovenaar.Test
         {
             int incorrectKeys = 5000;
             int totalKeys = 10000;  // 50% correct
+            int totalWords = 1000;
             for (int i = 0; i < 300; i++)
             {
                 game.TimerElapsed(this, null); //simulate the timer
             }
 
-            int score = game.CalculateScore(incorrectKeys, totalKeys);
+            int score = game.CalculateScore(incorrectKeys, totalKeys, totalWords);
 
-            Assert.AreEqual(20000, score);
+            Assert.AreEqual(10000, score);
         }
 
     }
