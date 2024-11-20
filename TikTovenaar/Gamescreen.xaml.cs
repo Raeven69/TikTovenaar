@@ -18,12 +18,14 @@ namespace TikTovenaar
     {
         private Game Game { get; set; }
 
-        private DispatcherTimer animationTimer;
-        private int currentFrame = 0;
-        private const int TOTAL_FRAMES = 8;
-        private const double FRAME_WIDTH = 0.125;
+        private int totalLives = 3;
+        private int remainingLives = 3;
+
         private int _totalPresses = 0;
         private int _incorrectPresses = 0;
+        private bool wordWrong = false;
+        private int _wordCount = 0;
+
         private WizardAnimation _wizardAnimation;
         public Gamescreen()
         {
@@ -50,20 +52,27 @@ namespace TikTovenaar
             string key = args.Key.ToString();
             if (key.Equals("Space"))
             {
-                Game.PressKey(' ');
+                _totalPresses--;
+                // if the word is wrong, remove a life
+                if (wordWrong)
+                {
+                    LivesBar.Value -= 100 / totalLives;
+                    remainingLives--;
+                    wordWrong = false;
+                }
+                Game.PressKey(' ', remainingLives);
             }
             else if (key.Length == 1)
             {
                 key = !Keyboard.Modifiers.HasFlag(ModifierKeys.Shift) || !Console.CapsLock
                     ? key.ToLower()
                     : key;
-                Game.PressKey(key[0]);
+                Game.PressKey(key[0], remainingLives);
             }
             if (!Game.Finished)
             {
                 UpdateWord();
             }
-            Game.CalculateScore(_incorrectPresses, _totalPresses); //calculate the score all the time after a keypress
         }
 
         public void UpdateWord()
@@ -71,6 +80,8 @@ namespace TikTovenaar
             if (Game.CurrentWord != null)
             {
                 currentWordText.Inlines.Clear();
+
+                // for each letter check if it is correct or not and change the color
                 foreach (Letter letter in Game.CurrentWord.Letters)
                 {
                     Run run = new(letter.Received != null ? letter.Received.ToString() : letter.Value.ToString());
@@ -93,7 +104,33 @@ namespace TikTovenaar
         /// </summary>
         private void Game_wordChanged(object sender, EventArgs e)
         {
-            _wizardAnimation.UpdateWizard("Images/wizard_attack_1.png", 0.125, 8, true);
+            _wordCount++;
+            ScoreText.Text =  "Score: " + Game.CalculateScore(_incorrectPresses, _totalPresses, _wordCount); //calculate the score all the time after a keypress
+
+            Random random = new();
+            int randomNumber = random.Next(0, 2);
+
+            // Stop any ongoing animations
+            currentWordText.BeginAnimation(OpacityProperty, null);
+
+            // Set word opacity to 0
+            currentWordText.Opacity = 0;
+
+            // Create the fade-in animation
+            DoubleAnimation fadeIn = new(0, 1, TimeSpan.FromSeconds(0.5));
+            if (randomNumber == 0)
+            {
+                _wizardAnimation.UpdateWizard("Images/wizard_attack_2.png", 0.125, 8, true, 350);
+                fadeIn.BeginTime = TimeSpan.FromSeconds(0.8);
+            }
+            else
+            {
+                _wizardAnimation.UpdateWizard("Images/wizard_attack_1.png", 0.125, 8, true, 200);
+                fadeIn.BeginTime = TimeSpan.FromSeconds(0.7);
+            }
+
+            // Start the animation
+            currentWordText.BeginAnimation(OpacityProperty, fadeIn);
         }
 
         

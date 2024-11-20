@@ -56,15 +56,22 @@ namespace TikTovenaar.Logic
             }
         }
 
-        public void CalculateScore(int incorrectKeys, int totalKeys)
+        public int CalculateScore(int incorrectKeys, int totalKeys, int totalWords)
         {
             if(totalKeys < incorrectKeys || incorrectKeys < 0 || totalKeys < 0) //if the input is incorrect it will not continue
             {
                 throw new ArgumentOutOfRangeException("incorrect input");
             }
-            double correctPercentage = ((totalKeys - incorrectKeys) / (double)totalKeys) * 100; //calculate percentage
-            double wpm = (totalKeys / 5.0) / (TimeElapsed / 60.0); //calculate wpm based on TypeMonkey's wpm method
-            Score = (int)(wpm * correctPercentage); //calculate score by multiplying them
+            int correctKeys = totalKeys - incorrectKeys;
+            double correctPercentage = correctKeys / totalKeys * 100; //calculate percentage
+            Score = (int)(CalculateWPM(correctKeys, totalWords) * correctPercentage); //calculate score by multiplying them and returns it
+            return Score;
+        }
+
+        public double CalculateWPM(int correctKeys, int totalWords)
+        {
+            double avgLength = (correctKeys) / (totalWords);
+            return (correctKeys / avgLength) / (TimeElapsed / 60.0);
         }
 
         public void TimerElapsed(object? sender, ElapsedEventArgs e)
