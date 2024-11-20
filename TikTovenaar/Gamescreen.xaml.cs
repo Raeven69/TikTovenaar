@@ -1,13 +1,10 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Threading;
-using System.Windows.Media.Imaging;
 using TikTovenaar.Logic;
 using System.Windows.Media.Animation;
+using System.Windows;
 
 namespace TikTovenaar
 {
@@ -18,12 +15,13 @@ namespace TikTovenaar
     {
         private Game Game { get; set; }
 
-        private DispatcherTimer animationTimer;
-        private int currentFrame = 0;
-        private const int TOTAL_FRAMES = 8;
-        private const double FRAME_WIDTH = 0.125;
+        private int totalLives = 3;
+        private int remainingLives = 3;
+
         private int _totalPresses = 0;
         private int _incorrectPresses = 0;
+        private bool wordWrong = false;
+
         private WizardAnimation _wizardAnimation;
         public Gamescreen()
         {
@@ -31,12 +29,18 @@ namespace TikTovenaar
             SetupGame();
             _wizardAnimation = new(wizardImageBrush, 0.16666, 6);
             _wizardAnimation.StartAnimation(0.16666, 6, "Images/wizard_idle.png");
+
+            // call the gamewordchanged for first word to have the animation
+            Game_wordChanged(this, EventArgs.Empty);
         }
 
         private void SetupGame()
         {
             Game = new();
             Game.WordChanged += Game_wordChanged;
+            Game.TimeUpdated += Game_timeUpdated;
+            Game.GameFinished += Game_finished;
+
             UpdateWord();
             Loaded += (s, e) => Keyboard.Focus(this);
         }
@@ -50,14 +54,21 @@ namespace TikTovenaar
             string key = args.Key.ToString();
             if (key.Equals("Space"))
             {
-                Game.PressKey(' ');
+                // if the word is wrong, remove a life
+                if (wordWrong)
+                {
+                    LivesBar.Value -= 100 / totalLives;
+                    remainingLives--;
+                    wordWrong = false;
+                }
+                Game.PressKey(' ', remainingLives);
             }
             else if (key.Length == 1)
             {
                 key = !Keyboard.Modifiers.HasFlag(ModifierKeys.Shift) || !Console.CapsLock
                     ? key.ToLower()
                     : key;
-                Game.PressKey(key[0]);
+                Game.PressKey(key[0], remainingLives);
             }
             if (!Game.Finished)
             {
@@ -67,7 +78,6 @@ namespace TikTovenaar
                 MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
                 mainWindow.SwitchToGameStatisticsScreen("miauw", "miauw", 100, "miauw", "miauw");
             }
-            Game.CalculateScore(_incorrectPresses, _totalPresses); //calculate the score all the time after a keypress
         }
 
         public void UpdateWord()
@@ -75,6 +85,8 @@ namespace TikTovenaar
             if (Game.CurrentWord != null)
             {
                 currentWordText.Inlines.Clear();
+
+                // for each letter check if it is correct or not and change the color
                 foreach (Letter letter in Game.CurrentWord.Letters)
                 {
                     Run run = new(letter.Received != null ? letter.Received.ToString() : letter.Value.ToString());
@@ -86,6 +98,7 @@ namespace TikTovenaar
                     {
                         run.Foreground = new SolidColorBrush(Colors.Red);
                         _incorrectPresses++;
+                        wordWrong = true;
                     }
                     currentWordText.Inlines.Add(run);
                 }
@@ -97,9 +110,50 @@ namespace TikTovenaar
         /// </summary>
         private void Game_wordChanged(object sender, EventArgs e)
         {
-            _wizardAnimation.UpdateWizard("Images/wizard_attack_1.png", 0.125, 8, true);
+            ScoreText.Text =  "Score: " + Game.CalculateScore(_incorrectPresses, _totalPresses); //calculate the score all the time after a keypress
+
+            Random random = new();
+            int randomNumber = random.Next(0, 2);
+
+            // Stop any ongoing animations
+            currentWordText.BeginAnimation(OpacityProperty, null);
+
+            // Set word opacity to 0
+            currentWordText.Opacity = 0;
+
+            // Create the fade-in animation
+            DoubleAnimation fadeIn = new(0, 1, TimeSpan.FromSeconds(0.5));
+            if (randomNumber == 0)
+            {
+                _wizardAnimation.UpdateWizard("Images/wizard_attack_2.png", 0.125, 8, true, 350);
+                fadeIn.BeginTime = TimeSpan.FromSeconds(0.8);
+            }
+            else
+            {
+                _wizardAnimation.UpdateWizard("Images/wizard_attack_1.png", 0.125, 8, true, 200);
+                fadeIn.BeginTime = TimeSpan.FromSeconds(0.7);
+            }
+
+            // Start the animation
+            currentWordText.BeginAnimation(OpacityProperty, fadeIn);
         }
 
-        
+        public void Game_timeUpdated(object sender, EventArgs e)
+        {
+            TimeText.Dispatcher.Invoke(() =>
+            {
+                int minutes = (int)Math.Floor((decimal)Game.TimeElapsed / 60);
+                int seconds = Game.TimeElapsed % 60;
+
+                TimeText.Text = "Tijd: " + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+            });
+            // The dispatcher is used to update the text otherwise we get an error, because of the different threads
+        }
+
+        public void Game_finished(object sender, EventArgs e)
+        {
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.SwitchToHomeScreen();
+        }
     }
 }

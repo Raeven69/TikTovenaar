@@ -12,7 +12,7 @@ namespace TikTovenaar
 
         public void SwitchToHomeScreen()
         {
-            MainContentControl.Content = new Homescreen();
+            MainContentControl.Content = new Homescreen();  
         }
 
         public void SwitchToLoginScreen()
