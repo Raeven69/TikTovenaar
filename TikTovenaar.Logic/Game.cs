@@ -1,4 +1,5 @@
-﻿using System.Timers;
+﻿using System.Diagnostics;
+using System.Timers;
 
 namespace TikTovenaar.Logic
 {
@@ -74,21 +75,29 @@ namespace TikTovenaar.Logic
 
         public int CalculateScore(int incorrectKeys, int totalKeys, int totalWords)
         {
-            if(totalKeys < incorrectKeys || incorrectKeys < 0 || totalKeys < 0 || TimeElapsed <= 0) //if the input is incorrect it will not continue
+            if (totalKeys < incorrectKeys || incorrectKeys < 0 || totalKeys < 0 || totalWords <= 0 || TimeElapsed <= 0)
             {
                 Score = 0;
                 return Score;
             }
-            int correctKeys = totalKeys - incorrectKeys;
-            double correctPercentage = correctKeys / totalKeys * 100; //calculate percentage
-            Score = (int)(CalculateWPM(correctKeys, totalWords) * correctPercentage); //calculate score by multiplying them and returns it
+            int correctKeys = totalKeys - incorrectKeys; //calculate how many keystrokes were correct
+            Debug.WriteLine($"Correct Keys: {correctKeys}");
+            double correctPercentage = ((double)correctKeys / totalKeys) * 100; //calculate the percentage of correctnumbers
+            double wpm = CalculateWPM(correctKeys, totalWords); //calculate wpm
+            Score = (int)(wpm * correctPercentage); //calculate the total score
             return Score;
         }
 
         public double CalculateWPM(int correctKeys, int totalWords)
         {
-            double avgLength = (correctKeys) / (totalWords);
-            return (correctKeys / avgLength) / (TimeElapsed / 60.0);
+            if (totalWords <= 0 || correctKeys <= 0 || TimeElapsed <= 0)
+            {
+                Debug.WriteLine($"Invalid WPM input detected { totalWords} {correctKeys} {TimeElapsed}");
+                return 0;
+            }
+            double avgLength = (double)correctKeys / totalWords; //calculate average length for the wpm calculation
+            double wpm = (correctKeys / avgLength) / (TimeElapsed / 60.0);
+            return wpm;
         }
 
         public void TimerElapsed(object? sender, ElapsedEventArgs e)

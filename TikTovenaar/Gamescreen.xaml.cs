@@ -71,6 +71,10 @@ namespace TikTovenaar
                     ? key.ToLower()
                     : key;
                 Game.PressKey(key[0], remainingLives);
+                if(!Game.CurrentWord.Letters[Game.CurrentWord.Index - 1].IsCorrect)
+                {
+                    _incorrectPresses++;
+                }
             }
             if (!Game.Finished)
             {
@@ -95,7 +99,6 @@ namespace TikTovenaar
                     else if (letter.HasGuessed)
                     {
                         run.Foreground = new SolidColorBrush(Colors.Red);
-                        _incorrectPresses++;
                         wordWrong = true;
                     }
                     currentWordText.Inlines.Add(run);
