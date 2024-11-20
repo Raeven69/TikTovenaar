@@ -87,6 +87,12 @@ namespace TikTovenaar.Logic
             return Score;
         }
 
+        public double CalculateErrorPercentage(int incorrectKeys, int totalKeys)
+        {
+            if (totalKeys == 0) return 0; // Avoid division by zero
+            return Math.Round((incorrectKeys / (double)totalKeys) * 100, 2);
+        }
+
         public void TimerElapsed(object? sender, ElapsedEventArgs e)
         {
             TimeElapsed++;
