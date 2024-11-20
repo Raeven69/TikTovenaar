@@ -29,20 +29,50 @@ namespace TikTovenaar.Test
             game.CalculateScore(incorrectPresses, keyPresses);
             Assert.AreEqual(ExpectedOutcome, game.Score);
         }
-        [TestMethod]
-        [DataRow(-1, 1)]
-        [DataRow(10, 9)]
 
-        public void Assert_Score_ThrowsException_Wrong_Input(int incorrectPresses, int keyPresses) 
+        [TestMethod]
+        public void CalculateScore_ShouldReturnCorrectScore_ForValidInputs()
         {
-            bool thrown = false;
-            try
+            int incorrectKeys = 5;
+            int totalKeys = 50;
+            for (int i = 0; i < 120; i++)
             {
-                game.CalculateScore(incorrectPresses, keyPresses);
-            } catch (ArgumentOutOfRangeException ex) { //if the exception is caught itll set it on true and the tests is succeeded
-                thrown = true;
+                game.TimerElapsed(this, null); //simulate the timer
             }
-            Assert.IsTrue(thrown);
+
+            game.CalculateScore(incorrectKeys, totalKeys);
+            Assert.AreEqual(450, game.Score);
         }
+
+        [TestMethod]
+        public void CalculateScore_ShouldReturnZero_WhenTotalKeysIsLessThanIncorrectKeys()
+        {
+            int incorrectKeys = 10;
+            int totalKeys = 5;  // Invalid case where totalKeys < incorrectKeys
+            for (int i = 0; i < 120; i++)
+            {
+                game.TimerElapsed(this, null); //simulate the timer
+            }
+
+            int score = game.CalculateScore(incorrectKeys, totalKeys);
+
+            Assert.AreEqual(0, score); 
+        }
+
+        [TestMethod]
+        public void CalculateScore_ShouldHandleLargeNumbers()
+        {
+            int incorrectKeys = 5000;
+            int totalKeys = 10000;  // 50% correct
+            for (int i = 0; i < 300; i++)
+            {
+                game.TimerElapsed(this, null); //simulate the timer
+            }
+
+            int score = game.CalculateScore(incorrectKeys, totalKeys);
+
+            Assert.AreEqual(20000, score);
+        }
+
     }
 }

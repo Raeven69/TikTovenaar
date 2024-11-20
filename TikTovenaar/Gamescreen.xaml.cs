@@ -1,13 +1,10 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Threading;
-using System.Windows.Media.Imaging;
 using TikTovenaar.Logic;
 using System.Windows.Media.Animation;
+using System.Windows;
 
 namespace TikTovenaar
 {
@@ -33,12 +30,18 @@ namespace TikTovenaar
             SetupGame();
             _wizardAnimation = new(wizardImageBrush, 0.16666, 6);
             _wizardAnimation.StartAnimation(0.16666, 6, "Images/wizard_idle.png");
+
+            // call the gamewordchanged for first word to have the animation
+            Game_wordChanged(this, EventArgs.Empty);
         }
 
         private void SetupGame()
         {
             Game = new();
             Game.WordChanged += Game_wordChanged;
+            Game.TimeUpdated += Game_timeUpdated;
+            Game.GameFinished += Game_finished;
+
             UpdateWord();
             Loaded += (s, e) => Keyboard.Focus(this);
         }
@@ -93,6 +96,7 @@ namespace TikTovenaar
                     {
                         run.Foreground = new SolidColorBrush(Colors.Red);
                         _incorrectPresses++;
+                        wordWrong = true;
                     }
                     currentWordText.Inlines.Add(run);
                 }
@@ -133,6 +137,22 @@ namespace TikTovenaar
             currentWordText.BeginAnimation(OpacityProperty, fadeIn);
         }
 
-        
+        public void Game_timeUpdated(object sender, EventArgs e)
+        {
+            TimeText.Dispatcher.Invoke(() =>
+            {
+                int minutes = (int)Math.Floor((decimal)Game.TimeElapsed / 60);
+                int seconds = Game.TimeElapsed % 60;
+
+                TimeText.Text = "Tijd: " + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+            });
+            // The dispatcher is used to update the text otherwise we get an error, because of the different threads
+        }
+
+        public void Game_finished(object sender, EventArgs e)
+        {
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.SwitchToHomeScreen();
+        }
     }
 }

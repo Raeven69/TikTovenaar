@@ -63,7 +63,7 @@ namespace TikTovenaar
             _currentFrame = (_currentFrame + 1) % _totalFrames;
         }
 
-        public void UpdateWizard(string imagePath, double frameWidth, int totalFrames, bool resetToIdle = true)
+        public void UpdateWizard(string imagePath, double frameWidth, int totalFrames, bool resetToIdle = true, int delay = 0)
         {
             _animationTimer.Stop(); // Pause the current animation before switching frames
             StartAnimation(frameWidth, totalFrames, imagePath);
@@ -73,7 +73,7 @@ namespace TikTovenaar
                 // Start a temporary timer to reset to idle after one animation loop
                 DispatcherTimer resetTimer = new DispatcherTimer
                 {
-                    Interval = TimeSpan.FromMilliseconds(100 * totalFrames) // Duration for one full loop
+                    Interval = TimeSpan.FromMilliseconds(100 * totalFrames + delay) // Duration for one full loop
                 };
                 resetTimer.Tick += (s, e) =>
                 {
