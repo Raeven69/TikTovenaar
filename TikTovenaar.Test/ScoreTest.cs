@@ -42,7 +42,7 @@ namespace TikTovenaar.Test
                 game.TimerElapsed(this, null); //simulate the timer
             }
 
-            game.CalculateScore(incorrectKeys, totalKeys, 10);
+            game.CalculateScore(incorrectKeys, totalKeys, totalWords);
             Assert.AreEqual(450, game.Score);
         }
 

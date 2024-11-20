@@ -65,7 +65,7 @@ namespace TikTovenaar // Namespace for organizing the code.
             {
                 if (_totalTime != value)
                 {
-                    _totalTime = value; // Updates total time.
+                    _totalTime = $"{value} seconden"; // Updates total time.
                     OnPropertyChanged(); // Notifies the UI about the change.
                 }
             }
