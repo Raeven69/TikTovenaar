@@ -65,7 +65,25 @@ namespace TikTovenaar // Namespace for organizing the code.
             {
                 if (_totalTime != value)
                 {
-                    _totalTime = $"{value} seconden"; // Updates total time.
+                    int.TryParse(value, out int time); // Converts the string to an integer.
+                    if (time > 60)
+                    {
+                        int minutes = time / 60; // Calculates the minutes.
+                        int seconds = time % 60; // Calculates the seconds.
+                        if (minutes > 1)
+                        {
+                            value = $"{minutes} minuten en {seconds} seconden"; // Updates the total time.
+                        }
+                        else 
+                        {
+                            value = $"{minutes} minuut en {seconds} seconden"; // Updates the total time.
+                        }
+                        _totalTime = value; // Updates the total time.
+                    }
+                    else 
+                    {
+                        _totalTime = $"{value} seconden"; // Updates total time.
+                    }
                     OnPropertyChanged(); // Notifies the UI about the change.
                 }
             }
