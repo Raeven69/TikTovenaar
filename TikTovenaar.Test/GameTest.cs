@@ -8,28 +8,41 @@ namespace TikTovenaar.Test
         [TestMethod]
         public void Constructer_CurrentWordShouldBeSet()
         {
+            // Arrange
             Game game = new();
+
+            // Assert
             Assert.IsNotNull(game.CurrentWord);
         }
 
         [TestMethod]
         public void PressKey_AllKeysPressed_WordShouldBeSame()
         {
+            // Arrange
             Game game = new();
             Word word = game.CurrentWord!;
+
+            // Act
             foreach (Letter letter in game.CurrentWord!.Letters)
             {
                 game.PressKey(letter.Value ?? ' ', 3);
             }
+
+            // Assert
             Assert.AreEqual(word, game.CurrentWord);
         }
 
         [TestMethod]
         public void PressKey_SpacePressed_WordShouldBeDifferent()
         {
+            // Arrange
             Game game = new();
             Word word = game.CurrentWord!;
+
+            // Act
             game.PressKey(' ', 3);
+
+            // Assert
             Assert.AreNotEqual(word, game.CurrentWord);
         }
     }

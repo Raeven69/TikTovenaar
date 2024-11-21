@@ -117,6 +117,9 @@ namespace TikTovenaar
             // Set word opacity to 0
             currentWordText.Opacity = 0;
 
+            // Play sound effect
+            SoundManager.PlaySoundEffect("Sounds/wizard_attack.mp3");
+
             // Create the fade-in animation
             DoubleAnimation fadeIn = new(0, 1, TimeSpan.FromSeconds(0.5));
             if (randomNumber == 0)

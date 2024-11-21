@@ -15,7 +15,6 @@ namespace TikTovenaar.Logic
 
         public event EventHandler? WordChanged;
         public event EventHandler? TimeUpdated;
-        public event EventHandler? WordTypedWrong;
         public event EventHandler? GameFinished;
 
         public Game()
@@ -30,7 +29,7 @@ namespace TikTovenaar.Logic
 
         private void GenerateWords()
         {
-            string[] generated = { "random", "words", "for", "testing", "tering", "homo" };
+            string[] generated = { "frikandellen", "in", "de", "middag", "met", "bier" };
             foreach (string word in generated)
             {
                 Words.Enqueue(new(word));
