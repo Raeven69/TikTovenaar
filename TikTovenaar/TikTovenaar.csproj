@@ -17,6 +17,9 @@
     <None Remove="Images\wizard_attack_2.png" />
     <None Remove="Images\wizard_idle.png" />
     <None Remove="Images\wizard_jump.png" />
+    <None Remove="Sounds\coc.mp3" />
+    <None Remove="Sounds\wizard_attack.mp3" />
+    <None Remove="Sounds\wizard_theme_music.mp3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,6 +35,15 @@
     <Resource Include="Images\wizard_attack_1.png" />
     <Resource Include="Images\wizard_idle.png" />
     <Resource Include="Images\wizard_jump.png" />
+    <Content Include="Sounds\coc.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\wizard_attack.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Sounds\wizard_theme_music.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
