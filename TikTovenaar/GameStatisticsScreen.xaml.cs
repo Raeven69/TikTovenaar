@@ -39,7 +39,7 @@ namespace TikTovenaar // Namespace for organizing the code.
             {
                 if (_errorPercentage != value)
                 {
-                    _errorPercentage = value; // Updates the error percentage.
+                    _errorPercentage = $"{value}%"; // Updates the error percentage.
                     OnPropertyChanged(); // Notifies the UI about the change.
                 }
             }
