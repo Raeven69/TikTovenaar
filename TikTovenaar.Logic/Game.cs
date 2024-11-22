@@ -91,12 +91,18 @@ namespace TikTovenaar.Logic
         {
             if (totalWords <= 0 || correctKeys <= 0 || TimeElapsed <= 0)
             {
-                Debug.WriteLine($"Invalid WPM input detected { totalWords} {correctKeys} {TimeElapsed}");
+                Debug.WriteLine($"Invalid WPM input detected {totalWords} {correctKeys} {TimeElapsed}");
                 return 0;
             }
             double avgLength = (double)correctKeys / totalWords; //calculate average length for the wpm calculation
             double wpm = (correctKeys / avgLength) / (TimeElapsed / 60.0);
-            return wpm;
+            return Math.Round(wpm, 2); // Round to 2 decimal places
+        }
+
+        public double CalculateErrorPercentage(int incorrectKeys, int totalKeys)
+        {
+            if (totalKeys == 0) return 0; // Avoid division by zero
+            return Math.Round((incorrectKeys / (double)totalKeys) * 100, 2);
         }
 
         public void TimerElapsed(object? sender, ElapsedEventArgs e)
