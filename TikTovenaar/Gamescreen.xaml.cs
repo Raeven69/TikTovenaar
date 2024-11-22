@@ -15,7 +15,7 @@ namespace TikTovenaar
     {
         private Game Game { get; set; }
 
-        private int totalLives = 3;
+        private readonly int totalLives = 3;
         private int remainingLives = 3;
 
         private int _totalPresses = 0;
@@ -24,8 +24,12 @@ namespace TikTovenaar
         private int _wordCount = 0;
 
         private WizardAnimation _wizardAnimation;
+
+        private MainWindow _MainWindow;
         public Gamescreen()
         {
+            _MainWindow = (MainWindow)Application.Current.MainWindow;
+
             InitializeComponent();
             SetupGame();
             _wizardAnimation = new(wizardImageBrush, 0.16666, 6);
@@ -40,6 +44,7 @@ namespace TikTovenaar
             Game = new();
             Game.WordChanged += Game_wordChanged;
             Game.TimeUpdated += Game_timeUpdated;
+            Game.ProgressUpdated += Game_progressUpdated;
             Game.GameFinished += Game_finished;
 
             UpdateWord();
@@ -55,6 +60,7 @@ namespace TikTovenaar
             string key = args.Key.ToString();
             if (key.Equals("Space"))
             {
+                _wordCount++;
                 _totalPresses--;
                 // if the word is wrong, remove a life
                 if (wordWrong)
@@ -81,8 +87,7 @@ namespace TikTovenaar
                 UpdateWord();
             }else
             {
-                MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-                mainWindow.SwitchToGameStatisticsScreen($"{Game.TimeElapsed}", $"{Game.CalculateWPM(_totalPresses, _wordCount)}", Game.CalculateScore(_incorrectPresses, _totalPresses, _wordCount), $"{Game.CalculateErrorPercentage(_incorrectPresses, _totalPresses)}", $"{_wordCount}");
+                Game_finished(this, EventArgs.Empty);
             }
         }
 
@@ -115,8 +120,8 @@ namespace TikTovenaar
         /// </summary>
         private void Game_wordChanged(object sender, EventArgs e)
         {
-            _wordCount++;
-            ScoreText.Text =  "Score: " + Game.CalculateScore(_incorrectPresses, _totalPresses, _wordCount); //calculate the score all the time after a keypress
+            WordTimer.Value = 100;
+            ScoreText.Text = "Score: " + Game.CalculateScore(_incorrectPresses, _totalPresses, _wordCount); //calculate the score all the time after a keypress
 
             Random random = new();
             int randomNumber = random.Next(0, 2);
@@ -147,7 +152,25 @@ namespace TikTovenaar
             currentWordText.BeginAnimation(OpacityProperty, fadeIn);
         }
 
-        public void Game_timeUpdated(object sender, EventArgs e)
+        private void Game_progressUpdated(object? sender, double progress)
+        {
+            WordTimer.Dispatcher.Invoke(() =>
+            {
+                WordTimer.Value = progress;
+
+                // Change the color of the progress bar based on the time left
+                if (WordTimer.Value < 20)
+                {
+                    WordTimer.Foreground = new SolidColorBrush(Colors.Red);
+                }
+                else
+                {
+                    WordTimer.Foreground = new SolidColorBrush(Colors.Green);
+                }
+            });
+        }
+
+        private void Game_timeUpdated(object sender, EventArgs e)
         {
             TimeText.Dispatcher.Invoke(() =>
             {
@@ -156,13 +179,15 @@ namespace TikTovenaar
 
                 TimeText.Text = "Tijd: " + minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
             });
-            // The dispatcher is used to update the text otherwise we get an error, because of the different threads
         }
 
         public void Game_finished(object sender, EventArgs e)
         {
-            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            mainWindow.SwitchToHomeScreen();
+            // use a dispatcher to switch to the game statistics screen
+            _MainWindow.Dispatcher.Invoke(() =>
+            {
+                _MainWindow.SwitchToGameStatisticsScreen($"{Game.TimeElapsed}", $"{Game.CalculateWPM(_totalPresses, _wordCount)}", Game.CalculateScore(_incorrectPresses, _totalPresses, _wordCount), $"{Game.CalculateErrorPercentage(_incorrectPresses, _totalPresses)}", $"{_wordCount}");
+            });
         }
     }
 }
