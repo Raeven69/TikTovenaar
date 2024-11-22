@@ -2,10 +2,11 @@
 using System.Runtime.CompilerServices; // Allows automatic property name capturing for OnPropertyChanged.
 using System.Windows; // Provides WPF core functionality.
 using System.Windows.Controls; // Provides WPF UI controls like UserControl.
+using System.Windows.Media.Animation; // Enables storyboards and animations.
 
 namespace TikTovenaar // Namespace for organizing the code.
 {
-    // A UserControl named Gamestatestiekscreen for displaying game statistics.
+    // A UserControl named GameStatisticsScreen for displaying game statistics.
     public partial class GameStatisticsScreen : UserControl, INotifyPropertyChanged
     {
         // Private fields for storing property values.
@@ -74,13 +75,13 @@ namespace TikTovenaar // Namespace for organizing the code.
                         {
                             value = $"{minutes} minuten en {seconds} seconden"; // Updates the total time.
                         }
-                        else 
+                        else
                         {
                             value = $"{minutes} minuut en {seconds} seconden"; // Updates the total time.
                         }
                         _totalTime = value; // Updates the total time.
                     }
-                    else 
+                    else
                     {
                         _totalTime = $"{value} seconden"; // Updates total time.
                     }
@@ -89,7 +90,7 @@ namespace TikTovenaar // Namespace for organizing the code.
             }
         }
 
-        public int Score 
+        public int Score
         {
             get => _score; // Returns the score.
             set
@@ -112,6 +113,8 @@ namespace TikTovenaar // Namespace for organizing the code.
             this.WordCount = wordcount;
             this.WordsPerMinute = wordsperminuut;
             this.ErrorPercentage = errorpercentage;
+
+            StartStoryboardAnimation(); // Starts the storyboard animation when the screen is loaded.
         }
 
         // Helper method for raising the PropertyChanged event.
@@ -120,18 +123,29 @@ namespace TikTovenaar // Namespace for organizing the code.
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        // Event handler for the "Close" button. Displays a message.
+        // Event handler for the "Close" button.
         private void Close_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
             mainWindow.SwitchToHomeScreen();
         }
 
-        // Event handler for the "Retry" button. Displays a message.
+        // Event handler for the "Retry" button.
         private void Retry_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
             mainWindow.SwitchToGameScreen();
+        }
+
+        // Method to start the storyboard animation.
+        private void StartStoryboardAnimation()
+        {
+            // Ensure storyboard is defined in XAML and start it from resources
+            var storyboard = (Storyboard)FindResource("AppearInSequence");
+            if (storyboard != null)
+            {
+                storyboard.Begin();
+            }
         }
     }
 }

@@ -30,12 +30,67 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+        <Storyboard x:Key="AppearInSequence">
+            <!-- Animate Header -->
+            <DoubleAnimation Storyboard.TargetName="HeaderText"
+                     Storyboard.TargetProperty="Opacity"
+                     From="0" To="1" Duration="0:0:0.5" BeginTime="0:0:0"/>
+            <!-- Animate First Statistic -->
+            <DoubleAnimation Storyboard.TargetName="WordsText"
+                     Storyboard.TargetProperty="Opacity"
+                     From="0" To="1" Duration="0:0:0.5" BeginTime="0:0:0.5"/>
+            <!-- Animate Second Statistic -->
+            <DoubleAnimation Storyboard.TargetName="WordsOutput"
+                     Storyboard.TargetProperty="Opacity"
+                     From="0" To="1" Duration="0:0:0.5" BeginTime="0:0:1"/>
+            <!-- Animate Third Statistic -->
+            <DoubleAnimation Storyboard.TargetName="MistakePercentageText"
+                     Storyboard.TargetProperty="Opacity"
+                     From="0" To="1" Duration="0:0:0.5" BeginTime="0:0:1.5"/>
+            <!-- Animate Fourth Statistic -->
+            <DoubleAnimation Storyboard.TargetName="MistakePercentageOutput"
+                     Storyboard.TargetProperty="Opacity"
+                     From="0" To="1" Duration="0:0:0.5" BeginTime="0:0:2"/>
+            <!-- Animate Fifth Statistic -->
+            <DoubleAnimation Storyboard.TargetName="WordsPerMinuteText"
+                     Storyboard.TargetProperty="Opacity"
+                     From="0" To="1" Duration="0:0:0.5" BeginTime="0:0:2.5"/>
+            <!-- Animate Sixth Statistic -->
+            <DoubleAnimation Storyboard.TargetName="WordsPerMinuteOutput"
+                     Storyboard.TargetProperty="Opacity"
+                     From="0" To="1" Duration="0:0:0.5" BeginTime="0:0:3"/>
+            <!-- Animate Seventh Statistic -->
+            <DoubleAnimation Storyboard.TargetName="TotalTimeText"
+                     Storyboard.TargetProperty="Opacity"
+                     From="0" To="1" Duration="0:0:0.5" BeginTime="0:0:3.5"/>
+            <!-- Animate Eighth Statistic -->
+            <DoubleAnimation Storyboard.TargetName="TotalTimeOutput"
+                     Storyboard.TargetProperty="Opacity"
+                     From="0" To="1" Duration="0:0:0.5" BeginTime="0:0:4"/>
+            <!-- Animate Score -->
+            <DoubleAnimation Storyboard.TargetName="ScoreText"
+                     Storyboard.TargetProperty="Opacity"
+                     From="0" To="1" Duration="0:0:0.5" BeginTime="0:0:4.5"/>
+            <!-- Animate Score Output -->
+            <DoubleAnimation Storyboard.TargetName="ScoreOutput"
+                     Storyboard.TargetProperty="Opacity"
+                     From="0" To="1" Duration="0:0:0.5" BeginTime="0:0:5"/>
+            <!-- Animate Buttons -->
+            <DoubleAnimation Storyboard.TargetName="RetryButton"
+                     Storyboard.TargetProperty="Opacity"
+                     From="0" To="1" Duration="0:0:0.5" BeginTime="0:0:5.5"/>
+            <DoubleAnimation Storyboard.TargetName="CloseButton"
+                     Storyboard.TargetProperty="Opacity"
+                     From="0" To="1" Duration="0:0:0.5" BeginTime="0:0:5.5"/>
+        </Storyboard>
     </UserControl.Resources>
 
     <Viewbox Stretch="Uniform">
         <Grid Width="1920" Height="1080" Background="#FF000435">
             <!-- Header Text -->
-            <TextBlock HorizontalAlignment="Center"
+            <TextBlock x:Name="HeaderText" HorizontalAlignment="Center"
+                       Opacity="0" 
                        VerticalAlignment="Top"
                        Margin="0,50,0,0"
                        FontWeight="Bold"
@@ -45,14 +100,16 @@
             </TextBlock>
 
             <!-- Labels for statistics -->
-            <TextBlock HorizontalAlignment="Left"
+            <TextBlock x:Name="WordsText" HorizontalAlignment="Left"
+                       Opacity="0" 
                        VerticalAlignment="Top"
                        Margin="380,271,0,0"
                        FontSize="36"
                        FontWeight="Bold" Foreground="White">
                 <Run Text="Aantal woorden:"/>
             </TextBlock>
-            <Label Content="{Binding WordCount}" 
+            <Label x:Name="WordsOutput" Content="{Binding WordCount}" 
+                   Opacity="0" 
                    HorizontalAlignment="Left"
                    VerticalAlignment="Top"
                    Margin="803,271,0,0"
@@ -60,14 +117,16 @@
                    FontWeight="Bold"
                    Foreground="White" Height="70" Width="382"/>
 
-            <TextBlock HorizontalAlignment="Left"
+            <TextBlock x:Name="MistakePercentageText" HorizontalAlignment="Left"
+                       Opacity="0" 
                        VerticalAlignment="Top"
                        Margin="380,426,0,0"
                        FontSize="36"
                        FontWeight="Bold" Foreground="White">
                 <Run Text="Fout percentage:"/>
             </TextBlock>
-            <Label Content="{Binding ErrorPercentage}" 
+            <Label x:Name="MistakePercentageOutput" Content="{Binding ErrorPercentage}" 
+                   Opacity="0" 
                    HorizontalAlignment="Left"
                    VerticalAlignment="Top"
                    Margin="803,426,0,0"
@@ -75,14 +134,16 @@
                    FontWeight="Bold"
                    Foreground="White" Height="65" Width="432"/>
 
-            <TextBlock HorizontalAlignment="Left"
+            <TextBlock x:Name="WordsPerMinuteText" HorizontalAlignment="Left"
+                       Opacity="0" 
                        VerticalAlignment="Top"
                        Margin="380,591,0,0"
                        FontSize="36"
                        FontWeight="Bold" Foreground="White">
                 <Run Text="Woorden per minuut:"/>
             </TextBlock>
-            <Label Content="{Binding WordsPerMinute}" 
+            <Label x:Name="WordsPerMinuteOutput" Content="{Binding WordsPerMinute}" 
+                   Opacity="0" 
                    HorizontalAlignment="Left"
                    VerticalAlignment="Top"
                    Margin="803,591,0,0"
@@ -90,14 +151,16 @@
                    FontWeight="Bold"
                    Foreground="White" Height="74" Width="470"/>
 
-            <TextBlock HorizontalAlignment="Left"
+            <TextBlock x:Name="TotalTimeText" HorizontalAlignment="Left"
+                       Opacity="0" 
                        VerticalAlignment="Top"
                        Margin="380,749,0,0"
                        FontSize="36"
                        FontWeight="Bold" Foreground="White">
                 <Run Text="Totale tijd:"/>
             </TextBlock>
-            <Label Content="{Binding TotalTime}" 
+            <Label x:Name="TotalTimeOutput" Content="{Binding TotalTime}" 
+                   Opacity="0" 
                    HorizontalAlignment="Left"
                    VerticalAlignment="Top"
                    Margin="803,749,0,0"
@@ -106,7 +169,8 @@
                    Foreground="White" Height="66" Width="444"/>
 
             <!-- Score Section -->
-            <TextBlock HorizontalAlignment="Left"
+            <TextBlock x:Name="ScoreText" HorizontalAlignment="Left"
+                       Opacity="0" 
                        VerticalAlignment="Top"
                        Margin="1367,220,0,0"
                        FontSize="36"
@@ -114,7 +178,8 @@
                        Foreground="#FF4CAF50">
                 <Run Text="Score:"/>
             </TextBlock>
-            <Label Content="{Binding Score}" 
+            <Label x:Name="ScoreOutput" Content="{Binding Score}" 
+                   Opacity="0" 
                    HorizontalAlignment="Left"
                    VerticalAlignment="Top"
                    Margin="1345,310,0,0"
@@ -123,14 +188,16 @@
                    Foreground="#FF4CAF50" Height="230" Width="264"/>
 
             <!-- Buttons with the Styled Button Style -->
-            <Button Style="{StaticResource StyledButton}"
+            <Button x:Name="CloseButton" Style="{StaticResource StyledButton}"
+                    Opacity="0" 
                     Content="Sluit"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Bottom"
                     Margin="0,0,220,50"
                     Click="Close_Click" Background="#FF0D1117" BorderBrush="#FF235AAE"/>
 
-            <Button Style="{StaticResource StyledButton}"
+            <Button x:Name="RetryButton" Style="{StaticResource StyledButton}"
+                    Opacity="0" 
                     Content="Opnieuw"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Bottom"
