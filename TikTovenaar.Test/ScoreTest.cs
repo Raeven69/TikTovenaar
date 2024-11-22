@@ -21,7 +21,7 @@ namespace TikTovenaar.Test
             // Arrange
             for (int i = 0; i < TimeInSeconds; i++)
             {
-                game.TimerElapsed(this, null); // Simulate the timer
+                game.TimeTimerElapsed(this, null); // Simulate the timer
             }
 
             // Assert
@@ -40,7 +40,7 @@ namespace TikTovenaar.Test
             int totalWords = 10;
             for (int i = 0; i < 120; i++)
             {
-                game.TimerElapsed(this, null); //simulate the timer
+                game.TimeTimerElapsed(this, null); //simulate the timer
             }
             // Act
             game.CalculateScore(incorrectKeys, totalKeys, totalWords);
@@ -56,7 +56,7 @@ namespace TikTovenaar.Test
             int totalKeys = 5;  // Invalid case where totalKeys < incorrectKeys
             for (int i = 0; i < 120; i++)
             {
-                game.TimerElapsed(this, null); //simulate the timer
+                game.TimeTimerElapsed(this, null); //simulate the timer
             }
 
             // Act
@@ -75,7 +75,7 @@ namespace TikTovenaar.Test
             int totalWords = 1000;
             for (int i = 0; i < 300; i++)
             {
-                game.TimerElapsed(this, null); //simulate the timer
+                game.TimeTimerElapsed(this, null); //simulate the timer
             }
 
             // Act

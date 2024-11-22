@@ -26,6 +26,18 @@
            VerticalAlignment="Center">
         </TextBlock>
 
+        <ProgressBar x:Name="WordTimer"
+                     Width="300"
+                     Height="10"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     Margin="0,150,0,0"
+                     Value="100"
+                     Maximum="100"
+                     Minimum="0"
+                     Foreground="#00FF00"
+                     Background="#404040"/>
+
         <Rectangle Width="512" Height="512" HorizontalAlignment="Right" VerticalAlignment="Center">
             <Rectangle.Fill>
                 <ImageBrush x:Name="wizardImageBrush" 
