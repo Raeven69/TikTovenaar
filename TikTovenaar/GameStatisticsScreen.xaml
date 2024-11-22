@@ -1,0 +1,139 @@
+﻿<UserControl x:Class="TikTovenaar.GameStatisticsScreen"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="1080"
+             d:DesignWidth="1920"
+             Background="#FF000435">
+    <UserControl.Resources>
+        <!-- Stijl voor de knoppen -->
+        <Style x:Key="StyledButton" TargetType="Button">
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="Height" Value="80"/>
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Background" Value="#FF6200EE"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#FF3700B3"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Margin" Value="0,0,220,50"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FF3700B3"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#FF6200EE"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Width="1920" Height="1080" Background="#FF000435">
+        <!-- Header Text -->
+        <TextBlock HorizontalAlignment="Center"
+                   VerticalAlignment="Top"
+                   Margin="0,50,0,0"
+                   FontWeight="Bold"
+                   FontSize="48"
+                   Foreground="#FF235AAE">
+            <Run Text="Goed gedaan!"/>
+        </TextBlock>
+
+        <!-- Labels for statistics -->
+        <TextBlock HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Margin="380,271,0,0"
+                   FontSize="36"
+                   FontWeight="Bold" Foreground="White">
+            <Run Text="Aantal woorden:"/>
+        </TextBlock>
+        <Label Content="{Binding WordCount}" 
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Margin="803,271,0,0"
+               FontSize="28"
+               FontWeight="Bold"
+               Foreground="White" Height="70" Width="382"/>
+
+        <TextBlock HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Margin="380,426,0,0"
+                   FontSize="36"
+                   FontWeight="Bold" Foreground="White">
+            <Run Text="Fout percentage:"/>
+        </TextBlock>
+        <Label Content="{Binding ErrorPercentage}" 
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Margin="803,426,0,0"
+               FontSize="28"
+               FontWeight="Bold"
+               Foreground="White" Height="65" Width="432"/>
+
+        <TextBlock HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Margin="380,591,0,0"
+                   FontSize="36"
+                   FontWeight="Bold" Foreground="White">
+            <Run Text="Woorden per minuut:"/>
+        </TextBlock>
+        <Label Content="{Binding WordsPerMinute}" 
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Margin="803,591,0,0"
+               FontSize="28"
+               FontWeight="Bold"
+               Foreground="White" Height="74" Width="470"/>
+
+        <TextBlock HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Margin="380,749,0,0"
+                   FontSize="36"
+                   FontWeight="Bold" Foreground="White">
+            <Run Text="Totale tijd:"/>
+        </TextBlock>
+        <Label Content="{Binding TotalTime}" 
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Margin="803,749,0,0"
+               FontSize="28"
+               FontWeight="Bold"
+               Foreground="White" Height="66" Width="444"/>
+
+        <!-- Score Section -->
+        <TextBlock HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Margin="1367,220,0,0"
+                   FontSize="36"
+                   FontWeight="Bold"
+                   Foreground="#FF4CAF50">
+            <Run Text="Score:"/>
+        </TextBlock>
+        <Label Content="{Binding Score}" 
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Margin="1345,310,0,0"
+               FontSize="72"
+               FontWeight="Bold"
+               Foreground="#FF4CAF50" Height="230" Width="264"/>
+
+        <!-- Buttons with the Styled Button Style -->
+        <Button Style="{StaticResource StyledButton}"
+                Content="Sluit"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Margin="0,0,220,50"
+                Click="Close_Click" Background="#FF0D1117" BorderBrush="#FF235AAE"/>
+
+        <Button Style="{StaticResource StyledButton}"
+                Content="Opnieuw"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Margin="220,0,0,50"
+                Click="Retry_Click" Background="#FF0D1117" BorderBrush="#FF235AAE"/>
+    </Grid>
+</UserControl>

@@ -8,6 +8,9 @@
     <Compile Update="Gamescreen.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="GameStatisticsScreen.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Homescreen.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -23,6 +26,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Gamescreen.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="GameStatisticsScreen.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Homescreen.xaml">

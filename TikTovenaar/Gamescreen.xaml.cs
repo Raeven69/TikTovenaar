@@ -79,6 +79,10 @@ namespace TikTovenaar
             if (!Game.Finished)
             {
                 UpdateWord();
+            }else
+            {
+                MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+                mainWindow.SwitchToGameStatisticsScreen($"{Game.TimeElapsed}", $"{Game.CalculateWPM(_totalPresses, _wordCount)}", Game.CalculateScore(_incorrectPresses, _totalPresses, _wordCount), $"{Game.CalculateErrorPercentage(_incorrectPresses, _totalPresses)}", $"{_wordCount}");
             }
         }
 

@@ -13,7 +13,7 @@ namespace TikTovenaar.Test
         }
         [TestMethod]
         [DataRow(10, 1, 5, 2, 2160)]
-        [DataRow(500, 4, 90, 60, 3967)]
+        [DataRow(500, 4, 90, 60, 3968)]
         [DataRow(50, 50, 10, 5, 0)]
 
         public void Score_Test_TimeElapsedIs60(int keyPresses, int incorrectPresses, int TimeInSeconds, int wordsAmount, int ExpectedOutcome)
@@ -42,10 +42,8 @@ namespace TikTovenaar.Test
             {
                 game.TimerElapsed(this, null); //simulate the timer
             }
-          
             // Act
-            game.CalculateScore(incorrectKeys, totalKeys, 10);
-          
+            game.CalculateScore(incorrectKeys, totalKeys, totalWords);
             // Assert
             Assert.AreEqual(450, game.Score);
         }
