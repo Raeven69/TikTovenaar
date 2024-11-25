@@ -8,14 +8,19 @@ public class Game
     private Queue<Word> Words { get; set; } = new();
     public Word? CurrentWord { get; private set; }
     public bool Finished { get; private set; } = false;
+    
+    public double WPM { get; private set; }
 
     private System.Timers.Timer _timeTimer;
     private System.Timers.Timer _progressTimer;
     public int TimeElapsed { get; private set; }
     public int TimeToComplete { get; private set; } = 15;
-
+    public double ErrorPercentage { get; private set; }
+    public int WordsCount { get; private set; }
     public int Score { get; private set; }
 
+    private int _totalPresses = 0;
+    private int _incorrectPresses = 0;
     public event EventHandler? WordChanged;
     public event EventHandler? TimeUpdated;
     public event EventHandler<double>? ProgressUpdated; // Added for progress updates
@@ -82,9 +87,16 @@ public class Game
         {
             if (CurrentWord != null)
             {
+                _totalPresses++;
                 CurrentWord.EnterChar(key);
+                if (!CurrentWord.Letters[CurrentWord.Index - 1].IsCorrect)
+                {
+                    _incorrectPresses++;
+                }
                 if (CurrentWord.IsCompleted)
                 {
+                    WordsCount++;
+                    CalculateScore(_incorrectPresses, _totalPresses, WordsCount);
                     NextWord();
                 }
             }
@@ -115,12 +127,14 @@ public class Game
         }
         double avgLength = (double)correctKeys / totalWords; //calculate average length for the wpm calculation
         double wpm = (correctKeys / avgLength) / (TimeElapsed / 60.0);
-        return Math.Round(wpm, 2); // Round to 2 decimal places
+        WPM = Math.Round(wpm, 2);
+        return WPM; // Round to 2 decimal places
     }
     public double CalculateErrorPercentage(int incorrectKeys, int totalKeys)
     {
-        if (totalKeys == 0) return 0; // Avoid division by zero
-        return Math.Round((incorrectKeys / (double)totalKeys) * 100, 2);
+        if (totalKeys == 0) ErrorPercentage = 0; // Avoid division by zero
+        else ErrorPercentage = Math.Round((incorrectKeys / (double)totalKeys) * 100, 2);
+        return ErrorPercentage;
     }
 
     public void TimeTimerElapsed(object? sender, ElapsedEventArgs e)
@@ -145,6 +159,8 @@ public class Game
     public void FinishGame()
     {
         Finished = true;
+        CalculateErrorPercentage(_incorrectPresses, _totalPresses);
+        CalculateScore(_incorrectPresses, _totalPresses, WordsCount);
         _timeTimer.Stop();
         _progressTimer.Stop();
         GameFinished?.Invoke(this, EventArgs.Empty);
