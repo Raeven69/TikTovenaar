@@ -59,7 +59,10 @@ namespace TikTovenaar.Test
         {
             // Arrange
             Word word = new("test");
-
+            foreach(Letter letter in word.Letters)
+            {
+                word.EnterChar((char)letter.Value);
+            }
             // Act
             word.EnterChar(' ');
 
