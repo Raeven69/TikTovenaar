@@ -40,6 +40,10 @@ namespace TikTovenaar.Test
             Word word = game.CurrentWord!;
 
             // Act
+            foreach(Letter letter in game.CurrentWord!.Letters)
+            {
+                game.PressKey((char)letter.Value, 3);
+            }
             game.PressKey(' ', 3);
 
             // Assert

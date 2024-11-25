@@ -16,7 +16,7 @@
 
         public void EnterChar(char c)
         {
-            if (c == ' ')
+            if (c == ' ' && Index == Letters.Count)
             {
                 IsCompleted = true;
             }
