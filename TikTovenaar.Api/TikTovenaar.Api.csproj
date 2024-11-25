@@ -9,8 +9,10 @@
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="dotenv.net" Version="3.2.1" />
-    <PackageReference Include="Npgsql" Version="8.0.5" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+    <PackageReference Include="JWT" Version="10.1.1" />
+    <PackageReference Include="Npgsql" Version="9.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="7.0.0" />
+    <PackageReference Include="System.Text.Json" Version="9.0.0" />
   </ItemGroup>
 
 </Project>

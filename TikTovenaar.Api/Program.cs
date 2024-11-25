@@ -1,3 +1,5 @@
+using Microsoft.OpenApi.Models;
+
 namespace TikTovenaar.Api
 {
     public class Program
@@ -11,7 +13,13 @@ namespace TikTovenaar.Api
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             WebApplication app = builder.Build();
-            app.UseSwagger();
+            app.UseSwagger(c =>
+            {
+                c.PreSerializeFilters.Add((swagger, httpreq) =>
+                {
+                    swagger.Servers = [new OpenApiServer { Url = "/api" }];
+                });
+            });
             app.UseSwaggerUI();
             app.MapControllers();
             app.Run();

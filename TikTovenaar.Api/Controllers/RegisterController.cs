@@ -10,6 +10,10 @@ namespace TikTovenaar.Api.Controllers
         [HttpPost]
         public JsonResult Register([FromForm] User user)
         {
+            if (!Utils.IsAuthorized(HttpContext.Request, true))
+            {
+                return new JsonResult(new { type = "error", message = "Authorization failed." });
+            }
             if (!user.UsernameValid())
             {
                 return new JsonResult(new { type = "error", message = "Regex mismatch for name." });
@@ -25,6 +29,7 @@ namespace TikTovenaar.Api.Controllers
             using NpgsqlDataReader reader = cmd.ExecuteReader();
             if (reader.Read())
             {
+                connection.Close();
                 return new JsonResult(new { type = "error", message = "This name is already taken." });
             }
             reader.Close();
@@ -33,7 +38,7 @@ namespace TikTovenaar.Api.Controllers
             insert.Parameters.AddWithValue("password", BCrypt.Net.BCrypt.HashPassword(user.Password));
             insert.ExecuteNonQuery();
             connection.Close();
-            return new JsonResult(new { type = "success", message = new { authentication = "Bearer 123" } });
+            return new JsonResult(new { type = "success", message = "User succesfully created." });
         }
     }
 }

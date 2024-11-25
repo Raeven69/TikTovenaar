@@ -22,7 +22,7 @@ namespace TikTovenaar.Api.Controllers
                 {
                     return new JsonResult(new { type = "error", message = "Password invalid." });
                 }
-                return new JsonResult(new { type = "success", message = new { authentication = "Bearer 123" } });
+                return new JsonResult(new { type = "success", message = new { authentication = $"Bearer {Utils.CreateToken(reader.GetInt32(0))}" } });
             }
             return new JsonResult(new { type = "error", message = "User not found." });
         }
