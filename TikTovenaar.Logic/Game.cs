@@ -89,9 +89,12 @@ public class Game
             {
                 _totalPresses++;
                 CurrentWord.EnterChar(key);
-                if (!CurrentWord.Letters[CurrentWord.Index - 1].IsCorrect)
+                if (key != ' ')
                 {
-                    _incorrectPresses++;
+                    if (!CurrentWord.Letters[CurrentWord.Index - 1].IsCorrect)
+                    {
+                        _incorrectPresses++;
+                    }
                 }
                 if (CurrentWord.IsCompleted)
                 {
