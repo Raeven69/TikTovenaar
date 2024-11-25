@@ -18,10 +18,8 @@ namespace TikTovenaar
         private readonly int totalLives = 3;
         private int remainingLives = 3;
 
-        private int _totalPresses = 0;
-        private int _incorrectPresses = 0;
         private bool wordWrong = false;
-        private int _wordCount = 0;
+
 
         private WizardAnimation _wizardAnimation;
 
@@ -56,13 +54,10 @@ namespace TikTovenaar
         /// </summary>
         public void OnKeyPress(object sender, KeyEventArgs args)
         {
-            _totalPresses++;
             string key = args.Key.ToString();
             if (key.Equals("Space"))
             {
-                _wordCount++;
-                _totalPresses--;
-                // if the word is wrong, remove a life
+                
                 if (wordWrong)
                 {
                     LivesBar.Value -= 100 / totalLives;
@@ -77,10 +72,7 @@ namespace TikTovenaar
                     ? key.ToLower()
                     : key;
                 Game.PressKey(key[0], remainingLives);
-                if(!Game.CurrentWord.Letters[Game.CurrentWord.Index - 1].IsCorrect)
-                {
-                    _incorrectPresses++;
-                }
+
             }
             if (!Game.Finished)
             {
@@ -121,7 +113,7 @@ namespace TikTovenaar
         private void Game_wordChanged(object sender, EventArgs e)
         {
             WordTimer.Value = 100;
-            ScoreText.Text = "Score: " + Game.CalculateScore(_incorrectPresses, _totalPresses, _wordCount); //calculate the score all the time after a keypress
+            ScoreText.Text = "Score: " + Game.Score; //calculate the score all the time after a keypress
 
             Random random = new();
             int randomNumber = random.Next(0, 2);
@@ -186,7 +178,7 @@ namespace TikTovenaar
             // use a dispatcher to switch to the game statistics screen
             _MainWindow.Dispatcher.Invoke(() =>
             {
-                _MainWindow.SwitchToGameStatisticsScreen($"{Game.TimeElapsed}", $"{Game.CalculateWPM(_totalPresses, _wordCount)}", Game.CalculateScore(_incorrectPresses, _totalPresses, _wordCount), $"{Game.CalculateErrorPercentage(_incorrectPresses, _totalPresses)}", $"{_wordCount}");
+                _MainWindow.SwitchToGameStatisticsScreen($"{Game.TimeElapsed}", $"{Game.WPM}", Game.Score, $"{Game.ErrorPercentage}", $"{Game.WordsCount}");
             });
         }
     }
