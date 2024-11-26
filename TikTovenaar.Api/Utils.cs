@@ -11,11 +11,11 @@ namespace TikTovenaar.Api
 {
     public class Utils
     {
-        private static JsonNetSerializer serializer = new();
-        private static UtcDateTimeProvider provider = new();
-        private static JwtValidator validator = new(serializer, provider);
-        private static JwtBase64UrlEncoder encoder = new();
-        private static JwtDecoder decoder = new(serializer, validator, encoder, GetAlgorithm());
+        private static readonly JsonNetSerializer serializer = new();
+        private static readonly UtcDateTimeProvider provider = new();
+        private static readonly JwtValidator validator = new(serializer, provider);
+        private static readonly JwtBase64UrlEncoder encoder = new();
+        private static readonly JwtDecoder decoder = new(serializer, validator, encoder, GetAlgorithm());
 
         private static RS256Algorithm GetAlgorithm()
         {
@@ -43,7 +43,6 @@ namespace TikTovenaar.Api
                 return false;
             }
             token = token["Bearer ".Length..];
-            Console.WriteLine(token);
             try
             {
                 dynamic? payload = JsonConvert.DeserializeObject(decoder.Decode(token, false));

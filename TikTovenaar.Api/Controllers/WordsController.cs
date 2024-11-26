@@ -25,7 +25,12 @@ namespace TikTovenaar.Api.Controllers
         [HttpGet]
         public List<Word> Get([FromQuery] int limit = -1, [FromQuery] int minLength = 0, [FromQuery] int maxLength = -1)
         {
-            return [..Random.Shared.GetItems([..Words.Where((Word word) => word.Length > minLength && (maxLength == -1 || word.Length < maxLength))], (limit == -1) ? Words.Count : limit)];
+            List<Word> words = Words.Where((Word word) => word.Length >= minLength && (maxLength == -1 || word.Length <= maxLength)).ToList();
+            if (words.Count > 0)
+            {
+                return [.. Random.Shared.GetItems([..words], (limit == -1) ? words.Count : ((words.Count > limit) ? words.Count : limit))];
+            }
+            return [];
         }
     }
 }
