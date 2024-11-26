@@ -5,6 +5,7 @@ using System.Windows.Media;
 using TikTovenaar.Logic;
 using System.Windows.Media.Animation;
 using System.Windows;
+using System.Globalization;
 
 namespace TikTovenaar
 {
@@ -14,12 +15,6 @@ namespace TikTovenaar
     public partial class Gamescreen : UserControl
     {
         private Game Game { get; set; }
-
-        private readonly int totalLives = 3;
-        private int remainingLives = 3;
-
-        private bool wordWrong = false;
-
 
         private WizardAnimation _wizardAnimation;
 
@@ -44,6 +39,7 @@ namespace TikTovenaar
             Game.TimeUpdated += Game_timeUpdated;
             Game.ProgressUpdated += Game_progressUpdated;
             Game.GameFinished += Game_finished;
+            Game.WordWrong += Word_wrong;
 
             UpdateWord();
             Loaded += (s, e) => Keyboard.Focus(this);
@@ -57,22 +53,14 @@ namespace TikTovenaar
             string key = args.Key.ToString();
             if (key.Equals("Space"))
             {
-                
-                if (wordWrong)
-                {
-                    LivesBar.Value -= 100 / totalLives;
-                    remainingLives--;
-                    wordWrong = false;
-                }
-                Game.PressKey(' ', remainingLives);
+                Game.PressKey(' ');
             }
             else if (key.Length == 1)
             {
                 key = !Keyboard.Modifiers.HasFlag(ModifierKeys.Shift) || !Console.CapsLock
                     ? key.ToLower()
                     : key;
-                Game.PressKey(key[0], remainingLives);
-
+                Game.PressKey(key[0]);
             }
             if (!Game.Finished)
             {
@@ -95,12 +83,11 @@ namespace TikTovenaar
                     Run run = new(letter.Received != null ? letter.Received.ToString() : letter.Value.ToString());
                     if (letter.IsCorrect)
                     {
-                        run.Foreground = new SolidColorBrush(Colors.Green);
+                        run.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4CAF50"));
                     }
                     else if (letter.HasGuessed)
                     {
-                        run.Foreground = new SolidColorBrush(Colors.Red);
-                        wordWrong = true;
+                        run.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D32F2F"));
                     }
                     currentWordText.Inlines.Add(run);
                 }
@@ -110,16 +97,20 @@ namespace TikTovenaar
         /// <summary>
         /// Below this line are all the event handlers
         /// </summary>
-        private void Game_wordChanged(object sender, EventArgs e)
+        private void Game_wordChanged(object? sender, EventArgs e)
         {
             WordTimer.Value = 100;
-            ScoreText.Text = "Score: " + Game.Score; //calculate the score all the time after a keypress
+
+            // Stop the timer to prevent the progress bar from going down
+            Game.StopProgressTimer();
+
+            ScoreText.Text = "Score: " + Game.Score;
 
             Random random = new();
             int randomNumber = random.Next(0, 2);
 
             // Stop any ongoing animations
-            currentWordText.BeginAnimation(OpacityProperty, null);
+            currentWordText.BeginAnimation(OpacityProperty, null); 
 
             // Set word opacity to 0
             currentWordText.Opacity = 0;
@@ -129,6 +120,7 @@ namespace TikTovenaar
 
             // Create the fade-in animation
             DoubleAnimation fadeIn = new(0, 1, TimeSpan.FromSeconds(0.5));
+
             if (randomNumber == 0)
             {
                 _wizardAnimation.UpdateWizard("Images/wizard_attack_2.png", 0.125, 8, true, 350);
@@ -139,6 +131,13 @@ namespace TikTovenaar
                 _wizardAnimation.UpdateWizard("Images/wizard_attack_1.png", 0.125, 8, true, 200);
                 fadeIn.BeginTime = TimeSpan.FromSeconds(0.7);
             }
+
+            // Attach an event handler to the Completed event
+            fadeIn.Completed += (s, args) =>
+            {
+                // Start the timer after the animation is over
+                Game.StartProgressTimer();
+            };
 
             // Start the animation
             currentWordText.BeginAnimation(OpacityProperty, fadeIn);
@@ -153,16 +152,16 @@ namespace TikTovenaar
                 // Change the color of the progress bar based on the time left
                 if (WordTimer.Value < 20)
                 {
-                    WordTimer.Foreground = new SolidColorBrush(Colors.Red);
+                    WordTimer.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#D32F2F"));
                 }
                 else
                 {
-                    WordTimer.Foreground = new SolidColorBrush(Colors.Green);
+                    WordTimer.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4CAF50"));
                 }
             });
         }
 
-        private void Game_timeUpdated(object sender, EventArgs e)
+        private void Game_timeUpdated(object? sender, EventArgs e)
         {
             TimeText.Dispatcher.Invoke(() =>
             {
@@ -173,13 +172,18 @@ namespace TikTovenaar
             });
         }
 
-        public void Game_finished(object sender, EventArgs e)
+        public void Game_finished(object? sender, EventArgs e)
         {
             // use a dispatcher to switch to the game statistics screen
             _MainWindow.Dispatcher.Invoke(() =>
             {
                 _MainWindow.SwitchToGameStatisticsScreen($"{Game.TimeElapsed}", $"{Game.WPM}", Game.Score, $"{Game.ErrorPercentage}", $"{Game.WordsCount}");
             });
+        }
+
+        public void Word_wrong(object? sender, EventArgs e)
+        {
+            LivesBar.Value -= 100 / Game.totalLives;
         }
     }
 }

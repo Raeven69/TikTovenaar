@@ -4,6 +4,7 @@
     {
         public List<Letter> Letters { get; } = [];
         public bool IsCompleted { get; private set; } = false;
+        public bool IsWrong = false;
         public int Index { get; private set; } = 0;
 
         public Word(string word)
