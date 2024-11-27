@@ -29,5 +29,11 @@ namespace TikTovenaar
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
             mainWindow.SwitchToLoginScreen();
         }
+
+        private void LeaderboardButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.SwitchToLeaderboardscreen();
+        }
     }
 }
