@@ -18,13 +18,20 @@ namespace TikTovenaar.Api.Controllers
             if (reader.Read())
             {
                 string password = reader.GetString(2);
-                if (!BCrypt.Net.BCrypt.Verify(user.Password, password))
+                try
                 {
-                    return new JsonResult(new { type = "error", message = "Password invalid." });
+                    if (!BCrypt.Net.BCrypt.Verify(user.Password, password))
+                    {
+                        return new(new { type = "error", message = "Password invalid." });
+                    }
                 }
-                return new JsonResult(new { type = "success", message = new { authentication = $"Bearer {Utils.CreateToken(reader.GetInt32(0))}" } });
+                catch (Exception)
+                {
+                    return new(new { type = "error", message = "Password invalid." });
+                }
+                return new(new { type = "success", message = new { authentication = $"Bearer {Utils.CreateToken(reader.GetInt32(0))}" } });
             }
-            return new JsonResult(new { type = "error", message = "User not found." });
+            return new(new { type = "error", message = "User not found." });
         }
     }
 }

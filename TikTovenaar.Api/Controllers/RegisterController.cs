@@ -10,17 +10,18 @@ namespace TikTovenaar.Api.Controllers
         [HttpPost]
         public JsonResult Register([FromForm] User user)
         {
-            if (!Utils.IsAuthorized(HttpContext.Request, true))
+            int? userID = Utils.Authorize(HttpContext.Request, true);
+            if (userID == null)
             {
-                return new JsonResult(new { type = "error", message = "Authorization failed." });
+                return new(new { type = "error", message = "Authorization failed." });
             }
             if (!user.UsernameValid())
             {
-                return new JsonResult(new { type = "error", message = "Regex mismatch for name." });
+                return new(new { type = "error", message = "Regex mismatch for name." });
             }
             if (!user.PasswordValid())
             {
-                return new JsonResult(new { type = "error", message = "Regex mismatch for password." });
+                return new(new { type = "error", message = "Regex mismatch for password." });
             }
             NpgsqlConnection connection = new Database().GetConnection();
             connection.Open();
@@ -30,7 +31,7 @@ namespace TikTovenaar.Api.Controllers
             if (reader.Read())
             {
                 connection.Close();
-                return new JsonResult(new { type = "error", message = "This name is already taken." });
+                return new(new { type = "error", message = "This name is already taken." });
             }
             reader.Close();
             using NpgsqlCommand insert = new(@"INSERT INTO players(name, password) VALUES(@name, @password)", connection);
@@ -38,7 +39,7 @@ namespace TikTovenaar.Api.Controllers
             insert.Parameters.AddWithValue("password", BCrypt.Net.BCrypt.HashPassword(user.Password));
             insert.ExecuteNonQuery();
             connection.Close();
-            return new JsonResult(new { type = "success", message = "User succesfully created." });
+            return new(new { type = "success", message = "User succesfully created." });
         }
     }
 }

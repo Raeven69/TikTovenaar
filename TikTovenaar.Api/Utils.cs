@@ -31,16 +31,16 @@ namespace TikTovenaar.Api
             return JwtBuilder.Create().WithAlgorithm(GetAlgorithm()).AddClaim("sub", userid).AddClaim("exp", DateTimeOffset.Now.AddDays(14).ToUnixTimeSeconds()).Encode();
         }
 
-        public static bool IsAuthorized(HttpRequest request, bool admin = false)
+        public static int? Authorize(HttpRequest request, bool admin = false)
         {
             if (!request.Headers.TryGetValue("Authorization", out StringValues value))
             {
-                return false;
+                return null;
             }
             string? token = value;
             if (token == null)
             {
-                return false;
+                return null;
             }
             token = token["Bearer ".Length..];
             try
@@ -48,7 +48,7 @@ namespace TikTovenaar.Api
                 dynamic? payload = JsonConvert.DeserializeObject(decoder.Decode(token, false));
                 if (payload == null)
                 {
-                    return false;
+                    return null;
                 }
                 NpgsqlConnection connection = new Database().GetConnection();
                 connection.Open();
@@ -58,19 +58,19 @@ namespace TikTovenaar.Api
                 if (!reader.Read())
                 {
                     connection.Close();
-                    return false;
+                    return null;
                 }
                 if (admin && reader.GetString(3) != "admin")
                 {
                     connection.Close();
-                    return false;
+                    return null;
                 }
                 connection.Close();
-                return true;
+                return (int)payload.sub;
             }
             catch (Exception)
             {
-                return false;
+                return null;
             }
         }
     }
