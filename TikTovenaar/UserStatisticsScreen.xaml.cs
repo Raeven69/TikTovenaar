@@ -33,12 +33,12 @@ namespace TikTovenaar
 
                 string[] woorden =
                 {
-                    "aan", "aandoen", "aanduiding", "aanhouden", "aankijken", "aanklacht", "aankomen", "aankondigen", "aankoop", "aanpassen", "aanslag", "aansluiten", "aansteken", "aantekening", "aanvaarden", "aanvraag", "aanwijzen", "aap", "aardappel", "aardig", "aarde", "aardig", "aardvarken", "aards", "aas", "aasje", "acht", "achter", "achteraf", "achtergrond", "achterin", "achterkant", "achterom", "achterover", "achterstand", "achteruit", "achtervolgen", "achterwerk", "actie", "actief", "activiteit", "acteur", "actrice", "actualiteit", "ad", "adapter", "adem", "ademen", "ademhaling", "ademnood", "ader", "adres", "adresseren", "advies", "advocaat", "af", "afbeelding", "afbraak", "afbraakwerk", "afbellen", "afbetaling", "afdruk", "afdruipen", "afgaan", "afgang", "afgelasten", "afgelegen", "afgeluisterd", "afgeleid", "afhalen", "afhangen", "afhankelijk", "afkorting", "afkruisen", "aflevering", "afleiden", "aflopen", "afmaken", "afmelden", "afnemen", "afreageren", "afrekenen", "afremmen", "afronden", "afscheid", "afscheuren", "afschuwelijk", "afslaan", "afsluiten", "afspelen", "afspraak", "afstand", "afsteken"
+                    "kindercarnavalsoptochtvoorbereidingswerkzaamheden", "aan", "aandoen", "aanduiding", "aanhouden", "aankijken", "aanklacht", "aankomen", "aankondigen", "aankoop", "aanpassen", "aanslag", "aansluiten", "aansteken", "aantekening", "aanvaarden", "aanvraag", "aanwijzen", "aap", "aardappel", "aardig", "aarde", "aardig", "aardvarken", "aards", "aas", "aasje", "acht", "achter", "achteraf", "achtergrond", "achterin", "achterkant", "achterom", "achterover", "achterstand", "achteruit", "achtervolgen", "achterwerk", "actie", "actief", "activiteit", "acteur", "actrice", "actualiteit", "ad", "adapter", "adem", "ademen", "ademhaling", "ademnood", "ader", "adres", "adresseren", "advies", "advocaat", "af", "afbeelding", "afbraak", "afbraakwerk", "afbellen", "afbetaling", "afdruk", "afdruipen", "afgaan", "afgang", "afgelasten", "afgelegen", "afgeluisterd", "afgeleid", "afhalen", "afhangen", "afhankelijk", "afkorting", "afkruisen", "aflevering", "afleiden", "aflopen", "afmaken", "afmelden", "afnemen", "afreageren", "afrekenen", "afremmen", "afronden", "afscheid", "afscheuren", "afschuwelijk", "afslaan", "afsluiten", "afspelen", "afspraak", "afstand", "afsteken"
                 };
 
                 int cellCount = woorden.Length;
-                int numCols = 2;
-                int numRows = (cellCount + 1) / numCols;
+                int numCols = 3;
+                int numRows = (int)Math.Ceiling((double)cellCount / numCols);
 
                 for (int i = 0; i < numCols; ++i)
                 {
@@ -53,12 +53,12 @@ namespace TikTovenaar
 
                 foreach (var g in DynamicGrid.RowDefinitions)
                 {
-                    g.Height = new GridLength(100);
+                    g.Height = new GridLength(ActualHeight/8);
                 }
 
                 foreach (var g in DynamicGrid.ColumnDefinitions)
                 {
-                    g.Width = new GridLength(this.ActualWidth / 2);
+                    g.Width = new GridLength(ActualWidth / numCols);
                 }
 
                 for (int i = 0; i < cellCount; i++)
@@ -68,6 +68,7 @@ namespace TikTovenaar
                     button.Click += Button_Click;
 
                     button.Content = woorden[i];
+                    button.FontSize = 20;
                     DynamicGrid.Children.Add(button);
 
 
