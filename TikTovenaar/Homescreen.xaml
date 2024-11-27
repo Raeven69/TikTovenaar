@@ -47,5 +47,7 @@
                 </ImageBrush>
             </Rectangle.Fill>
         </Rectangle>
+        <Button Content="Statistics" Background="#0D1117" Foreground="#F0F0F0"
+                    FontWeight="Bold" Click="Statistics_Click" Margin="73,621,907,59"/>
     </Grid>
 </UserControl>
