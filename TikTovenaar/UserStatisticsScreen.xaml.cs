@@ -14,6 +14,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TikTovenaar.Logic;
 
 namespace TikTovenaar
 {
@@ -32,9 +33,31 @@ namespace TikTovenaar
             this.Loaded += (s, e) =>
             {
 
-                string[] woorden =
+                StatisticsWord[] woorden =
                 {
-                    "kindercarnavalsoptochtvoorbereidingswerkzaamheden", "aan", "aandoen", "aanduiding", "aanhouden", "aankijken", "aanklacht", "aankomen", "aankondigen", "aankoop", "aanpassen", "aanslag", "aansluiten", "aansteken", "aantekening", "aanvaarden", "aanvraag", "aanwijzen", "aap", "aardappel", "aardig", "aarde", "aardig", "aardvarken", "aards", "aas", "aasje", "acht", "achter", "achteraf", "achtergrond", "achterin", "achterkant", "achterom", "achterover", "achterstand", "achteruit", "achtervolgen", "achterwerk", "actie", "actief", "activiteit", "acteur", "actrice", "actualiteit", "ad", "adapter", "adem", "ademen", "ademhaling", "ademnood", "ader", "adres", "adresseren", "advies", "advocaat", "af", "afbeelding", "afbraak", "afbraakwerk", "afbellen", "afbetaling", "afdruk", "afdruipen", "afgaan", "afgang", "afgelasten", "afgelegen", "afgeluisterd", "afgeleid", "afhalen", "afhangen", "afhankelijk", "afkorting", "afkruisen", "aflevering", "afleiden", "aflopen", "afmaken", "afmelden", "afnemen", "afreageren", "afrekenen", "afremmen", "afronden", "afscheid", "afscheuren", "afschuwelijk", "afslaan", "afsluiten", "afspelen", "afspraak", "afstand", "afsteken"
+                    new StatisticsWord("kindercarnavalsoptochtvoorbereidingswerkzaamheden", 10, 5),
+                    new StatisticsWord("aan", 10, 5),
+                    new StatisticsWord("aandoen", 10, 2),
+                    new StatisticsWord("aanduiding", 10, 4),
+                    new StatisticsWord("aanhouden", 10, 8),
+                    new StatisticsWord("aankijken", 10, 10),
+                    new StatisticsWord("aanklacht", 10, 10),
+                    new StatisticsWord("aanklacht", 10, 10),
+                    new StatisticsWord("aanklacht", 10, 10),
+                    new StatisticsWord("aanklacht", 10, 10),
+                    new StatisticsWord("aanklacht", 10, 10),
+                    new StatisticsWord("aanklacht", 10, 10),
+                    new StatisticsWord("aanklacht", 10, 10),
+                    new StatisticsWord("aanklacht", 10, 10),
+                    new StatisticsWord("aanklacht", 10, 10),
+                    new StatisticsWord("aanklacht", 10, 10),
+                    new StatisticsWord("aanklacht", 10, 10),
+                    new StatisticsWord("aanklacht", 10, 10),
+                    new StatisticsWord("aanklacht", 10, 10),
+                    new StatisticsWord("aanklacht", 10, 10),
+                    new StatisticsWord("aanklacht", 10, 10),
+                    new StatisticsWord("aanklacht", 10, 10),
+                    new StatisticsWord("aanklacht", 10, 10),
                 };
 
                 int cellCount = woorden.Length;
@@ -66,11 +89,11 @@ namespace TikTovenaar
                 {
                     Button button = new Button
                     {
-                        Name = woorden[i],
+                        Name = woorden[i].woord,
                         FontSize = 20,
                         Content = new TextBlock
                         {
-                            Text = woorden[i] + "\ntotaal gespeelt: 3, goed: 1, fout: 2",
+                            Text = woorden[i].ToString(),
                             TextAlignment = TextAlignment.Center
                         }
                     };

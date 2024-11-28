@@ -13,10 +13,63 @@
         Click="Terug_Click" BorderBrush="Transparent" BorderThickness="0" Panel.ZIndex="10000">
         </Button>
         <ScrollViewer>
-            <Grid Name="DynamicGrid">
-                <!--
-                Hier word in de code een grid van worden/letters gemaak heb het niet met edditor gedaan omdat het dan niet dynamies was
-                -->
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <!-- Bovenste rij -->
+                    <RowDefinition Height="*" />
+                    <!-- Onderste rij -->
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <TextBlock FontSize="70">
+                        aaaaaa
+                        <LineBreak>
+                        </LineBreak>
+                        aaaaaa
+                        <LineBreak>
+                        </LineBreak>
+                        aaaaaa
+                        <LineBreak>
+                        </LineBreak>
+                        aaaaaa
+                        <LineBreak>
+                        </LineBreak>
+                        aaaaaa
+                        <LineBreak>
+                        </LineBreak>
+                        aaaaaa
+                        <LineBreak>
+                        </LineBreak>
+                        aaaaaa
+                        <LineBreak>
+                        </LineBreak>
+                        aaaaaa
+                        <LineBreak>
+                        </LineBreak>
+                        aaaaaa
+                        <LineBreak>
+                        </LineBreak>
+                        aaaaaa
+                        <LineBreak>
+                        </LineBreak>
+                        aaaaaa
+                        <LineBreak>
+                        </LineBreak>
+                        aaaaaa
+                        <LineBreak>
+                        </LineBreak>
+                        aaaaaa
+                        <LineBreak>
+                        </LineBreak>
+                        aaaaaa
+                    </TextBlock>
+                </Grid>
+                <Grid Grid.Row="1" Name="DynamicGrid">
+                    <!--
+                    Hier word in de code een grid van worden/letters gemaak heb het niet met edditor gedaan omdat het dan niet dynamies 
+                    -->
+                </Grid>
+                
             </Grid>
         </ScrollViewer>
     </Grid>
