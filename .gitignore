@@ -1,3 +1,6 @@
-/.vs
+.vs
 bin
 obj
+.env
+public.key
+private.key
