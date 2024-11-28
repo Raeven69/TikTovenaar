@@ -5,8 +5,48 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TikTovenaar"
              mc:Ignorable="d" 
-        d:DesignWidth="1280"
-        d:DesignHeight="720">
+             d:DesignWidth="1280"
+             d:DesignHeight="720">
+
     <Grid Background="#000435">
+        <DataGrid x:Name="HighscoreTable" 
+          ItemsSource="{Binding}" 
+          AutoGenerateColumns="False"
+          Margin="458,113,191,213" 
+          GridLinesVisibility="None" 
+          Background="#000435"
+          CanUserReorderColumns ="False"
+          CanUserResizeRows ="False"
+          CanUserSortColumns="False"
+          CanUserResizeColumns="False"
+          MaxHeight="520">
+            
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="#0D1117"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="FontSize" Value="60"/>
+                    <Setter Property="Padding" Value="10"/>
+                    
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header ="Ranking" Binding="{Binding Ranking}"/>
+                <DataGridTextColumn Header="Naam" Binding="{Binding Name}" />
+                <DataGridTextColumn Header="Score" Binding="{Binding Score}" />
+            
+            </DataGrid.Columns>
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="Background" Value="#0D1117"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontSize" Value="30"/>
+                    
+                </Style>
+            </DataGrid.RowStyle>
+        </DataGrid>
+        <Button Content="Terug" VerticalAlignment="Bottom" Margin="0,20,0,144" Click="ReturnButton_Click" Width="300" Height="40"
+                Background="#0D1117" Foreground="#F0F0F0" FontWeight="Bold" BorderBrush="#FF0D1117" />
     </Grid>
 </UserControl>
