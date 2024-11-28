@@ -10,6 +10,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -37,7 +38,7 @@ namespace TikTovenaar
                 };
 
                 int cellCount = woorden.Length;
-                int numCols = 3;
+                int numCols = 2;
                 int numRows = (int)Math.Ceiling((double)cellCount / numCols);
 
                 for (int i = 0; i < numCols; ++i)
@@ -63,12 +64,19 @@ namespace TikTovenaar
 
                 for (int i = 0; i < cellCount; i++)
                 {
-                    Button button = new Button();
+                    Button button = new Button
+                    {
+                        Name = woorden[i],
+                        FontSize = 20,
+                        Content = new TextBlock
+                        {
+                            Text = woorden[i] + "\ntotaal gespeelt: 3, goed: 1, fout: 2",
+                            TextAlignment = TextAlignment.Center
+                        }
+                    };
 
                     button.Click += Button_Click;
 
-                    button.Content = woorden[i];
-                    button.FontSize = 20;
                     DynamicGrid.Children.Add(button);
 
 
@@ -89,7 +97,8 @@ namespace TikTovenaar
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Button clickedButton = sender as Button;
-            MessageBox.Show(clickedButton.Content.ToString());
+            
+            MessageBox.Show(clickedButton.Name);
         }
 
     }
