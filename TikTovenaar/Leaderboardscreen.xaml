@@ -21,9 +21,7 @@
           CanUserResizeColumns="False"
           HeadersVisibility="Column"
           IsReadOnly="True"
-          IsHitTestVisible="True"
           CanUserAddRows="False"
-          PreviewMouseDown="DataGrid_PreviewMouseDown"
           MaxHeight="520">
             
             <DataGrid.ColumnHeaderStyle>
@@ -47,6 +45,7 @@
                     <Setter Property="Background" Value="#0D1117"/>
                     <Setter Property="Foreground" Value="White"/>
                     <Setter Property="FontSize" Value="30"/>
+                    <Setter Property="IsHitTestVisible" Value="False"/>
                 </Style>
             </DataGrid.RowStyle>
             <DataGrid.Resources>
