@@ -15,56 +15,44 @@
         <ScrollViewer>
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
+                    <RowDefinition Height="auto" />
                     <!-- Bovenste rij -->
-                    <RowDefinition Height="*" />
+                    <RowDefinition Height="auto" />
                     <!-- Onderste rij -->
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0">
-                    <TextBlock FontSize="70">
-                        aaaaaa
-                        <LineBreak>
-                        </LineBreak>
-                        aaaaaa
-                        <LineBreak>
-                        </LineBreak>
-                        aaaaaa
-                        <LineBreak>
-                        </LineBreak>
-                        aaaaaa
-                        <LineBreak>
-                        </LineBreak>
-                        aaaaaa
-                        <LineBreak>
-                        </LineBreak>
-                        aaaaaa
-                        <LineBreak>
-                        </LineBreak>
-                        aaaaaa
-                        <LineBreak>
-                        </LineBreak>
-                        aaaaaa
-                        <LineBreak>
-                        </LineBreak>
-                        aaaaaa
-                        <LineBreak>
-                        </LineBreak>
-                        aaaaaa
-                        <LineBreak>
-                        </LineBreak>
-                        aaaaaa
-                        <LineBreak>
-                        </LineBreak>
-                        aaaaaa
-                        <LineBreak>
-                        </LineBreak>
+                <Grid Grid.Row="0" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <!-- Bovenste rij -->
+                        <RowDefinition Height="auto" />
+                        <!-- Onderste rij -->
+                    </Grid.RowDefinitions>
+                    <TextBlock FontSize="70" Grid.Row="0">
                         aaaaaa
                         <LineBreak>
                         </LineBreak>
                         aaaaaa
                     </TextBlock>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="85*" />
+                            <!-- linker rij -->
+                            <ColumnDefinition Width="5*" />
+                            <!-- middel rij -->
+                            <ColumnDefinition Width="10*" />
+                            <!-- rechts rij -->
+                        </Grid.ColumnDefinitions>
+                        <TextBox Name="searchBar"  FontSize="50" TextChanged="SearchBar_TextChanged" Grid.Column="0">
+                        </TextBox>
+                        <Button Name="VolgwordenButton"  Grid.Column="1" Content="▲" FontSize="50" Click="VolgwordenButtonClick">
+                            
+                        </Button>
+                        <ComboBox Name="SortOptiesButton" ItemsSource="{Binding sortOpties}" Grid.Column="2" SelectionChanged="SortOptiesVerandering" SelectedIndex="0" FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                        </ComboBox>
+                    </Grid>
+                    
                 </Grid>
-                <Grid Grid.Row="1" Name="DynamicGrid">
+                <Grid Grid.Row="1" Name="DynamicGrid" >
                     <!--
                     Hier word in de code een grid van worden/letters gemaak heb het niet met edditor gedaan omdat het dan niet dynamies 
                     -->
