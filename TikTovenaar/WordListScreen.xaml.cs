@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Text;
+﻿
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -27,7 +26,7 @@ namespace TikTovenaar
             _wrongLetterList = wrongLetterList;
 
             ListBoxWords.Items.Clear();
-            foreach (var word in _wordList)
+            foreach (Word word in _wordList)
             {
                 AddItemToDisplay(word.getWholeWord(), true);
             }
@@ -43,7 +42,7 @@ namespace TikTovenaar
             if (selectedFilter.Content.ToString() == "Alle woorden")
             {
                 ListBoxWords.Items.Clear();
-                foreach (var word in _wordList)
+                foreach (Word word in _wordList)
                 {
                     AddItemToDisplay(word.getWholeWord(), true);
                 }
@@ -51,7 +50,7 @@ namespace TikTovenaar
             else if (selectedFilter.Content.ToString() == "Fout getypte woorden")
             {
                 ListBoxWords.Items.Clear();
-                foreach (var word in _wrongWordList)
+                foreach (Word word in _wrongWordList)
                 {
                     AddItemToDisplay(word.getWholeWord(), true);
                 }
@@ -59,7 +58,7 @@ namespace TikTovenaar
             else if (selectedFilter.Content.ToString() == "Fout getypte letters")
             {
                 ListBoxWords.Items.Clear();
-                foreach (var letter in _wrongLetterList)
+                foreach (Letter letter in _wrongLetterList)
                 {
                     string letterText = letter.Value.ToString();
                     AddItemToDisplay(letterText, false);
@@ -72,7 +71,7 @@ namespace TikTovenaar
             if (ListBoxWords == null)
                 return;
 
-            var stackPanel = new StackPanel
+            StackPanel stackPanel = new StackPanel
             {
                 Orientation = Orientation.Horizontal,
                 VerticalAlignment = VerticalAlignment.Center,
@@ -88,7 +87,7 @@ namespace TikTovenaar
 
             if (details)
             {
-                var button = new Button
+                Button button = new Button
                 {
                     Content = "Bekijk details",
                     Style = (Style)Resources["StyledButton"],
@@ -101,7 +100,7 @@ namespace TikTovenaar
 
                 button.Click += (sender, e) =>
                 {
-                    var detailsDialog = new DetailsDialog(text);
+                    Window detailsDialog = new DetailsDialog(text);
                     detailsDialog.ShowDialog();
                 };
 
