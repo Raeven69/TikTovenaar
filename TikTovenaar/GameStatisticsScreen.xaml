@@ -77,10 +77,7 @@
                      Storyboard.TargetProperty="Opacity"
                      From="0" To="1" Duration="0:0:0.5" BeginTime="0:0:5"/>
             <!-- Animate Buttons -->
-            <DoubleAnimation Storyboard.TargetName="RetryButton"
-                     Storyboard.TargetProperty="Opacity"
-                     From="0" To="1" Duration="0:0:0.5" BeginTime="0:0:5.5"/>
-            <DoubleAnimation Storyboard.TargetName="CloseButton"
+            <DoubleAnimation Storyboard.TargetName="ButtonsStackPanel"
                      Storyboard.TargetProperty="Opacity"
                      From="0" To="1" Duration="0:0:0.5" BeginTime="0:0:5.5"/>
         </Storyboard>
@@ -188,21 +185,20 @@
                    Foreground="#FF4CAF50" Height="230" Width="264"/>
 
             <!-- Buttons with the Styled Button Style -->
-            <Button x:Name="CloseButton" Style="{StaticResource StyledButton}"
-                    Opacity="0" 
+            <StackPanel x:Name="ButtonsStackPanel" Opacity="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,50">
+                <Button x:Name="CloseButton" Style="{StaticResource StyledButton}"
+                    Opacity="1" 
                     Content="Sluit"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Bottom"
-                    Margin="0,0,220,50"
-                    Click="Close_Click" Background="#FF0D1117" BorderBrush="#FF235AAE"/>
-
-            <Button x:Name="RetryButton" Style="{StaticResource StyledButton}"
-                    Opacity="0" 
+                    Click="Close_Click" Background="#FF0D1117" BorderBrush="#FF235AAE" Margin="0,0,10,0"/>
+                <Button x:Name="RetryButton" Style="{StaticResource StyledButton}"
+                    Opacity="1" 
                     Content="Opnieuw"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Bottom"
-                    Margin="220,0,0,50"
-                    Click="Retry_Click" Background="#FF0D1117" BorderBrush="#FF235AAE"/>
+                    Click="Retry_Click" Background="#FF0D1117" BorderBrush="#FF235AAE" Margin="10,0,10,0"/>
+                <Button x:Name="WordListButton" Style="{StaticResource StyledButton}"
+                    Opacity="1" 
+                    Content="Woordenlijst"
+                    Click="WordList_Click" Background="#FF0D1117" BorderBrush="#FF235AAE" Margin="10,0,10,0"/>
+            </StackPanel>
         </Grid>
     </Viewbox>
 </UserControl>
