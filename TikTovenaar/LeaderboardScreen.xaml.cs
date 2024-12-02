@@ -86,5 +86,12 @@ namespace TikTovenaar
              .ToList();
              DataContext = rankedData;
         }
+
+        private void DataGrid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            // Prevent the DataGrid from selecting a row or cell on click
+            //e.Handled = true;
+        }
+
     }
 }
