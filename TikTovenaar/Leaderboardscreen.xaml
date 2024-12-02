@@ -3,14 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:TikTovenaar"
+             xmlns:local="clr-namespace:TikTovenaar" d:DataContext="{d:DesignInstance Type=local:LeaderboardScreen}"
              mc:Ignorable="d" 
              d:DesignWidth="1280"
-             d:DesignHeight="720">
+             d:DesignHeight="720"
+             d:Foreground="White">
 
     <Grid Background="#000435">
         <DataGrid x:Name="HighscoreTable" 
-          ItemsSource="{Binding}" 
+          ItemsSource="{Binding scores}" 
           AutoGenerateColumns="False"
           Margin="458,113,458,213" 
           GridLinesVisibility="None" 
@@ -23,7 +24,7 @@
           IsReadOnly="True"
           CanUserAddRows="False"
           MaxHeight="520">
-            
+
             <DataGrid.ColumnHeaderStyle>
                 <Style TargetType="DataGridColumnHeader">
                     <Setter Property="Background" Value="#0D1117"/>
@@ -31,14 +32,34 @@
                     <Setter Property="FontWeight" Value="Bold"/>
                     <Setter Property="FontSize" Value="60"/>
                     <Setter Property="Padding" Value="10"/>
-                    
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
                 </Style>
             </DataGrid.ColumnHeaderStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn Header ="Ranking" Binding="{Binding Ranking}" Width="*"/>
-                <DataGridTextColumn Header="Naam" Binding="{Binding Name}" Width="*"/>
-                <DataGridTextColumn Header="Score" Binding="{Binding Score}" Width="*"/>
-            
+                <DataGridTextColumn Header="Ranking" Binding="{Binding Ranking}" Width="*">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="TextAlignment" Value="Center"/>
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Naam" Binding="{Binding Name}" Width="*">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="TextAlignment" Value="Center"/>
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Score" Binding="{Binding Score}" Width="*">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="TextAlignment" Value="Center"/>
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
             </DataGrid.Columns>
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
@@ -59,6 +80,8 @@
                 </Style>
             </DataGrid.Resources>
         </DataGrid>
+        <Label x:Name="PersonalHighScoreLabel" Content="{Binding PersonalHighScore}" Foreground="White" HorizontalAlignment="Center" Margin="0,500,0,0" VerticalAlignment="Center" Width="364" FontSize="30"/>
+
         <Button Content="Terug" VerticalAlignment="Bottom" Margin="0,20,0,144" Click="ReturnButton_Click" Width="300" Height="40"
                 Background="#0D1117" Foreground="#F0F0F0" FontWeight="Bold" BorderBrush="#FF0D1117" />
     </Grid>

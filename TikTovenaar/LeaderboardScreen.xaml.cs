@@ -20,7 +20,8 @@ namespace TikTovenaar
     /// </summary>
     public partial class LeaderboardScreen : UserControl
     {
-        private Dictionary<string, int> scores = new()  {{ "Alice", 150 },
+        public string PersonalHighScore { get; set; }
+        public Dictionary<string, int> scores = new()  {{ "Alice", 150 },
                                                         { "Bob", 120 },
                                                         { "Charlie", 180 },
                                                         { "Daisy", 130 },
@@ -60,11 +61,13 @@ namespace TikTovenaar
                                                         { "rachel", 170 },
                                                         { "sam", 135 },
                                                         { "tina", 190 }};
-    public LeaderboardScreen()
+        public LeaderboardScreen()
         {
 
             InitializeComponent();
-            SortLeaderboard(scores);
+            PersonalHighScore = "Uw score is 6000000000";
+            PersonalHighScoreLabel.Content = PersonalHighScore;
+            HighscoreTable.ItemsSource = (System.Collections.IEnumerable)SortLeaderboard(scores);
         }
 
         private void ReturnButton_Click(object sender, RoutedEventArgs e)
@@ -73,18 +76,18 @@ namespace TikTovenaar
             mainWindow.SwitchToHomeScreen();
         }
 
-        private void SortLeaderboard(Dictionary<string, int> Scores)
+        private object SortLeaderboard(Dictionary<string, int> scores)
         {
-            var rankedData = Scores
-             .OrderByDescending(kvp => kvp.Value)
-             .Select((kvp, index) => new
-             {
-                 Ranking = index + 1,
-                 Name = kvp.Key,
-                 Score = kvp.Value
-             })
-             .ToList();
-             DataContext = rankedData;
+            return scores
+                .OrderByDescending(kvp => kvp.Value) // Sort by score descending
+                .Select(static (kvp, index) => new // Transform to anonymous object
+                {
+                    Ranking = index + 1,
+                    Name = kvp.Key,
+                    Score = kvp.Value
+                })
+                .ToList(); // Return a list of anonymous objects
         }
+
     }
 }
