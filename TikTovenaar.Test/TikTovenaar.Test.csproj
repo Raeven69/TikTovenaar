@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\tiktovenaar.dataAcces\TikTovenaar.DataAccess.csproj" />
     <ProjectReference Include="..\TikTovenaar.Logic\TikTovenaar.Logic.csproj" />
   </ItemGroup>
 
