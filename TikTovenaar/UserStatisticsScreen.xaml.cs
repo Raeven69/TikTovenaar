@@ -20,9 +20,7 @@ using TikTovenaar.Logic;
 
 namespace TikTovenaar
 {
-    /// <summary>
-    /// Interaction logic for UserStatisticsScreen.xaml
-    /// </summary>
+    
     public partial class UserStatisticsScreen : UserControl
     {
 
@@ -58,6 +56,8 @@ namespace TikTovenaar
         public UserStatisticsScreen()
         {
             InitializeComponent();
+
+            // dit zijn de opties die er zijn
             sortOpties = new ObservableCollection<string>
             {
                 "Alfabetisch",
@@ -72,20 +72,26 @@ namespace TikTovenaar
                 PrintButtons();
             };
 
+            // zorgt er voor dat databinding werkt 
             DataContext = this;
 
         }
 
+        // functie voor het trug sturen naar homescherm
         private void Terug_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
             mainWindow.SwitchToHomeScreen();
         }
 
+        // dit word geactieveert waneer er op een van de worden word gedrukt 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            // checkt of het een Button was die het geactieveert heeft
             Button clickedButton = sender as Button;
             
+
+            // met clickedButton.Name kan je het word zelf krijgen 
             MessageBox.Show(clickedButton.Name);
         }
 
@@ -98,7 +104,7 @@ namespace TikTovenaar
         {
             StatisticsWord[] gesorteerdeWoorden;
 
-
+            // hier worden de worden gesorteerd en geordert
             if (VolgwordenButton.Content.Equals("▲"))
             {
                 if (SortOptiesButton.SelectedItem.Equals("Alfabetisch"))
@@ -113,9 +119,13 @@ namespace TikTovenaar
                 {
                     gesorteerdeWoorden = woorden.Where(woord => woord.woord.Contains(searchBar.Text)).OrderBy(w => w.totaalFout).ToArray();
                 }
-                else //if (SortOptiesButton.SelectedItem.Equals("Totaal gespeelt"))
+                else if (SortOptiesButton.SelectedItem.Equals("Totaal gespeelt"))
                 {
                     gesorteerdeWoorden = woorden.Where(woord => woord.woord.Contains(searchBar.Text)).OrderBy(w => w.totaalGespeelt).ToArray();
+                } 
+                else // als er geen optie is geselecteert dit is onmogelijk maar als er een bug is is dit handig word gewoon op alfabetisch gedaan
+                {
+                    gesorteerdeWoorden = woorden.Where(woord => woord.woord.Contains(searchBar.Text)).OrderBy(w => w.woord).ToArray();
                 }
             }
             else
@@ -132,15 +142,19 @@ namespace TikTovenaar
                 {
                     gesorteerdeWoorden = woorden.Where(woord => woord.woord.Contains(searchBar.Text)).OrderByDescending(w => w.totaalFout).ToArray();
                 }
-                else //if (SortOptiesButton.SelectedItem.Equals("Totaal gespeelt"))
+                else if (SortOptiesButton.SelectedItem.Equals("Totaal gespeelt"))
                 {
                     gesorteerdeWoorden = woorden.Where(woord => woord.woord.Contains(searchBar.Text)).OrderByDescending(w => w.totaalGespeelt).ToArray();
                 }
-                
+                else // als er geen optie is geselecteert dit is onmogelijk maar als er een bug is is dit handig word gewoon op omgekeerd alfabetisch gedaan
+                {
+                    gesorteerdeWoorden = woorden.Where(woord => woord.woord.Contains(searchBar.Text)).OrderByDescending(w => w.woord).ToArray();
+                }
+
             }
 
             
-
+            // maakt het grid weer leeg zodat er weer voor de gesorteerde worden een nieuwe grid gemaakt kan worden 
             DynamicGrid.Children.Clear();
             DynamicGrid.RowDefinitions.Clear();
             DynamicGrid.ColumnDefinitions.Clear();
@@ -193,6 +207,7 @@ namespace TikTovenaar
             }
         }
 
+        // zorgt er voor dat de button werkt en dus het anders sorteert
         private void VolgwordenButtonClick(object sender, RoutedEventArgs e)
         {
             if (VolgwordenButton.Content.Equals("▲"))
