@@ -1,67 +1,72 @@
-﻿using System.ComponentModel; // Enables notifying changes in properties (e.g., for data binding).
-using System.Runtime.CompilerServices; // Allows automatic property name capturing for OnPropertyChanged.
-using System.Windows; // Provides WPF core functionality.
-using System.Windows.Controls; // Provides WPF UI controls like UserControl.
-using System.Windows.Media.Animation; // Enables storyboards and animations.
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media.Animation;
+using System.Collections.Generic;
+using TikTovenaar.Logic;
 
-namespace TikTovenaar // Namespace for organizing the code.
+namespace TikTovenaar
 {
-    // A UserControl named GameStatisticsScreen for displaying game statistics.
     public partial class GameStatisticsScreen : UserControl, INotifyPropertyChanged
     {
-        // Private fields for storing property values.
-        private string _wordCount = string.Empty;
-        private string _errorPercentage = string.Empty;
-        private string _wordsPerMinute = string.Empty;
-        private string _totalTime = string.Empty;
+        private bool animationPlayed = false;
+
+        private string _wordCount;
+        private string _errorPercentage;
+        private string _wordsPerMinute;
+        private string _totalTime;
         private int _score = 0;
+
+        private List<Word> _wordList;
+        private List<Word> _wrongWordList;
+        private List<Letter> _wrongLetterList;
 
         // Event for notifying when a property changes, used for data binding.
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        // Properties with get and set methods to allow data binding.
         public string WordCount
         {
-            get => _wordCount; // Returns the current value of the word count.
+            get => _wordCount;
             set
             {
                 if (_wordCount != value)
                 {
-                    _wordCount = value; // Updates the word count.
-                    OnPropertyChanged(); // Notifies the UI about the change.
+                    _wordCount = value; 
+                    OnPropertyChanged();
                 }
             }
         }
 
         public string ErrorPercentage
         {
-            get => _errorPercentage; // Returns the error percentage.
+            get => _errorPercentage;
             set
             {
                 if (_errorPercentage != value)
                 {
-                    _errorPercentage = $"{value}%"; // Updates the error percentage.
-                    OnPropertyChanged(); // Notifies the UI about the change.
+                    _errorPercentage = $"{value}%";
+                    OnPropertyChanged();
                 }
             }
         }
 
         public string WordsPerMinute
         {
-            get => _wordsPerMinute; // Returns words per minute.
+            get => _wordsPerMinute;
             set
             {
                 if (_wordsPerMinute != value)
                 {
-                    _wordsPerMinute = value; // Updates words per minute.
-                    OnPropertyChanged(); // Notifies the UI about the change.
+                    _wordsPerMinute = value;
+                    OnPropertyChanged();
                 }
             }
         }
 
         public string TotalTime
         {
-            get => _totalTime; // Returns the total time.
+            get => _totalTime;
             set
             {
                 if (_totalTime != value)
@@ -92,19 +97,18 @@ namespace TikTovenaar // Namespace for organizing the code.
 
         public int Score
         {
-            get => _score; // Returns the score.
+            get => _score; 
             set
             {
                 if (_score != value)
                 {
-                    _score = value; // Updates the score.
-                    OnPropertyChanged(); // Notifies the UI about the change.
+                    _score = value; 
+                    OnPropertyChanged();
                 }
             }
         }
 
-        // Constructor that initializes the control and sets the data context for binding.
-        public GameStatisticsScreen(string totaltime, string wordsperminuut, int score, string errorpercentage, string wordcount)
+        public GameStatisticsScreen(string totaltime, string wordsperminuut, int score, string errorpercentage, string wordcount, List<Word> wordList, List<Word> wrongWordList, List<Letter> wrongLetterList)
         {
             InitializeComponent(); // Initializes the XAML components.
             DataContext = this; // Sets the current class as the data source for bindings.
@@ -114,7 +118,15 @@ namespace TikTovenaar // Namespace for organizing the code.
             this.WordsPerMinute = wordsperminuut;
             this.ErrorPercentage = errorpercentage;
 
-            StartStoryboardAnimation(); // Starts the storyboard animation when the screen is loaded.
+            this._wordList = wordList;
+            this._wrongWordList = wrongWordList;
+            this._wrongLetterList = wrongLetterList;
+
+            if(!animationPlayed)
+            {
+                StartStoryboardAnimation(); // Starts the storyboard animation when the screen is loaded.
+                animationPlayed = true;
+            }
         }
 
         // Helper method for raising the PropertyChanged event.
@@ -137,10 +149,15 @@ namespace TikTovenaar // Namespace for organizing the code.
             mainWindow.SwitchToGameScreen();
         }
 
+        private void WordList_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.SwitchToWordListScreen(this, _wordList, _wrongWordList, _wrongLetterList);
+        }
+
         // Method to start the storyboard animation.
         private void StartStoryboardAnimation()
         {
-            // Ensure storyboard is defined in XAML and start it from resources
             var storyboard = (Storyboard)FindResource("AppearInSequence");
             if (storyboard != null)
             {
