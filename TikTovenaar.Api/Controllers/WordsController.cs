@@ -28,7 +28,8 @@ namespace TikTovenaar.Api.Controllers
             List<Word> words = Words.Where((Word word) => word.Length >= minLength && (maxLength == -1 || word.Length <= maxLength)).ToList();
             if (words.Count > 0)
             {
-                return [.. Random.Shared.GetItems([..words], (limit == -1) ? words.Count : ((words.Count > limit) ? words.Count : limit))];
+                Console.WriteLine(limit);
+                return [.. Random.Shared.GetItems([..words], (limit == -1) ? words.Count : ((words.Count > limit) ? limit : words.Count))];
             }
             return [];
         }
