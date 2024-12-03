@@ -5,6 +5,9 @@
     <Compile Update="App.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="DetailsDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Gamescreen.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -20,9 +23,15 @@
     <Compile Update="MainWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="WordListScreen.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="App.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="DetailsDialog.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Gamescreen.xaml">
@@ -38,6 +47,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="WordListScreen.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
