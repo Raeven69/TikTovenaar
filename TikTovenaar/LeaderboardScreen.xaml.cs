@@ -88,6 +88,5 @@ namespace TikTovenaar
                 })
                 .ToList(); // Return a list of anonymous objects
         }
-
     }
 }
