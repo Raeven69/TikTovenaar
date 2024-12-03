@@ -20,14 +20,21 @@ namespace TikTovenaar.DataAccess
         {
             using HttpRequestMessage request = new(HttpMethod.Post, "score");
             request.Headers.Authorization = new("Bearer", token);
-            request.Content = new FormUrlEncodedContent([
+            List<KeyValuePair<string, string>> data = [
                 new("wordsAmount", score.WordsAmount.ToString()),
                 new("time", score.Time.ToLongTimeString()),
                 new("date", score.Date.ToLongDateString()),
                 new("value", score.Value.ToString()),
-                new("incorrectWords", string.Join(',', score.IncorrectWords)),
-                new("incorrectLetters", string.Join(',', score.IncorrectLetters))
-            ]);
+            ];
+            foreach (string word in score.IncorrectWords)
+            {
+                data.Add(new("incorrectWords", word));
+            }
+            foreach (char c in score.IncorrectLetters)
+            {
+                data.Add(new("incorrectLetters", c.ToString()));
+            }
+            request.Content = new FormUrlEncodedContent(data);
             client.SendAsync(request).Wait();
         }
 
@@ -40,7 +47,7 @@ namespace TikTovenaar.DataAccess
             {
                 foreach (dynamic score in result!)
                 {
-                    scores.Add(new(score.player, score.value));
+                    scores.Add(new((string)score.player, (int)score.value));
                 }
             }
             catch (Exception) {}
@@ -58,10 +65,7 @@ namespace TikTovenaar.DataAccess
             {
                 foreach (dynamic score in result!)
                 {
-                    List<string> incorrectWords = score.IncorrectWords.Split(',', score.IncorrectWords).ToList();
-                    IEnumerable<string> letters = score.IncorrectLetters.Split(',', score.IncorrectLetters);
-                    List<char> incorrectLetters = letters.Select(c => c[0]).ToList();
-                    scores.Add(new(score.WordsAmount, TimeOnly.Parse(score.Time), DateOnly.Parse(score.Date), score.Value, incorrectWords, incorrectLetters));
+                    scores.Add(new((int)score.wordsAmount, TimeOnly.Parse((string)score.time), DateOnly.Parse((string)score.date), (int)score.value, score.incorrectWords.ToObject<List<string>>(), score.incorrectLetters.ToObject<List<char>>()));
                 }
             }
             catch (Exception) {}
@@ -70,14 +74,14 @@ namespace TikTovenaar.DataAccess
 
         public List<string> GetWords(int limit = -1, int minLength = 0, int maxLength = -1)
         {
-            HttpResponseMessage response = client.GetAsync($"words?limit={limit}&minLenght={minLength}&maxLength={maxLength}").Result;
+            HttpResponseMessage response = client.GetAsync($"words?limit={limit}&minLength={minLength}&maxLength={maxLength}").Result;
             dynamic? result = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result);
             List<string> words = [];
             try
             {
                 foreach (dynamic word in result!)
                 {
-                    words.Add(word.Value);
+                    words.Add((string)word.value);
                 }
             }
             catch (Exception) {}
@@ -94,7 +98,8 @@ namespace TikTovenaar.DataAccess
             dynamic? result = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result);
             try
             {
-                return result!.message.authentication;
+                string token = result!.message.authentication;
+                return token["Bearer ".Length..];
             }
             catch (Exception) {}
             return null;
@@ -103,7 +108,7 @@ namespace TikTovenaar.DataAccess
         public void Register(string token, string username, string password)
         {
             using HttpRequestMessage request = new(HttpMethod.Post, "register");
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            request.Headers.Authorization = new("Bearer", token);
             request.Content = new FormUrlEncodedContent([
                 new KeyValuePair<string, string>("username", username),
                 new KeyValuePair<string, string>("password", password)
