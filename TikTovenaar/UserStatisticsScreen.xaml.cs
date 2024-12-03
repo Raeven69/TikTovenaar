@@ -109,19 +109,23 @@ namespace TikTovenaar
             {
                 if (SortOptiesButton.SelectedItem.Equals("Alfabetisch"))
                 {
+                    // word gesorteerd op alfabetische volgorde
                     gesorteerdeWoorden = woorden.Where(woord => woord.woord.Contains(searchBar.Text)).OrderBy(w => w.woord).ToArray();
                 }
                 else if (SortOptiesButton.SelectedItem.Equals("Aantal goed"))
                 {
-                    gesorteerdeWoorden = woorden.Where(woord => woord.woord.Contains(searchBar.Text)).OrderBy(w => w.totaalGoed).ToArray();
+                    // word gesorteerd op aantal goed groot naar klein en als er 2 het zelfde aantal goed hebben worden ze op alfabetische volgorde gesorteerd
+                    gesorteerdeWoorden = woorden.Where(woord => woord.woord.Contains(searchBar.Text)).OrderBy(w => w.woord).OrderByDescending(w => w.totaalGoed).ToArray();
                 } 
                 else if (SortOptiesButton.SelectedItem.Equals("Aantal fout"))
                 {
-                    gesorteerdeWoorden = woorden.Where(woord => woord.woord.Contains(searchBar.Text)).OrderBy(w => w.totaalFout).ToArray();
+                    // word gesorteerd op aantal fout groot naar klein en als er 2 het zelfde aantal fout hebben worden ze op alfabetische volgorde gesorteerd
+                    gesorteerdeWoorden = woorden.Where(woord => woord.woord.Contains(searchBar.Text)).OrderBy(w => w.woord).OrderByDescending(w => w.totaalFout).ToArray();
                 }
                 else if (SortOptiesButton.SelectedItem.Equals("Totaal gespeelt"))
                 {
-                    gesorteerdeWoorden = woorden.Where(woord => woord.woord.Contains(searchBar.Text)).OrderBy(w => w.totaalGespeelt).ToArray();
+                    // word gesorteerd op totaal gespeelt groot naar klein en als er 2 het zelfde aantal totaal gespeelt hebben worden ze op alfabetische volgorde gesorteerd
+                    gesorteerdeWoorden = woorden.Where(woord => woord.woord.Contains(searchBar.Text)).OrderBy(w => w.woord).OrderByDescending(w => w.totaalGespeelt).ToArray();
                 } 
                 else // als er geen optie is geselecteert dit is onmogelijk maar als er een bug is is dit handig word gewoon op alfabetisch gedaan
                 {
@@ -132,19 +136,23 @@ namespace TikTovenaar
             {
                 if (SortOptiesButton.SelectedItem.Equals("Alfabetisch"))
                 {
+                    // word gesorteerd op omgekeerde alfabetische volgorde
                     gesorteerdeWoorden = woorden.Where(woord => woord.woord.Contains(searchBar.Text)).OrderByDescending(w => w.woord).ToArray();
                 }
                 else if (SortOptiesButton.SelectedItem.Equals("Aantal goed"))
                 {
-                    gesorteerdeWoorden = woorden.Where(woord => woord.woord.Contains(searchBar.Text)).OrderByDescending(w => w.totaalGoed).ToArray();
+                    // word gesorteerd op aantal goed klein naar groot en als er 2 het zelfde aantal goed hebben worden ze op alfabetische volgorde gesorteerd
+                    gesorteerdeWoorden = woorden.Where(woord => woord.woord.Contains(searchBar.Text)).OrderBy(w => w.woord).OrderBy(w => w.totaalGoed).ToArray();
                 }
                 else if (SortOptiesButton.SelectedItem.Equals("Aantal fout"))
                 {
-                    gesorteerdeWoorden = woorden.Where(woord => woord.woord.Contains(searchBar.Text)).OrderByDescending(w => w.totaalFout).ToArray();
+                    // word gesorteerd op aantal fout klein naar groot en als er 2 het zelfde aantal fout hebben worden ze op alfabetische volgorde gesorteerd
+                    gesorteerdeWoorden = woorden.Where(woord => woord.woord.Contains(searchBar.Text)).OrderBy(w => w.woord).OrderBy(w => w.totaalFout).ToArray();
                 }
                 else if (SortOptiesButton.SelectedItem.Equals("Totaal gespeelt"))
                 {
-                    gesorteerdeWoorden = woorden.Where(woord => woord.woord.Contains(searchBar.Text)).OrderByDescending(w => w.totaalGespeelt).ToArray();
+                    // word gesorteerd op totaal gespeelt klein naar grooten als er 2 het zelfde aantal totaal gespeelt hebben worden ze op alfabetische volgorde gesorteerd
+                    gesorteerdeWoorden = woorden.Where(woord => woord.woord.Contains(searchBar.Text)).OrderBy(w => w.woord).OrderBy(w => w.totaalGespeelt).ToArray();
                 }
                 else // als er geen optie is geselecteert dit is onmogelijk maar als er een bug is is dit handig word gewoon op omgekeerd alfabetisch gedaan
                 {
@@ -180,7 +188,7 @@ namespace TikTovenaar
 
             foreach (var g in DynamicGrid.ColumnDefinitions)
             {
-                g.Width = new GridLength(ActualWidth / numCols);
+                g.Width = new GridLength(ActualWidth / numCols * 0.8);
             }
 
             for (int i = 0; i < cellCount; i++)
@@ -188,11 +196,25 @@ namespace TikTovenaar
                 Button button = new Button
                 {
                     Name = gesorteerdeWoorden[i].woord,
-                    FontSize = 20,
-                    Content = new TextBlock
+                    Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0D1117")),
+                    Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F0F0F0")),
+                    Content = new StackPanel
                     {
-                        Text = gesorteerdeWoorden[i].ToString(),
-                        TextAlignment = TextAlignment.Center
+                        Children =
+                        {
+                            new TextBlock
+                            {
+                                FontSize = 20,
+                                Text = gesorteerdeWoorden[i].ToStringWord(),
+                                TextAlignment = TextAlignment.Center
+                            },
+                            new TextBlock
+                            {
+                                FontSize = 15,
+                                Text = gesorteerdeWoorden[i].ToStringStats(),
+                                TextAlignment = TextAlignment.Center
+                            }
+                        }
                     }
                 };
 

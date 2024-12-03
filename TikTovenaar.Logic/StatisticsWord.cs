@@ -30,9 +30,14 @@ namespace TikTovenaar.Logic
             this.totaalFout = totaalFout;
         }
 
-        public override string ToString()
+        public string ToStringWord()
         {
-            return $"{woord}\ntotaal gespeelt: {totaalGespeelt}, goed: {totaalGoed}, fout: {totaalFout}";
+            return woord;
+        }
+
+        public string ToStringStats()
+        {
+            return $"totaal gespeelt: {totaalGespeelt}       ✅ {totaalGoed}       ❎ {totaalFout}";
         }
 
     }
