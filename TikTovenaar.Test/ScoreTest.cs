@@ -1,3 +1,4 @@
+using TikTovenaar.DataAccess;
 using TikTovenaar.Logic;
 
 namespace TikTovenaar.Test
@@ -9,7 +10,7 @@ namespace TikTovenaar.Test
         [TestInitialize]
         public void Initialise() //creates game because its needed in all the tests
         {
-             game = new();
+             game = new(new DataHandler());
         }
         [TestMethod]
         [DataRow(10, 1, 5, 2, 2160)]
