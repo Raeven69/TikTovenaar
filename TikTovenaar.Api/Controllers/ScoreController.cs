@@ -8,7 +8,7 @@ namespace TikTovenaar.Api.Controllers
     public class ScoreController : ControllerBase
     {
         [HttpGet]
-        public JsonResult GetScore()
+        public JsonResult GetScores()
         {
             int? userID = Utils.Authorize(HttpContext.Request);
             if (userID == null)
