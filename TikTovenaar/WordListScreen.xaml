@@ -1,0 +1,88 @@
+﻿<UserControl x:Class="TikTovenaar.WordListScreen"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="1080"
+             d:DesignWidth="1920"
+             Background="#FF000435">
+    <UserControl.Resources>
+        <Style x:Key="StyledButton" TargetType="Button">
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Background" Value="#FF6200EE"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#FF3700B3"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Padding" Value="10"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FF3700B3"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#FF6200EE"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <!-- Title -->
+        <TextBlock Text="Woordenlijst" 
+                   HorizontalAlignment="Center" 
+                   VerticalAlignment="Top" 
+                   FontSize="40" 
+                   FontWeight="Bold" 
+                   Margin="0,50,0,0"
+                   Foreground="#F0F0F0"/>
+
+        <!-- Main Container -->
+        <Border BorderBrush="#F0F0F0" BorderThickness="1" Padding="20" Margin="300,150,300,150">
+            <StackPanel>
+                <!-- Word Filters -->
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="0,0,0,20" >
+                    <RadioButton Content="Alle woorden" GroupName="Filters" IsChecked="True" FontSize="18" Margin="10,0" Foreground="#F0F0F0" Checked="Filter_Checked"/>
+                    <RadioButton Content="Fout getypte woorden" GroupName="Filters" FontSize="18" Margin="10,0" Foreground="#F0F0F0" Checked="Filter_Checked"/>
+                    <RadioButton Content="Fout getypte letters" GroupName="Filters" FontSize="18" Margin="10,0" Foreground="#F0F0F0" Checked="Filter_Checked"/>
+                </StackPanel>
+
+                <!-- Word List -->
+                <ListBox x:Name="ListBoxWords" Background="#000435" Foreground="#F0F0F0">
+                    <ListBoxItem Margin="0,10,0,0">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="Kaas" FontSize="24" VerticalAlignment="Center" Margin="0,0,40,0"/>
+                            <Button Content="Bekijk details" Style="{StaticResource StyledButton}" Background="#FF0D1117" BorderBrush="#FF235AAE"/>
+                        </StackPanel>
+                    </ListBoxItem>
+                    <ListBoxItem Margin="0,10,0,0">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="Aardbei" FontSize="24" VerticalAlignment="Center" Margin="0,0,40,0"/>
+                            <Button Content="Bekijk details" Style="{StaticResource StyledButton}" Background="#FF0D1117" BorderBrush="#FF235AAE"/>
+                        </StackPanel>
+                    </ListBoxItem>
+                    <ListBoxItem Margin="0,10,0,0">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Text="Kers" FontSize="24" VerticalAlignment="Center" Margin="0,0,40,0"/>
+                            <Button Content="Bekijk details" Style="{StaticResource StyledButton}" Background="#FF0D1117" BorderBrush="#FF235AAE"/>
+                        </StackPanel>
+                    </ListBoxItem>
+                </ListBox>
+            </StackPanel>
+        </Border>
+
+        <!-- Back Button -->
+        <Button x:Name="ReturnToStatisticsScreen" 
+                Content="Terug" 
+                Style="{StaticResource StyledButton}" 
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Bottom" 
+                Margin="0,0,0,50" 
+                Click="ReturnToStatisticsScreen_Click"
+                Background="#FF0D1117" BorderBrush="#FF235AAE"
+                Height="60"
+                Width="200"
+                />
+    </Grid>
+</UserControl>

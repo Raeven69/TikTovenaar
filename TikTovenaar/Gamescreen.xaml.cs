@@ -177,7 +177,7 @@ namespace TikTovenaar
             // use a dispatcher to switch to the game statistics screen
             _MainWindow.Dispatcher.Invoke(() =>
             {
-                _MainWindow.SwitchToGameStatisticsScreen($"{Game.TimeElapsed}", $"{Game.WPM}", Game.Score, $"{Game.ErrorPercentage}", $"{Game.WordsCount}");
+                _MainWindow.SwitchToGameStatisticsScreen($"{Game.TimeElapsed}", $"{Game.WPM}", Game.Score, $"{Game.ErrorPercentage}", $"{Game.WordsCount}", Game.WordList, Game.WrongWords, Game.WrongLetters);
             });
         }
 

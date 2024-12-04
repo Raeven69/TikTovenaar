@@ -7,6 +7,12 @@ public class Game
 {
     private Queue<Word> Words { get; set; } = new();
     public Word? CurrentWord { get; private set; }
+    
+    public List<Word> WordList { get; private set; } = new();
+    public List<Word> WrongWords { get; private set; } = new();
+    public List<Letter> WrongLetters { get; private set; } = new();
+
+
     public bool Finished { get; private set; } = false;
 
     public readonly int totalLives = 3;
@@ -56,13 +62,21 @@ public class Game
 
     private void GenerateWords()
     {
-        string[] generated = { "frikandellen", "in", "de", "middag", "met", "bier" };
-        foreach (string word in generated)
+        Dictionary<int, string> words = new()
         {
-            Words.Enqueue(new(word));
+            {1, "aansprakelijkheidswaardevaststellingsverandering" },
+            {2, "flauwekul" },
+            {3, "onderverhuren" },
+            {4, "buitenschools" },
+            {5, "tekenblad" },
+            {6, "bier" }
+        };
+        foreach(KeyValuePair<int, string> word in words)
+        {
+            Words.Enqueue(new Word(word.Key, word.Value));
         }
     }
-
+    
     private void NextWord()
     {
         if (!Words.TryDequeue(out Word? word))
@@ -77,6 +91,8 @@ public class Game
             UpdateTimeToComplete();
             _progressValue = 100; // Reset progress for the new word
             CurrentWord = word;
+            WordList.Add(word);
+
             WordChanged?.Invoke(this, EventArgs.Empty);
         }
     }
@@ -101,6 +117,8 @@ public class Game
                 {
                     _incorrectPresses++;
                     CurrentWord.IsWrong = true;
+
+                    WrongLetters.Add(CurrentWord.Letters[CurrentWord.Index - 1]);
                 }
             }
             else
@@ -110,24 +128,32 @@ public class Game
                     if(CurrentWord.IsWrong == true)
                     {
                         remainingLives--;
+                        WrongWords.Add(CurrentWord);
+
                         WordWrong?.Invoke(this, EventArgs.Empty);
                     }
                     WordsCount++;
-                    NextWord();
                 }
                 else
                 {
                     remainingLives--;
+                    WrongWords.Add(CurrentWord);
                     WordWrong?.Invoke(this, EventArgs.Empty);
-                    NextWord();
+                    WordsCount++;
                 }
                 CalculateScore(_incorrectPresses, _totalPresses, WordsCount);
+
+                if (remainingLives <= 0)
+                {
+                    FinishGame();
+                }
+                else
+                {
+                    NextWord();
+                }
             }
 
-            if(remainingLives <= 0)
-            {
-                FinishGame();
-            }
+            
         }
     }
 
@@ -195,6 +221,8 @@ public class Game
 
     public void FinishGame()
     {
+        if(Finished) return;
+
         Finished = true;
         CalculateErrorPercentage(_incorrectPresses, _totalPresses);
         CalculateScore(_incorrectPresses, _totalPresses, WordsCount);

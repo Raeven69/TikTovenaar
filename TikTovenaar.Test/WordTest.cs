@@ -10,7 +10,7 @@ namespace TikTovenaar.Test
         {
             // Arrange
             string value = "test";
-            Word word = new(value);
+            Word word = new(1, value);
 
             // Assert
             Assert.AreEqual(value.Length, word.Letters.Count);
@@ -21,7 +21,7 @@ namespace TikTovenaar.Test
         {
             // Arrange
             string value = "test";
-            Word word = new(value);
+            Word word = new(1, value);
 
             // Assert
             Assert.AreEqual(value.First(), word.Letters.Last().Value);
@@ -32,7 +32,7 @@ namespace TikTovenaar.Test
         {
             // Arrange
             string value = "test";
-            Word word = new(value);
+            Word word = new(1, value);
 
             // Assert
             Assert.AreEqual(value.Last(), word.Letters.Last().Value);
@@ -42,7 +42,7 @@ namespace TikTovenaar.Test
         public void EnterChar_AllKeysPressed_NotCompleted()
         {
             // Arrange
-            Word word = new("test");
+            Word word = new(1, "test");
 
             // Act
             foreach (Letter letter in word.Letters)
@@ -58,7 +58,7 @@ namespace TikTovenaar.Test
         public void EnterChar_SpacePressed_Completed()
         {
             // Arrange
-            Word word = new("test");
+            Word word = new(1, "test");
             foreach(Letter letter in word.Letters)
             {
                 word.EnterChar((char)letter.Value);
@@ -75,7 +75,7 @@ namespace TikTovenaar.Test
         {
             // Arrange
             string value = "test";
-            Word word = new(value);
+            Word word = new(1, value);
 
             // Act
             foreach (Letter letter in word.Letters)
@@ -93,7 +93,7 @@ namespace TikTovenaar.Test
             // Arrange
             string value = "teste";
             string rev = new(value.Reverse().ToArray());
-            Word word = new(value);
+            Word word = new(1, value);
 
             // Act
             for (int i = 0; i < rev.Length; i++)
@@ -110,7 +110,7 @@ namespace TikTovenaar.Test
         {
             // Arrange
             string value = "test";
-            Word word = new(value);
+            Word word = new(1, value);
 
             // Act
             foreach (Letter letter in word.Letters)
@@ -126,7 +126,7 @@ namespace TikTovenaar.Test
         public void EnterChar_NothingEntered_AllLettersNotGuessed()
         {
             // Arrange
-            Word word = new("test");
+            Word word = new(1, "test");
 
             // Assert
             Assert.IsFalse(word.Letters.Where(l => l.HasGuessed).Any());
@@ -136,7 +136,7 @@ namespace TikTovenaar.Test
         public void EnterChar_AllEntered_AllLettersGuessed()
         {
             // Arrange
-            Word word = new("test");
+            Word word = new(1, "test");
 
             // Act
             foreach (Letter letter in word.Letters)
@@ -152,7 +152,7 @@ namespace TikTovenaar.Test
         public void EnterChar_WrongChar_NotCorrect()
         {
             // Arrange
-            Word word = new("test");
+            Word word = new(1, "test");
 
             // Act
             word.EnterChar('e');
@@ -165,7 +165,7 @@ namespace TikTovenaar.Test
         public void EnterChar_CorrectChar_Correct()
         {
             // Arrange
-            Word word = new("test");
+            Word word = new(1, "test");
 
             // Act
             word.EnterChar('t');

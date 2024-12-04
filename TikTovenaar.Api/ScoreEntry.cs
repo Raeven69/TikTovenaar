@@ -11,7 +11,7 @@ namespace TikTovenaar.Api
 
         public bool IsValid()
         {
-            return WordsAmount > -1 && Time != TimeOnly.MinValue && Date != DateOnly.MinValue && Value > -1;
+            return WordsAmount > -1 && Value > -1;
         }
     }
 }
