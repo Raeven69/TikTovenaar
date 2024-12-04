@@ -15,4 +15,8 @@
     <PackageReference Include="System.Text.Json" Version="9.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TikTovenaar.Logic\TikTovenaar.Logic.csproj" />
+  </ItemGroup>
+
 </Project>
