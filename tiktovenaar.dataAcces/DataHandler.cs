@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using TikTovenaar.Logic;
-using System.Net.Http.Headers;
 
 namespace TikTovenaar.DataAccess
 {
