@@ -17,6 +17,9 @@
                 <Button Content="Spelen" Width="300" Height="40" Background="#0D1117" Foreground="#F0F0F0"
                     FontWeight="Bold" Click="PlayButton_Click" Margin="0,20,0,0"/>
 
+                <Button Content="Statistics" Width="300" Height="40" Background="#0D1117" Foreground="#F0F0F0"
+                    FontWeight="Bold" Click="Statistics_Click" Margin="0,20,0,0"/>
+
                 <Button Content="Uitloggen" Width="300" Height="40" Background="#0D1117" Foreground="#F0F0F0"
                     FontWeight="Bold" Click="LogoutButton_Click" Margin="0,20,0,0"/>
             </StackPanel>
@@ -47,7 +50,5 @@
                 </ImageBrush>
             </Rectangle.Fill>
         </Rectangle>
-        <Button Content="Statistics" Background="#0D1117" Foreground="#F0F0F0"
-                    FontWeight="Bold" Click="Statistics_Click" Margin="73,621,907,59"/>
     </Grid>
 </UserControl>
