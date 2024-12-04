@@ -51,9 +51,8 @@
                             <TextBox Name="searchBar"  FontSize="50" TextChanged="SearchBar_TextChanged" Grid.Column="0">
                             </TextBox>
                             <Button Name="VolgwordenButton"  Grid.Column="1" Content="▲" FontSize="50" Click="VolgwordenButtonClick">
-
                             </Button>
-                            <ComboBox Name="SortOptiesButton" ItemsSource="{Binding sortOpties}" Grid.Column="2" SelectionChanged="SortOptiesVerandering" SelectedIndex="0" FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                            <ComboBox  Name="SortOptiesButton" ItemsSource="{Binding sortOpties}" Grid.Column="2" SelectionChanged="SortOptiesVerandering" SelectedIndex="0" FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                             </ComboBox>
                         </Grid>
                     </Grid>
@@ -64,7 +63,7 @@
                     Hier word in de code een grid van worden/letters gemaak heb het niet met edditor gedaan omdat het dan niet dynamies 
                     -->
                 </Grid>
-                
+
             </Grid>
         </ScrollViewer>
     </Grid>

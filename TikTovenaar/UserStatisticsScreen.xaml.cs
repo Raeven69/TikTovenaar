@@ -198,6 +198,7 @@ namespace TikTovenaar
                     Name = gesorteerdeWoorden[i].woord,
                     Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0D1117")),
                     Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F0F0F0")),
+                    BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F0F0F0")),
                     Content = new StackPanel
                     {
                         Children =
