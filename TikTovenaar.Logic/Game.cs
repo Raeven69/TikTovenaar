@@ -62,18 +62,19 @@ public class Game
 
     private void GenerateWords()
     {
-        Dictionary<int, string> words = new()
+        string[] words =
         {
-            {1, "aansprakelijkheidswaardevaststellingsverandering" },
-            {2, "flauwekul" },
-            {3, "onderverhuren" },
-            {4, "buitenschools" },
-            {5, "tekenblad" },
-            {6, "bier" }
+            "aansprakelijkheidswaardevaststellingsverandering",
+            "flauwekul",
+            "onderverhuren",
+            "buitenschools",
+            "tekenblad",
+            "bier"
         };
-        foreach(KeyValuePair<int, string> word in words)
+
+        foreach (string word in words)
         {
-            Words.Enqueue(new Word(word.Key, word.Value));
+            Words.Enqueue(new Word(word));
         }
     }
     

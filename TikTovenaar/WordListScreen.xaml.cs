@@ -58,10 +58,21 @@ namespace TikTovenaar
             else if (selectedFilter.Content.ToString() == "Fout getypte letters")
             {
                 ListBoxWords.Items.Clear();
-                foreach (Letter letter in _wrongLetterList)
+                // generate an list with the unique letters that were typed wrong with an count in form word (count x)
+                Dictionary<char, int> wrongLetters = new();
+                foreach(Letter letter in _wrongLetterList) {
+                    if (wrongLetters.ContainsKey(letter.Value.GetValueOrDefault()))
+                    {
+                        wrongLetters[letter.Value.GetValueOrDefault()]++;
+                    }
+                    else
+                    {
+                        wrongLetters[letter.Value.GetValueOrDefault()] = 1;
+                    }
+                }
+                foreach (KeyValuePair<char, int> letter in wrongLetters)
                 {
-                    string letterText = letter.Value.ToString();
-                    AddItemToDisplay(letterText, false);
+                    AddItemToDisplay(letter.Key + " (" + letter.Value + "x)");
                 }
             }
         }
