@@ -13,7 +13,7 @@
         <DataGrid x:Name="HighscoreTable" 
           ItemsSource="{Binding scores}" 
           AutoGenerateColumns="False"
-          Margin="458,113,458,213" 
+          Margin="300,113,300,213" 
           GridLinesVisibility="None" 
           Background="#000435"
           CanUserReorderColumns ="False"
@@ -23,8 +23,9 @@
           HeadersVisibility="Column"
           IsReadOnly="True"
           CanUserAddRows="False"
-          MaxHeight="520">
-
+          HorizontalScrollBarVisibility="Hidden"
+          VerticalScrollBarVisibility="Hidden"
+          MaxHeight="545" BorderBrush="#FF000435">
             <DataGrid.ColumnHeaderStyle>
                 <Style TargetType="DataGridColumnHeader">
                     <Setter Property="Background" Value="#0D1117"/>
@@ -71,6 +72,8 @@
             </DataGrid.RowStyle>
             <DataGrid.Resources>
                 <Style TargetType="ScrollBar">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Foreground" Value="Yellow"/>
                     <Style.Triggers>
                         <Trigger Property="Orientation" Value="Vertical">
                             <Setter Property="Height" Value="520"/>
@@ -82,7 +85,7 @@
         </DataGrid>
         <Label x:Name="PersonalHighScoreLabel" Content="{Binding PersonalHighScore}" Foreground="White" HorizontalAlignment="Center" Margin="0,500,0,0" VerticalAlignment="Center" Width="364" FontSize="30"/>
 
-        <Button Content="Terug" VerticalAlignment="Bottom" Margin="0,20,0,144" Click="ReturnButton_Click" Width="300" Height="40"
-                Background="#0D1117" Foreground="#F0F0F0" FontWeight="Bold" BorderBrush="#FF0D1117" />
+        <Button Content="Terug" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,50" Click="ReturnButton_Click" Width="300" Height="40"
+                Background="#0D1117" Foreground= "#F0F0F0" FontWeight="Bold" BorderBrush="#FF0D1117" />
     </Grid>
 </UserControl>
