@@ -32,7 +32,7 @@ namespace TikTovenaar.Api.Controllers
                     return new(new { type = "error", message = "Password invalid." });
                 }
                 connection.Close();
-                return new(new { type = "success", message = new { name = reader.GetString(1), authentication = $"Bearer {Utils.CreateToken(reader.GetInt32(0))}" } });
+                return new(new { type = "success", message = new { authentication = $"Bearer {Utils.CreateToken(reader.GetInt32(0))}" } });
             }
             connection.Close();
             return new(new { type = "error", message = "User not found." });

@@ -38,9 +38,9 @@ namespace TikTovenaar.DataAccess
             client.SendAsync(request).Wait();
         }
 
-        public List<PartialScore> GetHighscores()
+        public List<PartialScore> GetHighscores(int limit = -1)
         {
-            HttpResponseMessage response = client.GetAsync("highscores").Result;
+            HttpResponseMessage response = client.GetAsync($"highscores?limit={limit}").Result;
             dynamic? result = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result);
             List<PartialScore> scores = [];
             try
