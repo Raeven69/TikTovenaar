@@ -15,9 +15,9 @@
                 Click="Terug_Click" BorderBrush="Transparent" BorderThickness="0" Panel.ZIndex="10000"/>
 
         <!-- ScrollViewer to allow scrolling -->
-        <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
+        <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden" >
             <!-- Main Content -->
-            <Grid Margin="0,75,0,75">
+            <Grid Margin="0,75,0,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -25,7 +25,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <!-- Stats Title -->
@@ -71,21 +71,28 @@
                 </StackPanel>
 
                 <!-- Search Bar and Sort Options (Positioned just above the Dynamic Grid) -->
-                <Grid Grid.Row="5" HorizontalAlignment="Center" Margin="0,10">
+                <Grid Grid.Row="5">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="5*" />
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="4*" />
+                        <ColumnDefinition Width="100*" />
+                        <ColumnDefinition Width="800*" />
+                        <ColumnDefinition Width="100*" />
                     </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50*" />
+                            <ColumnDefinition Width="5*" />
+                            <ColumnDefinition Width="15*" />
+                        </Grid.ColumnDefinitions>
 
-                    <!-- Search Bar (now spanning the same width as the buttons below) -->
-                    <TextBox Name="searchBar" FontSize="30" Height="50" Width="1200" TextChanged="SearchBar_TextChanged" Grid.Column="0" Margin="10" HorizontalAlignment="Stretch"/>
+                        <!-- Search Bar (now spanning the same width as the buttons below) -->
+                        <TextBox Name="searchBar" FontSize="30" TextChanged="SearchBar_TextChanged" Grid.Column="0"/>
 
-                    <!-- Sort Options ComboBox (next to search bar) -->
-                    <ComboBox Name="SortOptiesButton" ItemsSource="{Binding sortOpties}" Grid.Column="2" SelectionChanged="SortOptiesVerandering" SelectedIndex="0" FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="10"/>
+                        <!-- Sort Order Button (▲ or ▼) -->
+                        <Button Name="VolgwordenButton" Grid.Column="1" Content="▲" FontSize="50" Click="VolgwordenButtonClick"/>
 
-                    <!-- Sort Order Button (▲ or ▼) -->
-                    <Button Name="VolgwordenButton" Grid.Column="1" Content="▲" FontSize="50" Click="VolgwordenButtonClick" Margin="10"/>
+                        <!-- Sort Options ComboBox (next to search bar) -->
+                        <ComboBox Name="SortOptiesButton" ItemsSource="{Binding sortOpties}" Grid.Column="2" SelectionChanged="SortOptiesVerandering" SelectedIndex="0" FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    </Grid>
                 </Grid>
 
                 <!-- Dynamic Content Grid (For displaying words) -->
