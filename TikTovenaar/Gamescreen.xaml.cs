@@ -6,6 +6,7 @@ using TikTovenaar.Logic;
 using System.Windows.Media.Animation;
 using System.Windows;
 using System.Globalization;
+using TikTovenaar.DataAccess;
 
 namespace TikTovenaar
 {
@@ -31,10 +32,11 @@ namespace TikTovenaar
             // call the gamewordchanged for first word to have the animation
             Game_wordChanged(this, EventArgs.Empty);
         }
-
+        private DataHandler _data;
         private void SetupGame()
         {
-            Game = new();
+            _data = new();
+            Game = new(_data);
             Game.WordChanged += Game_wordChanged;
             Game.TimeUpdated += Game_timeUpdated;
             Game.ProgressUpdated += Game_progressUpdated;

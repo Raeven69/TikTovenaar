@@ -1,4 +1,5 @@
 ﻿
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Timers;
 using TikTovenaar.Logic;
@@ -42,9 +43,10 @@ public class Game
     public event EventHandler<double>? ProgressUpdated; // Added for progress updates
     public event EventHandler? GameFinished;
     public event EventHandler? WordWrong;
-
-    public Game()
+    private IDataHandler _data;
+    public Game(IDataHandler data)
     {
+        _data = data;
         GenerateWords();
         NextWord();
 
@@ -226,6 +228,19 @@ public class Game
         Finished = true;
         CalculateErrorPercentage(_incorrectPresses, _totalPresses);
         CalculateScore(_incorrectPresses, _totalPresses, WordsCount);
+
+        List<string>wrongwordsstrings = new(); // List with wrong Words
+        List<char> wrongletterchars = new(); // List with wrong Letters
+        foreach(Word word in WrongWords)
+        {
+            wrongwordsstrings.Add(word.getWholeWord()); // Convert Words to strings
+        }
+        foreach(Letter letter in WrongLetters)
+        {
+            wrongletterchars.Add((char)letter.Value); // Convert Letters to Chars
+        }
+        Score score = new(WordsCount, TimeOnly.FromTimeSpan(TimeSpan.FromSeconds(TimeElapsed)), DateOnly.FromDateTime(DateTime.Now), Score, wrongwordsstrings, wrongletterchars);
+        _data.AddScore("5", score);
         _timeTimer.Stop();
         _progressTimer.Stop();
         GameFinished?.Invoke(this, EventArgs.Empty);
