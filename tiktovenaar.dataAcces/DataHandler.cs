@@ -37,9 +37,9 @@ namespace TikTovenaar.DataAccess
             client.SendAsync(request).Wait();
         }
 
-        public List<PartialScore> GetHighscores()
+        public List<PartialScore> GetHighscores(int limit = -1)
         {
-            HttpResponseMessage response = client.GetAsync("highscores").Result;
+            HttpResponseMessage response = client.GetAsync($"highscores?limit={limit}").Result;
             dynamic? result = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result);
             List<PartialScore> scores = [];
             try
@@ -106,11 +106,21 @@ namespace TikTovenaar.DataAccess
 
         public void Register(string token, string username, string password)
         {
-            using HttpRequestMessage request = new(HttpMethod.Post, "register");
+            using HttpRequestMessage request = new(HttpMethod.Post, "user");
             request.Headers.Authorization = new("Bearer", token);
             request.Content = new FormUrlEncodedContent([
                 new KeyValuePair<string, string>("username", username),
                 new KeyValuePair<string, string>("password", password)
+            ]);
+            client.SendAsync(request).Wait();
+        }
+
+        public void DeleteUser(string token, string username)
+        {
+            using HttpRequestMessage request = new(HttpMethod.Delete, "user");
+            request.Headers.Authorization = new("Bearer", token);
+            request.Content = new FormUrlEncodedContent([
+                new KeyValuePair<string, string>("username", username)
             ]);
             client.SendAsync(request).Wait();
         }
