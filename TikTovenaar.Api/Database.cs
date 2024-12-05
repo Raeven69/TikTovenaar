@@ -17,7 +17,7 @@ namespace TikTovenaar.Api
             DotEnv.Load();
             IDictionary<string, string> env = DotEnv.Read();
             List<string> required = ["DB_HOST", "DB_PORT", "DB_USER", "DB_PASS", "DB_NAME"];
-            if (!required.All((string item) => env.ContainsKey(item)))
+            if (!required.All(item => env.ContainsKey(item)))
             {
                 throw new EnvFileIncomplete(required.Except(env.Keys).ToList());
             }

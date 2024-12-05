@@ -9,11 +9,13 @@ namespace TikTovenaar.Api.Controllers
     public class HighscoreController : ControllerBase
     {
         [HttpGet]
-        public List<PartialScore> Get()
+        public List<PartialScore> Get([FromQuery] int limit = -1)
         {
             NpgsqlConnection connection = new Database().GetConnection();
             connection.Open();
-            using NpgsqlCommand cmd = new(@"SELECT * FROM (SELECT DISTINCT ON (players.id) players.name, scores.score FROM players JOIN scores ON players.id = scores.userid ORDER BY players.id, scores.score DESC) highscores ORDER BY score DESC;", connection);
+            string lim = (limit > -1) ? limit.ToString() : "NULL";
+            using NpgsqlCommand cmd = new(@$"SELECT * FROM (SELECT DISTINCT ON (players.id) players.name, scores.score FROM players JOIN scores ON players.id = scores.userid ORDER BY players.id, scores.score DESC) highscores ORDER BY score DESC LIMIT {lim}", connection);
+            cmd.Parameters.AddWithValue("limit", (limit > -1) ? limit.ToString() : "NULL");
             using NpgsqlDataReader reader = cmd.ExecuteReader();
             List<PartialScore> scores = [];
             while (reader.Read())
