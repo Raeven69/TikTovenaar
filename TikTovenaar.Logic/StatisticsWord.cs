@@ -11,22 +11,20 @@ namespace TikTovenaar.Logic
 
         public string woord { get; set; }
 
-        public int totaalGespeelt { get; set; }
+        public int totaalGespeelt 
+        {
+            get { return totaalGoed + totaalFout; }
+        }
         public int totaalFout { get; set; }
 
 
-        public int totaalGoed
-        {
-            get
-            {
-                return totaalGespeelt-totaalFout; 
-            } 
-        }
+        public int totaalGoed { get; set; }
 
-        public StatisticsWord(string woord, int totaalGespeelt, int totaalFout) 
+
+        public StatisticsWord(string woord, int totaalGoed, int totaalFout) 
         { 
             this.woord = woord;
-            this.totaalGespeelt = totaalGespeelt;
+            this.totaalGoed = totaalGoed;
             this.totaalFout = totaalFout;
         }
 
