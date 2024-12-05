@@ -13,7 +13,8 @@ namespace TikTovenaar.Api.Controllers
         {
             NpgsqlConnection connection = new Database().GetConnection();
             connection.Open();
-            using NpgsqlCommand cmd = new(@"SELECT * FROM (SELECT DISTINCT ON (players.id) players.name, scores.score FROM players JOIN scores ON players.id = scores.userid ORDER BY players.id, scores.score DESC) highscores ORDER BY score DESC LIMIT = @limit;", connection);
+            string lim = (limit > -1) ? limit.ToString() : "NULL";
+            using NpgsqlCommand cmd = new(@$"SELECT * FROM (SELECT DISTINCT ON (players.id) players.name, scores.score FROM players JOIN scores ON players.id = scores.userid ORDER BY players.id, scores.score DESC) highscores ORDER BY score DESC LIMIT {lim}", connection);
             cmd.Parameters.AddWithValue("limit", (limit > -1) ? limit.ToString() : "NULL");
             using NpgsqlDataReader reader = cmd.ExecuteReader();
             List<PartialScore> scores = [];
