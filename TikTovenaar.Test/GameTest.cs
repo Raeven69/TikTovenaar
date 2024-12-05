@@ -25,7 +25,7 @@ namespace TikTovenaar.Test
             // Act
             foreach (Letter letter in game.CurrentWord!.Letters)
             {
-                game.PressKey(letter.Value ?? ' ', 3);
+                game.PressKey(letter.Value ?? ' ');
             }
 
             // Assert
@@ -40,7 +40,11 @@ namespace TikTovenaar.Test
             Word word = game.CurrentWord!;
 
             // Act
-            game.PressKey(' ', 3);
+            foreach(Letter letter in game.CurrentWord!.Letters)
+            {
+                game.PressKey((char)letter.Value);
+            }
+            game.PressKey(' ');
 
             // Assert
             Assert.AreNotEqual(word, game.CurrentWord);

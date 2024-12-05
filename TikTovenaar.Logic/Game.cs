@@ -7,21 +7,41 @@ public class Game
 {
     private Queue<Word> Words { get; set; } = new();
     public Word? CurrentWord { get; private set; }
+    
+    public List<Word> WordList { get; private set; } = new();
+    public List<Word> WrongWords { get; private set; } = new();
+    public List<Letter> WrongLetters { get; private set; } = new();
+
+
     public bool Finished { get; private set; } = false;
+
+    public readonly int totalLives = 3;
+    private int remainingLives = 3;
+
 
     private System.Timers.Timer _timeTimer;
     private System.Timers.Timer _progressTimer;
     public int TimeElapsed { get; private set; }
-    public int TimeToComplete { get; private set; } = 15;
+    public int TimeToComplete { get; private set; } = 7;
+    public bool TimeDecreasing { get; private set; } = false;
 
+
+    public double WPM { get; private set; }
+    public double ErrorPercentage { get; private set; }
+    public int WordsCount { get; private set; }
     public int Score { get; private set; }
+    private int _totalPresses = 0;
+    private int _incorrectPresses = 0;
+
+
+    private double _progressValue;
+
 
     public event EventHandler? WordChanged;
     public event EventHandler? TimeUpdated;
     public event EventHandler<double>? ProgressUpdated; // Added for progress updates
     public event EventHandler? GameFinished;
-
-    private double _progressValue;
+    public event EventHandler? WordWrong;
 
     public Game()
     {
@@ -42,13 +62,21 @@ public class Game
 
     private void GenerateWords()
     {
-        string[] generated = { "frikandellen", "in", "de", "middag", "met", "bier" };
-        foreach (string word in generated)
+        Dictionary<int, string> words = new()
         {
-            Words.Enqueue(new(word));
+            {1, "aansprakelijkheidswaardevaststellingsverandering" },
+            {2, "flauwekul" },
+            {3, "onderverhuren" },
+            {4, "buitenschools" },
+            {5, "tekenblad" },
+            {6, "bier" }
+        };
+        foreach(KeyValuePair<int, string> word in words)
+        {
+            Words.Enqueue(new Word(word.Key, word.Value));
         }
     }
-
+    
     private void NextWord()
     {
         if (!Words.TryDequeue(out Word? word))
@@ -63,31 +91,69 @@ public class Game
             UpdateTimeToComplete();
             _progressValue = 100; // Reset progress for the new word
             CurrentWord = word;
+            WordList.Add(word);
+
             WordChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 
     private void UpdateTimeToComplete()
     {
-        TimeToComplete = Math.Max(5, (int)(TimeToComplete * 0.9));
+        if (TimeDecreasing)
+        {
+            TimeToComplete = Math.Max(5, (int)(TimeToComplete * 0.9));
+        } 
     }
 
-    public void PressKey(char key, int lives)
+    public void PressKey(char key)
     {
-        if (lives <= 0)
-        {
-            FinishGame();
-        }
-        else
-        {
-            if (CurrentWord != null)
+        if (CurrentWord != null)
+        {  
+            CurrentWord.EnterChar(key);
+            if (key != ' ')
             {
-                CurrentWord.EnterChar(key);
-                if (CurrentWord.IsCompleted)
+                _totalPresses++;
+                if (!CurrentWord.Letters[CurrentWord.Index - 1].IsCorrect)
+                {
+                    _incorrectPresses++;
+                    CurrentWord.IsWrong = true;
+
+                    WrongLetters.Add(CurrentWord.Letters[CurrentWord.Index - 1]);
+                }
+            }
+            else
+            {
+                if(CurrentWord.IsCompleted)
+                {
+                    if(CurrentWord.IsWrong == true)
+                    {
+                        remainingLives--;
+                        WrongWords.Add(CurrentWord);
+
+                        WordWrong?.Invoke(this, EventArgs.Empty);
+                    }
+                    WordsCount++;
+                }
+                else
+                {
+                    remainingLives--;
+                    WrongWords.Add(CurrentWord);
+                    WordWrong?.Invoke(this, EventArgs.Empty);
+                    WordsCount++;
+                }
+                CalculateScore(_incorrectPresses, _totalPresses, WordsCount);
+
+                if (remainingLives <= 0)
+                {
+                    FinishGame();
+                }
+                else
                 {
                     NextWord();
                 }
             }
+
+            
         }
     }
 
@@ -99,10 +165,11 @@ public class Game
             return Score;
         }
         int correctKeys = totalKeys - incorrectKeys; //calculate how many keystrokes were correct
-        Debug.WriteLine($"Correct Keys: {correctKeys}");
         double correctPercentage = ((double)correctKeys / totalKeys) * 100; //calculate the percentage of correctnumbers
         double wpm = CalculateWPM(correctKeys, totalWords); //calculate wpm
+
         Score = (int)(wpm * correctPercentage); //calculate the total score
+        if (Score < 0) Score = 0;
         return Score;
     }
 
@@ -115,12 +182,14 @@ public class Game
         }
         double avgLength = (double)correctKeys / totalWords; //calculate average length for the wpm calculation
         double wpm = (correctKeys / avgLength) / (TimeElapsed / 60.0);
-        return Math.Round(wpm, 2); // Round to 2 decimal places
+        WPM = Math.Round(wpm, 2);
+        return WPM; // Round to 2 decimal places
     }
     public double CalculateErrorPercentage(int incorrectKeys, int totalKeys)
     {
-        if (totalKeys == 0) return 0; // Avoid division by zero
-        return Math.Round((incorrectKeys / (double)totalKeys) * 100, 2);
+        if (totalKeys == 0) ErrorPercentage = 0; // Avoid division by zero
+        else ErrorPercentage = Math.Round((incorrectKeys / (double)totalKeys) * 100, 2);
+        return ErrorPercentage;
     }
 
     public void TimeTimerElapsed(object? sender, ElapsedEventArgs e)
@@ -141,10 +210,22 @@ public class Game
             FinishGame();
         }
     }
+    public void StopProgressTimer()
+    {
+        _progressTimer.Stop();
+    }
+    public void StartProgressTimer()
+    {
+        _progressTimer.Start();
+    }
 
     public void FinishGame()
     {
+        if(Finished) return;
+
         Finished = true;
+        CalculateErrorPercentage(_incorrectPresses, _totalPresses);
+        CalculateScore(_incorrectPresses, _totalPresses, WordsCount);
         _timeTimer.Stop();
         _progressTimer.Stop();
         GameFinished?.Invoke(this, EventArgs.Empty);

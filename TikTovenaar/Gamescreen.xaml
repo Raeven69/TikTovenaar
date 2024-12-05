@@ -14,9 +14,9 @@
         <TextBlock x:Name="TimeText" Text="Tijd: 0:00" FontSize="24px" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#F0F0F0" Margin="10,10,0,0"></TextBlock>
         <TextBlock x:Name="ScoreText" Text="Score: 0" FontSize="24px" HorizontalAlignment="Right" VerticalAlignment="Top" Foreground="#F0F0F0" Margin="0,10,10,0"></TextBlock>
 
-        <ProgressBar x:Name="LivesBar" Width="400" Height="30" Background="Red"
+        <ProgressBar x:Name="LivesBar" Width="400" Height="30" Background="#D32F2F"
                      HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                     Padding="20" Margin="10,0,0,10" Value="100"/>
+                     Padding="20" Margin="10,0,0,10" Value="100" Foreground="#4CAF50"/>
 
         <TextBlock x:Name="currentWordText" 
            Opacity="0"
@@ -35,7 +35,7 @@
                      Value="100"
                      Maximum="100"
                      Minimum="0"
-                     Foreground="#00FF00"
+                     Foreground="#4CAF50"
                      Background="#404040"/>
 
         <Rectangle Width="512" Height="512" HorizontalAlignment="Right" VerticalAlignment="Center">
