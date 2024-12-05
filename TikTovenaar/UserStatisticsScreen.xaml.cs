@@ -102,7 +102,8 @@ namespace TikTovenaar
             // Verkrijg de knop die is aangeklikt.
             Button clickedButton = sender as Button;
             // Toon de naam van de aangeklikte knop in een berichtvenster.
-            MessageBox.Show(clickedButton.Name);
+            DetailsDialog detailsDialog = new DetailsDialog(clickedButton.Name);
+            detailsDialog.ShowDialog();
         }
 
         private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
