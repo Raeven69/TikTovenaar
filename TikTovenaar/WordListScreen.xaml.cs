@@ -1,8 +1,9 @@
-﻿
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using TikTovenaar.Logic;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace TikTovenaar
 {
@@ -58,9 +59,9 @@ namespace TikTovenaar
             else if (selectedFilter.Content.ToString() == "Fout getypte letters")
             {
                 ListBoxWords.Items.Clear();
-                // generate an list with the unique letters that were typed wrong with an count in form word (count x)
                 Dictionary<char, int> wrongLetters = new();
-                foreach(Letter letter in _wrongLetterList) {
+                foreach (Letter letter in _wrongLetterList)
+                {
                     if (wrongLetters.ContainsKey(letter.Value.GetValueOrDefault()))
                     {
                         wrongLetters[letter.Value.GetValueOrDefault()]++;
@@ -70,6 +71,8 @@ namespace TikTovenaar
                         wrongLetters[letter.Value.GetValueOrDefault()] = 1;
                     }
                 }
+
+                wrongLetters = wrongLetters.OrderByDescending(x => x.Value).ToDictionary();
                 foreach (KeyValuePair<char, int> letter in wrongLetters)
                 {
                     AddItemToDisplay(letter.Key + " (" + letter.Value + "x)");

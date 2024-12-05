@@ -35,9 +35,7 @@ public class Game
     private int _totalPresses = 0;
     private int _incorrectPresses = 0;
 
-
     private double _progressValue;
-
 
     public event EventHandler? WordChanged;
     public event EventHandler? TimeUpdated;
