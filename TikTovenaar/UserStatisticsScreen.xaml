@@ -15,7 +15,7 @@
                 Click="Terug_Click" BorderBrush="Transparent" BorderThickness="0" Panel.ZIndex="10000"/>
 
         <!-- ScrollViewer to allow scrolling -->
-        <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden" >
+        <ScrollViewer x:Name="scrollViewer" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
             <!-- Main Content -->
             <Grid Margin="0,75,0,0">
                 <Grid.RowDefinitions>

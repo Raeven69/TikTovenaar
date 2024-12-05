@@ -1,8 +1,8 @@
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -46,9 +46,17 @@ namespace TikTovenaar
 
         public ObservableCollection<string> sortOpties { get; set; }
 
+        private IDataHandler dataHandler;
 
-        public UserStatisticsScreen()
+        private List<Score> userScores;
+
+        public UserStatisticsScreen(IDataHandler _dataHandler)
         {
+            dataHandler = _dataHandler;
+
+            string? token = dataHandler.Login("TestAdmin", "password");
+            userScores = dataHandler.GetScores(token!);
+
             InitializeComponent();
 
             // dit zijn de opties die er zijn
@@ -66,21 +74,43 @@ namespace TikTovenaar
 
                 PrintButtons();
 
-                // Voorbeeldgegevens om de statistieken te tonen - vervang door echte gegevens.
-                AvgScoreText.Text = "85"; // Gemiddelde score.
-                TotalScoreText.Text = "340"; // Totale score.
-                TotalWordsTypedText.Text = "120"; // Totaal aantal getypte woorden.
+                int averageScore = 0;
+                int totalScore = 0;
+                int totalWordsTyped = 0;
 
                 // Voorbeeldgegevens voor grafieken.
-                List<int> wpmData = new List<int> { 60, 70, 65, 75, 80 }; // WPM-waarden.
-                List<int> wrongPercentageData = new List<int> { 5, 4, 3, 6, 4 }; // Foutpercentages.
-                List<int> rightWordsData = new List<int> { 100, 120, 110, 130, 140 }; // Correcte woorden.
-                List<int> wrongWordsData = new List<int> { 10, 8, 12, 7, 9 }; // Foute woorden.
+                List<int> wpmData = new List<int> { }; // WPM-waarden.
+                List<int> goodPercentageData = new List<int> { }; // Foutpercentages.
+                List<int> rightWordsData = new List<int> { }; // Correcte woorden.
+                List<int> wrongWordsData = new List<int> { }; // Foute woorden
+
+                foreach ( Score score in userScores ) {
+                    int gameTime = score.Time.ToTimeSpan().Minutes;
+                    wpmData.Add(gameTime == 0 ? 0 : score.WordsAmount / gameTime);
+                    goodPercentageData.Add(score.WordsAmount == 0 ? 0 : score.WordsAmount - score.IncorrectWords.Count / score.WordsAmount * 100);
+                    rightWordsData.Add(score.WordsAmount - score.IncorrectWords.Count);
+                    wrongWordsData.Add(score.IncorrectWords.Count);
+
+                    averageScore += score.Value;
+                    totalScore += score.Value;
+                    totalWordsTyped += score.WordsAmount;
+                }
+                averageScore /= userScores.Count;
+
+                // Voorbeeldgegevens om de statistieken te tonen - vervang door echte gegevens.
+                AvgScoreText.Text = averageScore.ToString(); // Gemiddelde score.
+                TotalScoreText.Text = totalScore.ToString(); // Totale score.
+                TotalWordsTypedText.Text = totalWordsTyped.ToString(); // Totaal aantal getypte woorden..
 
                 // Teken de verschillende grafieken met de voorbeeldgegevens.
                 DrawWPMGraph(wpmData);
-                DrawWrongPercentageGraph(wrongPercentageData);
+                DrawGoodPercentageGraph(goodPercentageData);
                 DrawRightWrongGraph(rightWordsData, wrongWordsData);
+
+
+                // breng de scrollsnelheid naar beneden anders gaat die wel heel snel
+                scrollViewer.PreviewMouseWheel += (s, e) => scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset + (e.Delta > 0 ? -20 : 20));
+
             };
 
             DataContext = this;
@@ -321,10 +351,10 @@ namespace TikTovenaar
         }
 
         // Methode om een grafiek te tekenen voor het gemiddelde foutpercentage.
-        private void DrawWrongPercentageGraph(List<int> data)
+        private void DrawGoodPercentageGraph(List<int> data)
         {
             // Maak een nieuw grafiekmodel voor foutpercentages.
-            var plotModel = new PlotModel { Title = "Gemiddeld Fout Percentage" };
+            var plotModel = new PlotModel { Title = "Gemiddeld Goed Percentage" };
 
             // Stel stijlen in voor de grafiek.
             plotModel.SubtitleColor = OxyColors.White;
@@ -334,8 +364,8 @@ namespace TikTovenaar
             // Maak een lijnserie voor foutpercentages.
             var lineSeries = new LineSeries
             {
-                Title = "Fout Percentage",
-                Color = OxyColors.Red
+                Title = "Goed Percentage",
+                Color = OxyColors.Green
             };
 
             // Bepaal het maximale foutpercentage voor de y-as.
@@ -365,11 +395,11 @@ namespace TikTovenaar
             var yAxis = new LinearAxis
             {
                 Position = AxisPosition.Left,
-                Title = "Fout Percentage (%)",
+                Title = "Goed Percentage (%)",
                 Minimum = 0,
                 Maximum = Math.Min(maxValue + (maxValue * 0.1), 100), // Zorg dat het percentage niet boven 100% komt.
                 AbsoluteMinimum = 0,
-                AbsoluteMaximum = 100
+                AbsoluteMaximum = 1,
             };
 
             plotModel.Axes.Add(xAxis);
@@ -444,5 +474,6 @@ namespace TikTovenaar
             // Koppel het grafiekmodel aan de plotweergave voor correcte en foute woorden.
             RightWrongPlotView.Model = plotModel;
         }
+
     }
 }
