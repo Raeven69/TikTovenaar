@@ -65,7 +65,9 @@ namespace TikTovenaar.Test
             string? token = handler.Login("TestAdmin", "password");
             string name = CreateName();
             handler.Register(token!, name, "Password123!");
-            Assert.IsNotNull(handler.Login(name, "Password123!"));
+            string? newToken = handler.Login(name, "Password123!");
+            handler.DeleteUser(token!, name);
+            Assert.IsNotNull(newToken);
         }
 
         [TestMethod]
