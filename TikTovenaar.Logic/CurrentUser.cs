@@ -19,5 +19,12 @@
                 IsSet = true;
             }
         }
+
+        public void Unset()
+        {
+            Name = "";
+            Token = "";
+            IsSet = false;
+        }
     }
 }

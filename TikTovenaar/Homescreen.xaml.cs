@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using TikTovenaar.Logic;
 
 namespace TikTovenaar
 {
@@ -26,6 +27,7 @@ namespace TikTovenaar
         }
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
+            CurrentUser.Instance.Unset();
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
             mainWindow.SwitchToLoginScreen();
         }

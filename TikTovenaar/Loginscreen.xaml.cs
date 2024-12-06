@@ -15,7 +15,6 @@ namespace TikTovenaar
             InitializeComponent();
         }
 
-
         /// <summary>
         /// All the code below is for clicking buttons in the Loginscreen
         /// </summary>
@@ -28,7 +27,11 @@ namespace TikTovenaar
                 MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
                 mainWindow.SwitchToHomeScreen();
             }
-            catch (RequestFailedException) {}
+            catch (RequestFailedException exc)
+            {
+                ErrorText.Text = exc.Error ?? "Fields cannot be empty.";
+                ErrorText.Visibility = Visibility.Visible;
+            }
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
