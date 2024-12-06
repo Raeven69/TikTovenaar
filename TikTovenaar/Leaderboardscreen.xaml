@@ -8,9 +8,6 @@
              d:DesignWidth="1280"
              d:DesignHeight="720"
              d:Foreground="White">
-    <UserControl.Resources>
-        <local:NameToColorConverter x:Key="NameToColorConverter"/>
-    </UserControl.Resources>
     <Grid Background="#000435">
         <DataGrid x:Name="HighscoreTable" 
           AutoGenerateColumns="False"

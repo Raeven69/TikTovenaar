@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Net.Http.Headers;
 using TikTovenaar.Logic;
 
 namespace TikTovenaar.DataAccess
@@ -67,8 +68,6 @@ namespace TikTovenaar.DataAccess
             string? name = JsonConvert.DeserializeObject<string>(response.Content.ReadAsStringAsync().Result);
             return name;
         }
-
-
         public List<Score> GetScores(string token)
         {
             using HttpRequestMessage request = new(HttpMethod.Get, "score");

@@ -5,11 +5,12 @@ namespace TikTovenaar.Test
     [TestClass]
     public class GameTest
     {
+        IDataHandler handler;
         [TestMethod]
         public void Constructer_CurrentWordShouldBeSet()
         {
             // Arrange
-            Game game = new();
+            Game game = new(handler);
 
             // Assert
             Assert.IsNotNull(game.CurrentWord);
@@ -19,7 +20,7 @@ namespace TikTovenaar.Test
         public void PressKey_AllKeysPressed_WordShouldBeSame()
         {
             // Arrange
-            Game game = new();
+            Game game = new(handler);
             Word word = game.CurrentWord!;
 
             // Act
@@ -36,7 +37,7 @@ namespace TikTovenaar.Test
         public void PressKey_SpacePressed_WordShouldBeDifferent()
         {
             // Arrange
-            Game game = new();
+            Game game = new(handler);
             Word word = game.CurrentWord!;
 
             // Act

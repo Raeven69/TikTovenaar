@@ -6,10 +6,11 @@ namespace TikTovenaar.Test
     public class ScoreTest
     {
         Game game;
+        IDataHandler handler;
         [TestInitialize]
         public void Initialise() //creates game because its needed in all the tests
         {
-             game = new();
+             game = new(handler);
         }
         [TestMethod]
         [DataRow(10, 1, 5, 2, 2160)]

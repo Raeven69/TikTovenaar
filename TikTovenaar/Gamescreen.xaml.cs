@@ -23,7 +23,7 @@ namespace TikTovenaar
         public Gamescreen()
         {
             _MainWindow = (MainWindow)Application.Current.MainWindow;
-
+            _data = new();
             InitializeComponent();
             SetupGame();
             _wizardAnimation = new(wizardImageBrush, 0.16666, 6);
