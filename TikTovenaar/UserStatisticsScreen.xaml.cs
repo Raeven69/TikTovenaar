@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Threading;
 using TikTovenaar.Logic;
 
 namespace TikTovenaar
@@ -17,8 +18,6 @@ namespace TikTovenaar
 
         
         List<StatisticsWord> woorden = new List<StatisticsWord>();
-
-
 
         public ObservableCollection<string> sortOpties { get; set; }
 
@@ -71,7 +70,8 @@ namespace TikTovenaar
                 //    }
                 //}
             }
-            
+
+            woordenList = woordenList.Distinct().ToList();
             foreach (string woord in woordenList)
             {
                 woorden.Add(new StatisticsWord(woord, woordenDictionary[woord].totaalGoed, woordenDictionary[woord].totaalFout));
@@ -159,9 +159,28 @@ namespace TikTovenaar
             detailsDialog.ShowDialog();
         }
 
+        private DispatcherTimer searchDebounceTimer;
+
         private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
-            PrintButtons();
+            //de extra code is nodig zodat er minder berekeningen zijn en het programma sneller is
+            // Als de timer nog niet bestaat, maak deze aan.
+            if (searchDebounceTimer == null)
+            {
+                searchDebounceTimer = new DispatcherTimer
+                {
+                    Interval = TimeSpan.FromMilliseconds(300)
+                };
+                // Voer de filterfunctie uit zodra de timer afloopt.
+                searchDebounceTimer.Tick += (s, args) =>
+                {
+                    searchDebounceTimer.Stop();
+                    PrintButtons(); // Voer de PrintFunctie uit
+                };
+            }
+            // Als de timer al loopt, stop deze en start opnieuw.
+            searchDebounceTimer.Stop();
+            searchDebounceTimer.Start();
         }
 
 
@@ -169,32 +188,34 @@ namespace TikTovenaar
         {
             StatisticsWord[] gesorteerdeWoorden;
 
+            string searchText = searchBar.Text.ToLower();
+
             // hier worden de worden gesorteerd en geordert
             if (VolgwordenButton.Content.Equals("▲"))
             {
                 if (SortOptiesButton.SelectedItem.Equals("Alfabetisch"))
                 {
                     // word gesorteerd op alfabetische volgorde
-                    gesorteerdeWoorden = woorden.Where(woord => woord.woord.StartsWith(searchBar.Text)).OrderBy(w => w.woord).ToArray();
+                    gesorteerdeWoorden = woorden.Where(woord => woord.woord.StartsWith(searchText)).OrderBy(w => w.woord).ToArray();
                 }
                 else if (SortOptiesButton.SelectedItem.Equals("Aantal goed"))
                 {
                     // word gesorteerd op aantal goed groot naar klein en als er 2 het zelfde aantal goed hebben worden ze op alfabetische volgorde gesorteerd
-                    gesorteerdeWoorden = woorden.Where(woord => woord.woord.StartsWith(searchBar.Text)).OrderByDescending(w => w.totaalGoed).ThenBy(w => w.woord).ToArray();
+                    gesorteerdeWoorden = woorden.Where(woord => woord.woord.StartsWith(searchText)).OrderByDescending(w => w.totaalGoed).ThenBy(w => w.woord).ToArray();
                 }
                 else if (SortOptiesButton.SelectedItem.Equals("Aantal fout"))
                 {
                     // word gesorteerd op aantal fout groot naar klein en als er 2 het zelfde aantal fout hebben worden ze op alfabetische volgorde gesorteerd
-                    gesorteerdeWoorden = woorden.Where(woord => woord.woord.StartsWith(searchBar.Text)).OrderByDescending(w => w.totaalFout).ThenBy(w => w.woord).ToArray();
+                    gesorteerdeWoorden = woorden.Where(woord => woord.woord.StartsWith(searchText)).OrderByDescending(w => w.totaalFout).ThenBy(w => w.woord).ToArray();
                 }
                 else if (SortOptiesButton.SelectedItem.Equals("Totaal gespeelt"))
                 {
                     // word gesorteerd op totaal gespeelt groot naar klein en als er 2 het zelfde aantal totaal gespeelt hebben worden ze op alfabetische volgorde gesorteerd
-                    gesorteerdeWoorden = woorden.Where(woord => woord.woord.StartsWith(searchBar.Text)).OrderByDescending(w => w.totaalGespeelt).ThenBy(w => w.woord).ToArray();
+                    gesorteerdeWoorden = woorden.Where(woord => woord.woord.StartsWith(searchText)).OrderByDescending(w => w.totaalGespeelt).ThenBy(w => w.woord).ToArray();
                 }
                 else // als er geen optie is geselecteert dit is onmogelijk maar als er een bug is is dit handig word gewoon op alfabetisch gedaan
                 {
-                    gesorteerdeWoorden = woorden.Where(woord => woord.woord.StartsWith(searchBar.Text)).OrderBy(w => w.woord).ToArray();
+                    gesorteerdeWoorden = woorden.Where(woord => woord.woord.StartsWith(searchText)).OrderBy(w => w.woord).ToArray();
                 }
             }
             else
@@ -202,26 +223,26 @@ namespace TikTovenaar
                 if (SortOptiesButton.SelectedItem.Equals("Alfabetisch"))
                 {
                     // word gesorteerd op omgekeerde alfabetische volgorde
-                    gesorteerdeWoorden = woorden.Where(woord => woord.woord.StartsWith(searchBar.Text)).OrderByDescending(w => w.woord).ToArray();
+                    gesorteerdeWoorden = woorden.Where(woord => woord.woord.StartsWith(searchText)).OrderByDescending(w => w.woord).ToArray();
                 }
                 else if (SortOptiesButton.SelectedItem.Equals("Aantal goed"))
                 {
                     // word gesorteerd op aantal goed klein naar groot en als er 2 het zelfde aantal goed hebben worden ze op alfabetische volgorde gesorteerd
-                    gesorteerdeWoorden = woorden.Where(woord => woord.woord.StartsWith(searchBar.Text)).OrderBy(w => w.totaalGoed).ThenBy(w => w.woord).ToArray();
+                    gesorteerdeWoorden = woorden.Where(woord => woord.woord.StartsWith(searchText)).OrderBy(w => w.totaalGoed).ThenBy(w => w.woord).ToArray();
                 }
                 else if (SortOptiesButton.SelectedItem.Equals("Aantal fout"))
                 {
                     // word gesorteerd op aantal fout klein naar groot en als er 2 het zelfde aantal fout hebben worden ze op alfabetische volgorde gesorteerd
-                    gesorteerdeWoorden = woorden.Where(woord => woord.woord.StartsWith(searchBar.Text)).OrderBy(w => w.totaalFout).ThenBy(w => w.woord).ToArray();
+                    gesorteerdeWoorden = woorden.Where(woord => woord.woord.StartsWith(searchText)).OrderBy(w => w.totaalFout).ThenBy(w => w.woord).ToArray();
                 }
                 else if (SortOptiesButton.SelectedItem.Equals("Totaal gespeelt"))
                 {
                     // word gesorteerd op totaal gespeelt klein naar grooten als er 2 het zelfde aantal totaal gespeelt hebben worden ze op alfabetische volgorde gesorteerd
-                    gesorteerdeWoorden = woorden.Where(woord => woord.woord.StartsWith(searchBar.Text)).OrderBy(w => w.totaalGespeelt).ThenBy(w => w.woord).ToArray();
+                    gesorteerdeWoorden = woorden.Where(woord => woord.woord.StartsWith(searchText)).OrderBy(w => w.totaalGespeelt).ThenBy(w => w.woord).ToArray();
                 }
                 else // als er geen optie is geselecteert dit is onmogelijk maar als er een bug is is dit handig word gewoon op omgekeerd alfabetisch gedaan
                 {
-                    gesorteerdeWoorden = woorden.Where(woord => woord.woord.StartsWith(searchBar.Text)).OrderByDescending(w => w.woord).ToArray();
+                    gesorteerdeWoorden = woorden.Where(woord => woord.woord.StartsWith(searchText)).OrderByDescending(w => w.woord).ToArray();
                 }
 
             }
@@ -233,9 +254,9 @@ namespace TikTovenaar
             DynamicGrid.ColumnDefinitions.Clear();
             int aantalWorden = gesorteerdeWoorden.Length;
             int cellCount;
-            if (aantalWorden > 50)
+            if (aantalWorden > 30)
             {
-                cellCount = 50;
+                cellCount = 30;
             }
             else
             {

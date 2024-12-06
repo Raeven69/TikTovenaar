@@ -85,7 +85,7 @@
                         </Grid.ColumnDefinitions>
 
                         <!-- Search Bar (now spanning the same width as the buttons below) -->
-                        <TextBox Name="searchBar" FontSize="30" TextChanged="SearchBar_TextChanged" Grid.Column="0"/>
+                        <TextBox Name="searchBar" FontSize="30" TextChanged="SearchBar_TextChanged" Grid.Column="0" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
 
                         <!-- Sort Order Button (▲ or ▼) -->
                         <Button Name="VolgwordenButton" Grid.Column="1" Content="▲" FontSize="50" Click="VolgwordenButtonClick"/>
