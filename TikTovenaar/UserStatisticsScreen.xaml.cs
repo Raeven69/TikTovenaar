@@ -33,10 +33,48 @@ namespace TikTovenaar
             string? token = dataHandler.Login("TestAdmin", "password");
             userScores = dataHandler.GetScores(token!);
             List<string> woordenList = dataHandler.GetWords();
-            woorden.Capacity = woordenList.Count;
+            Dictionary<string, (int totaalGoed, int totaalFout)> woordenDictionary = new Dictionary<string, (int, int)>();
             foreach (string woord in woordenList)
             {
-                woorden.Add(new StatisticsWord(woord, 0, 0));
+                if (!woordenDictionary.ContainsKey(woord))
+                {
+                    woordenDictionary.Add(woord, (0, 0));
+                }
+            }
+            foreach (Score score in userScores)
+            {
+                foreach (var incorrectWord in score.IncorrectWords)
+                {
+                    if (!woordenDictionary.ContainsKey(incorrectWord))
+                    {
+                        woordenList.Add(incorrectWord);
+                        woordenDictionary.Add(incorrectWord, (0, 1));
+                    } 
+                    else
+                    {
+                        (int totaalGoed, int totaalFout) current = woordenDictionary[incorrectWord];
+                        woordenDictionary[incorrectWord] = (current.totaalGoed, current.totaalFout + 1);
+                    }
+                    
+                }
+                //foreach (var correctWord in score.CorrectWords)
+                //{
+                //    if (!woordenDictionary.ContainsKey(correctWord))
+                //    {
+                //        woordenList.Add(correctWord);
+                //        woordenDictionary.Add(correctWord, (1, 0));
+                //    }
+                //    else
+                //    {
+                //        (int totaalGoed, int totaalFout) current = woordenDictionary[correctWord];
+                //        woordenDictionary[correctWord] = (current.totaalGoed + 1, current.totaalFout);
+                //    }
+                //}
+            }
+            
+            foreach (string woord in woordenList)
+            {
+                woorden.Add(new StatisticsWord(woord, woordenDictionary[woord].totaalGoed, woordenDictionary[woord].totaalFout));
             }
 
 
@@ -117,7 +155,7 @@ namespace TikTovenaar
             // Verkrijg de knop die is aangeklikt.
             Button clickedButton = sender as Button;
             // Toon de naam van de aangeklikte knop in een berichtvenster.
-            DetailsDialog detailsDialog = new DetailsDialog(clickedButton.Name);
+            DetailsDialog detailsDialog = new DetailsDialog(clickedButton.Tag.ToString());
             detailsDialog.ShowDialog();
         }
 
@@ -231,7 +269,7 @@ namespace TikTovenaar
             {
                 Button button = new Button
                 {
-                    Name = gesorteerdeWoorden[i].woord,
+                    Tag = gesorteerdeWoorden[i].woord,
                     Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0D1117")),
                     Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F0F0F0")),
                     BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F0F0F0")),
