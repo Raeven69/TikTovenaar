@@ -25,14 +25,16 @@ namespace TikTovenaar
         public string PersonalHighScore { get; set; }
         public Dictionary<string, int> scores;
         private readonly DataHandler _data;
+        private int _scoreValue;
+        private List<(int Ranking, string Name, int Score)> _Leaderboard;
+        public string PlayerName {  get; private set; }
         public LeaderboardScreen()
         {
             _data = new();
-            string? token = _data.Login("TestAdmin", "password");
             
             InitializeComponent();
-            int scoreValue = _data.GetScores(token!).OrderByDescending(x => x.Value).Select(x => x.Value).DefaultIfEmpty(0).First();
-            PersonalHighScore = $"Uw hoogste score is: {scoreValue}";
+             _scoreValue = _data.GetScores("TestAdmin").OrderByDescending(x => x.Value).Select(x => x.Value).DefaultIfEmpty(0).First();
+            PersonalHighScore = $"Uw hoogste score is: {_scoreValue}";
             PersonalHighScoreLabel.Content = PersonalHighScore;
             HighscoreTable.ItemsSource = (System.Collections.IEnumerable)SortLeaderboard(_data.GetHighscores());
         }
@@ -44,14 +46,15 @@ namespace TikTovenaar
         private object SortLeaderboard(List<PartialScore> scores)
         {
             return scores
-                .OrderByDescending(kvp => kvp.Value) // Sort by score descending
-                .Select(static (kvp, index) => new // Transform to anonymous object
+                .OrderByDescending(score => score.Value) // Sort by score descending
+                .Select((score, index) => new LeaderboardEntry
                 {
                     Ranking = index + 1,
-                    Name = kvp.Player,
-                    Score = kvp.Value
+                    Name = score.Player,
+                    Score = score.Value,
+                    Colorcode = (Brush)new BrushConverter().ConvertFromString(score.Player == "TestAdmin" ? "#2732c2" : "#000435")
                 })
-                .ToList(); // Return a list of anonymous objects
+                .ToList();
         }
     }
 }

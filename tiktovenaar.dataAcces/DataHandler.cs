@@ -54,6 +54,22 @@ namespace TikTovenaar.DataAccess
             return scores;
         }
 
+        public string? GetUserName(string token)
+        {
+            using HttpRequestMessage request = new(HttpMethod.Get, "names");
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            HttpResponseMessage response = client.SendAsync(request).Result;
+            if (!response.IsSuccessStatusCode)
+            {
+                return null; // Return null if the request was not successful
+            }
+
+            string? name = JsonConvert.DeserializeObject<string>(response.Content.ReadAsStringAsync().Result);
+            return name;
+        }
+
+
         public List<Score> GetScores(string token)
         {
             using HttpRequestMessage request = new(HttpMethod.Get, "score");
