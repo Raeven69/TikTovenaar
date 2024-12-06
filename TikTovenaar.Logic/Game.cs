@@ -5,6 +5,8 @@ using TikTovenaar.Logic;
 
 public class Game
 {
+    private IDataHandler _dataHandler;
+
     private Queue<Word> Words { get; set; } = new();
     public Word? CurrentWord { get; private set; }
     
@@ -17,14 +19,14 @@ public class Game
 
     public readonly int totalLives = 3;
     private int remainingLives = 3;
+    public int TimeToComplete { get; private set; } = 7;
+    public bool TimeDecreasing { get; private set; } = false;
 
 
     private System.Timers.Timer _timeTimer;
     private System.Timers.Timer _progressTimer;
     public int TimeElapsed { get; private set; }
-    public int TimeToComplete { get; private set; } = 7;
-    public bool TimeDecreasing { get; private set; } = false;
-
+    
 
     public double WPM { get; private set; }
     public double ErrorPercentage { get; private set; }
@@ -33,9 +35,7 @@ public class Game
     private int _totalPresses = 0;
     private int _incorrectPresses = 0;
 
-
     private double _progressValue;
-
 
     public event EventHandler? WordChanged;
     public event EventHandler? TimeUpdated;
@@ -43,8 +43,10 @@ public class Game
     public event EventHandler? GameFinished;
     public event EventHandler? WordWrong;
 
-    public Game()
+    public Game(IDataHandler handler)
     {
+        _dataHandler = handler;
+
         GenerateWords();
         NextWord();
 
@@ -62,18 +64,11 @@ public class Game
 
     private void GenerateWords()
     {
-        Dictionary<int, string> words = new()
+        List<string> words = _dataHandler.GetWords(100);
+
+        foreach (string word in words)
         {
-            {1, "aansprakelijkheidswaardevaststellingsverandering" },
-            {2, "flauwekul" },
-            {3, "onderverhuren" },
-            {4, "buitenschools" },
-            {5, "tekenblad" },
-            {6, "bier" }
-        };
-        foreach(KeyValuePair<int, string> word in words)
-        {
-            Words.Enqueue(new Word(word.Key, word.Value));
+            Words.Enqueue(new Word(word));
         }
     }
     

@@ -4,15 +4,13 @@ namespace TikTovenaar.Logic
 {
     public class Word
     {
-        public int WordId { get; }
         public List<Letter> Letters { get; } = [];
         public bool IsCompleted { get; private set; } = false;
         public bool IsWrong = false;
         public int Index { get; private set; } = 0;
 
-        public Word(int id, string word)
+        public Word(string word)
         {
-            WordId = id;
             foreach (char c in word)
             {
                 Letters.Add(new(c));
