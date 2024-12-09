@@ -17,6 +17,9 @@
     <Compile Update="Homescreen.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="LoadingScreen.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Loginscreen.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -44,6 +47,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Homescreen.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="LoadingScreen.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Loginscreen.xaml">

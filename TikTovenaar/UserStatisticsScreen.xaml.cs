@@ -27,6 +27,13 @@ namespace TikTovenaar
 
         public UserStatisticsScreen(IDataHandler _dataHandler)
         {
+
+            LoadingScreen loadingScreen = new LoadingScreen();
+            loadingScreen.Show();
+            
+
+
+
             dataHandler = _dataHandler;
 
             string? token = dataHandler.Login("TestAdmin", "password");
@@ -94,7 +101,7 @@ namespace TikTovenaar
             // Stel in dat de logica wordt uitgevoerd zodra het scherm volledig geladen is.
             this.Loaded += (s, e) =>
             {
-
+                loadingScreen.Close();
                 PrintButtons();
 
                 int averageScore = 0;
