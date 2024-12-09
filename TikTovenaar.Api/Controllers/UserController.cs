@@ -3,9 +3,9 @@ using Npgsql;
 
 namespace TikTovenaar.Api.Controllers
 {
-    [Route("register")]
+    [Route("user")]
     [ApiController]
-    public class RegisterController : ControllerBase
+    public class UserController : ControllerBase
     {
         [HttpPost]
         public JsonResult Register([FromForm] User user)
@@ -40,6 +40,32 @@ namespace TikTovenaar.Api.Controllers
             insert.ExecuteNonQuery();
             connection.Close();
             return new(new { type = "success", message = "User succesfully created." });
+        }
+
+        [HttpDelete]
+        public JsonResult DeleteUser([FromForm] string username)
+        {
+            int? userID = Utils.Authorize(HttpContext.Request, true);
+            if (userID == null)
+            {
+                return new(new { type = "error", message = "Authorization failed." });
+            }
+            NpgsqlConnection connection = new Database().GetConnection();
+            connection.Open();
+            using NpgsqlCommand cmd = new(@"SELECT * FROM players WHERE name = @name AND usertype = 'normal'", connection);
+            cmd.Parameters.AddWithValue("name", username);
+            using NpgsqlDataReader reader = cmd.ExecuteReader();
+            if (!reader.Read())
+            {
+                connection.Close();
+                return new(new { type = "error", message = "User does not exist." });
+            }
+            reader.Close();
+            using NpgsqlCommand delete = new(@"DELETE FROM players WHERE name = @name", connection);
+            delete.Parameters.AddWithValue("name", username);
+            delete.ExecuteNonQuery();
+            connection.Close();
+            return new(new { type = "success", message = "User deleted." });
         }
     }
 }

@@ -48,26 +48,12 @@
                     <RadioButton Content="Fout getypte letters" GroupName="Filters" FontSize="18" Margin="10,0" Foreground="#F0F0F0" Checked="Filter_Checked"/>
                 </StackPanel>
 
-                <!-- Word List -->
-                <ListBox x:Name="ListBoxWords" Background="#000435" Foreground="#F0F0F0">
-                    <ListBoxItem Margin="0,10,0,0">
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <TextBlock Text="Kaas" FontSize="24" VerticalAlignment="Center" Margin="0,0,40,0"/>
-                            <Button Content="Bekijk details" Style="{StaticResource StyledButton}" Background="#FF0D1117" BorderBrush="#FF235AAE"/>
-                        </StackPanel>
-                    </ListBoxItem>
-                    <ListBoxItem Margin="0,10,0,0">
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <TextBlock Text="Aardbei" FontSize="24" VerticalAlignment="Center" Margin="0,0,40,0"/>
-                            <Button Content="Bekijk details" Style="{StaticResource StyledButton}" Background="#FF0D1117" BorderBrush="#FF235AAE"/>
-                        </StackPanel>
-                    </ListBoxItem>
-                    <ListBoxItem Margin="0,10,0,0">
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                            <TextBlock Text="Kers" FontSize="24" VerticalAlignment="Center" Margin="0,0,40,0"/>
-                            <Button Content="Bekijk details" Style="{StaticResource StyledButton}" Background="#FF0D1117" BorderBrush="#FF235AAE"/>
-                        </StackPanel>
-                    </ListBoxItem>
+                <ListBox x:Name="ListBoxWords" 
+                     Background="#000435" 
+                     Foreground="#F0F0F0" 
+                     ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                     MaxHeight="500"
+                     HorizontalContentAlignment="Stretch">  
                 </ListBox>
             </StackPanel>
         </Border>

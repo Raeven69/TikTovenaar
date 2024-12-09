@@ -22,15 +22,21 @@ namespace TikTovenaar.Api.Controllers
                 {
                     if (!BCrypt.Net.BCrypt.Verify(user.Password, password))
                     {
+                        connection.Close();
                         return new(new { type = "error", message = "Password invalid." });
                     }
                 }
                 catch (Exception)
                 {
+                    connection.Close();
                     return new(new { type = "error", message = "Password invalid." });
                 }
-                return new(new { type = "success", message = new { authentication = $"Bearer {Utils.CreateToken(reader.GetInt32(0))}" } });
+                string token = Utils.CreateToken(reader.GetInt32(0));
+                bool admin = reader.GetString(3) == "admin";
+                connection.Close();
+                return new(new { type = "success", message = new { authentication = $"Bearer {token}", admin } });
             }
+            connection.Close();
             return new(new { type = "error", message = "User not found." });
         }
     }

@@ -3,9 +3,9 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using TikTovenaar.Logic;
+using TikTovenaar.DataAccess;
 using System.Windows.Media.Animation;
 using System.Windows;
-using System.Globalization;
 
 namespace TikTovenaar
 {
@@ -34,7 +34,7 @@ namespace TikTovenaar
 
         private void SetupGame()
         {
-            Game = new();
+            Game = new(new DataHandler());
             Game.WordChanged += Game_wordChanged;
             Game.TimeUpdated += Game_timeUpdated;
             Game.ProgressUpdated += Game_progressUpdated;
