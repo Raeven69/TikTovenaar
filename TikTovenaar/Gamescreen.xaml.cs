@@ -65,7 +65,8 @@ namespace TikTovenaar
             if (!Game.Finished)
             {
                 UpdateWord();
-            }else
+            }
+            else
             {
                 Game_finished(this, EventArgs.Empty);
             }
@@ -110,7 +111,7 @@ namespace TikTovenaar
             int randomNumber = random.Next(0, 2);
 
             // Stop any ongoing animations
-            currentWordText.BeginAnimation(OpacityProperty, null); 
+            currentWordText.BeginAnimation(OpacityProperty, null);
 
             // Set word opacity to 0
             currentWordText.Opacity = 0;

@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using TikTovenaar.Logic;
+using TikTovenaar.DataAccess;
 
 namespace TikTovenaar
 {
@@ -45,6 +46,11 @@ namespace TikTovenaar
         public void SwitchBackToStatisticsScreen(GameStatisticsScreen statisticsScreen)
         {
             MainContentControl.Content = statisticsScreen;
+        }
+
+        public void SwitchToUserStatisticsScreen()
+        {
+            MainContentControl.Content = new UserStatisticsScreen(new DataHandler());
         }
     }
 }
