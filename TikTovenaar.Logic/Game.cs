@@ -252,11 +252,7 @@ public class Game
         }
         foreach(Letter letter in WrongLetters)
         {
-            char c = letter.Value ?? ' ';
-            if (c != ' ')
-            {
-                wrongletterchars.Add(c);
-            }
+            wrongletterchars.Add((char)letter.Value); // Convert Letters to Chars
         }
         Score score = new(WordsCount, Score, wrongwordsstrings, wrongletterchars, CorrectWords);
         _dataHandler.AddScore(CurrentUser.Instance.Token!, score);
