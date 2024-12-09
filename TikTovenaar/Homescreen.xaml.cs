@@ -40,5 +40,11 @@ namespace TikTovenaar
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
             mainWindow.SwitchToAdminScreen();
         }
+            
+        private void Statistics_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.SwitchToUserStatisticsScreen();
+        }
     }
 }
