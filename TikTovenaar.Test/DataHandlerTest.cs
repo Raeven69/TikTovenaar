@@ -34,14 +34,14 @@ namespace TikTovenaar.Test
         public void Login_CorrectCredentials_ShouldNotThrow()
         {
             DataHandler handler = new();
-            handler.Login("TestPlayer", "password");
+            handler.Login("TestPlayer", "password", out bool _);
         }
 
         [TestMethod]
         public void Login_IncorrectCredentials_ShouldThrow()
         {
             DataHandler handler = new();
-            Assert.ThrowsException<RequestFailedException>(() => {  handler.Login("test", "test"); });
+            Assert.ThrowsException<RequestFailedException>(() => {  handler.Login("test", "test", out bool _); });
         }
 
         public static string CreateName()
@@ -60,10 +60,10 @@ namespace TikTovenaar.Test
         public void Register_Admin_DoesNotThrow()
         {
             DataHandler handler = new();
-            string token = handler.Login("TestAdmin", "password");
+            string token = handler.Login("TestAdmin", "password", out bool _);
             string name = CreateName();
             handler.Register(token!, name, "Password123!");
-            handler.Login(name, "Password123!");
+            handler.Login(name, "Password123!", out bool _);
             handler.DeleteUser(token!, name);
         }
 
@@ -71,7 +71,7 @@ namespace TikTovenaar.Test
         public void Register_NoAdmin_ShouldThrow()
         {
             DataHandler handler = new();
-            string token = handler.Login("TestPlayer", "password");
+            string token = handler.Login("TestPlayer", "password", out bool _);
             string name = CreateName();
             Assert.ThrowsException<RequestFailedException>(() => { handler.Register(token, name, "Password123!"); });
         }
@@ -80,7 +80,7 @@ namespace TikTovenaar.Test
         public void Register_UsernameExists_ShouldThrow()
         {
             DataHandler handler = new();
-            string token = handler.Login("TestAdmin", "password");
+            string token = handler.Login("TestAdmin", "password", out bool _);
             Assert.ThrowsException<RequestFailedException>(() => { handler.Register(token!, "TestPlayer", "Password123!"); });
         }
 
@@ -88,7 +88,7 @@ namespace TikTovenaar.Test
         public void Register_InvalidUsername_ShouldThrow()
         {
             DataHandler handler = new();
-            string token = handler.Login("TestAdmin", "password");
+            string token = handler.Login("TestAdmin", "password", out bool _);
             Assert.ThrowsException<RequestFailedException>(() => { handler.Register(token!, "a", "Password123!"); });
         }
 
@@ -96,7 +96,7 @@ namespace TikTovenaar.Test
         public void Register_InvalidPassword_ShouldThrow()
         {
             DataHandler handler = new();
-            string token = handler.Login("TestAdmin", "password");
+            string token = handler.Login("TestAdmin", "password", out bool _);
             string name = CreateName();
             Assert.ThrowsException<RequestFailedException>(() => { handler.Register(token, name, "password"); });
         }
@@ -105,7 +105,7 @@ namespace TikTovenaar.Test
         public void AddScore_ShouldNotThrow()
         {
             DataHandler handler = new();
-            string token = handler.Login("TestPlayer", "password");
+            string token = handler.Login("TestPlayer", "password", out bool _);
             Score score = new(10, TimeOnly.Parse("00:00:00"), DateOnly.Parse("01/01/2000"), 200, [], []);
             handler.AddScore(token, score);
         }
@@ -116,6 +116,22 @@ namespace TikTovenaar.Test
             DataHandler handler = new();
             List<PartialScore> scores = handler.GetHighscores();
             Assert.IsTrue(scores.Count > 0 && scores[0].Player.Length > 0);
+        }
+
+        [TestMethod]
+        public void Login_IsAdmin_ShouldBeTrue()
+        {
+            DataHandler handler = new();
+            handler.Login("TestAdmin", "password", out bool admin);
+            Assert.IsTrue(admin);
+        }
+
+        [TestMethod]
+        public void Login_NotAdmin_ShouldBeFalse()
+        {
+            DataHandler handler = new();
+            handler.Login("TestPlayer", "password", out bool admin);
+            Assert.IsFalse(admin);
         }
     }
 }

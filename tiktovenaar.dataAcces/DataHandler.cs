@@ -88,7 +88,7 @@ namespace TikTovenaar.DataAccess
             return words;
         }
 
-        public string Login(string username, string password)
+        public string Login(string username, string password, out bool admin)
         {
             FormUrlEncodedContent data = new([
                 new("username", username),
@@ -98,6 +98,7 @@ namespace TikTovenaar.DataAccess
             ThrowIfError(response);
             dynamic? result = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result);
             string token = result!.message.authentication;
+            admin = result!.message.admin;
             return token["Bearer ".Length..];
         }
 

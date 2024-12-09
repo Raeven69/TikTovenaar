@@ -2,7 +2,7 @@
 {
     public interface IDataHandler
     {
-        public string? Login(string username, string password);
+        public string? Login(string username, string password, out bool admin);
         public void Register(string token, string username, string password);
         public List<PartialScore> GetHighscores(int limit = -1);
         public List<string> GetWords(int limit = -1, int minLength = 0, int maxLength = -1);
