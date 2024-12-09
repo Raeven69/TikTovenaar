@@ -13,6 +13,28 @@ public class Game
     
     public List<Word> WordList { get; private set; } = new();
     public List<Word> WrongWords { get; private set; } = new();
+    public List<string> CorrectWords
+    {
+        get
+        {
+            //List for the correct words as strings
+            List<string> _rightWordsStrings = new();
+
+            //Filter incorrect words and get the correct ones
+            List<Word> _rightWords = WordList.Where(word => !WrongWords.Contains(word)).ToList();
+
+            //Convert the Word objects to strings and add them to _rightWords
+            foreach (Word word in _rightWords)
+            {
+                _rightWordsStrings.Add(word.getWholeWord());
+            }
+
+            // Return list of correct words as strings
+            return _rightWordsStrings;
+        }
+    }
+
+
     public List<Letter> WrongLetters { get; private set; } = new();
 
 
@@ -232,7 +254,7 @@ public class Game
         {
             wrongletterchars.Add((char)letter.Value); // Convert Letters to Chars
         }
-        Score score = new(WordsCount, TimeOnly.FromTimeSpan(TimeSpan.FromSeconds(TimeElapsed)), DateOnly.FromDateTime(DateTime.Now), Score, wrongwordsstrings, wrongletterchars);
+        Score score = new(WordsCount, Score, wrongwordsstrings, wrongletterchars, CorrectWords);
         _dataHandler.AddScore(CurrentUser.Instance.Token!, score);
         _timeTimer.Stop();
         _progressTimer.Stop();
