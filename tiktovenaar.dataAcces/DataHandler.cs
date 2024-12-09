@@ -20,6 +20,7 @@ namespace TikTovenaar.DataAccess
         private static void ThrowIfError(HttpResponseMessage response)
         {
             dynamic? result = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result) ?? throw new RequestFailedException("Something went wrong.");
+            Console.WriteLine(result);
             if (result is not JArray && (string)result.type != "success")
             {
                 throw new RequestFailedException((string)result.message);

@@ -43,15 +43,13 @@ public class Game
     public event EventHandler<double>? ProgressUpdated; // Added for progress updates
     public event EventHandler? GameFinished;
     public event EventHandler? WordWrong;
-    private IDataHandler _data;
     private string? token;
-    public Game(IDataHandler data)
+    public Game(IDataHandler handler)
     {
         _dataHandler = handler;
 
         GenerateWords();
         NextWord();
-        token = _data.Login("Swenpekke", "Scrum123!");
         // Timer for updating game time (1 second interval)
         _timeTimer = new(1000);
         _timeTimer.Elapsed += TimeTimerElapsed;
@@ -235,7 +233,7 @@ public class Game
             wrongletterchars.Add((char)letter.Value); // Convert Letters to Chars
         }
         Score score = new(WordsCount, TimeOnly.FromTimeSpan(TimeSpan.FromSeconds(TimeElapsed)), DateOnly.FromDateTime(DateTime.Now), Score, wrongwordsstrings, wrongletterchars);
-        _data.AddScore(token!, score);
+        _dataHandler.AddScore(CurrentUser.Instance.Token!, score);
         _timeTimer.Stop();
         _progressTimer.Stop();
         GameFinished?.Invoke(this, EventArgs.Empty);

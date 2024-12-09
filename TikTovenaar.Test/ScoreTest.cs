@@ -1,4 +1,5 @@
 using TikTovenaar.DataAccess;
+using TikTovenaar.Logic;
 
 namespace TikTovenaar.Test
 {
