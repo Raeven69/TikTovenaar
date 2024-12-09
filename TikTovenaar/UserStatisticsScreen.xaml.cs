@@ -24,7 +24,7 @@ namespace TikTovenaar
 
         private IDataHandler dataHandler;
 
-        private List<Score> userScores;
+        private List<ScoreEntry> userScores;
 
         public UserStatisticsScreen(IDataHandler _dataHandler)
         {
@@ -37,8 +37,7 @@ namespace TikTovenaar
 
             dataHandler = _dataHandler;
 
-            string? token = dataHandler.Login("TestAdmin", "password");
-            userScores = dataHandler.GetScores(token!);
+            userScores = dataHandler.GetScores(CurrentUser.Instance.Token);
             List<string> woordenList = dataHandler.GetWords();
             Dictionary<string, (int totaalGoed, int totaalFout)> woordenDictionary = new Dictionary<string, (int, int)>();
 
@@ -68,7 +67,7 @@ namespace TikTovenaar
                         woordenDictionary.Add(woord, (0, 0));
                     }
                 }
-                foreach (Score score in userScores)
+                foreach (ScoreEntry score in userScores)
                 {
                     foreach (var incorrectWord in score.IncorrectWords)
                     {
@@ -85,20 +84,20 @@ namespace TikTovenaar
                         }
 
                     }
-                    //foreach (var correctWord in score.CorrectWords)
-                    //{
-                    //    totalWordsTypedCorrectly++;
-                    //    if (!woordenDictionary.ContainsKey(correctWord))
-                    //    {
-                    //        woordenList.Add(correctWord);
-                    //        woordenDictionary.Add(correctWord, (1, 0));
-                    //    }
-                    //    else
-                    //    {
-                    //        (int totaalGoed, int totaalFout) current = woordenDictionary[correctWord];
-                    //        woordenDictionary[correctWord] = (current.totaalGoed + 1, current.totaalFout);
-                    //    }
-                    //}
+                    foreach (var correctWord in score.CorrectWords)
+                    {
+                        totalWordsTypedCorrectly++;
+                        if (!woordenDictionary.ContainsKey(correctWord))
+                        {
+                            woordenList.Add(correctWord);
+                            woordenDictionary.Add(correctWord, (1, 0));
+                        }
+                        else
+                        {
+                            (int totaalGoed, int totaalFout) current = woordenDictionary[correctWord];
+                            woordenDictionary[correctWord] = (current.totaalGoed + 1, current.totaalFout);
+                        }
+                    }
                 }
 
                 woordenList = woordenList.Distinct().ToList();
@@ -121,8 +120,8 @@ namespace TikTovenaar
                 List<int> rightWordsData = new List<int> { }; // Correcte woorden.
                 List<int> wrongWordsData = new List<int> { }; // Foute woorden
 
-                foreach ( Score score in userScores ) {
-                    int gameTime = score.Time.ToTimeSpan().Minutes;
+                foreach ( ScoreEntry score in userScores ) {
+                    int gameTime = (int)(DateTime.Now - score.Time).TotalMinutes;
                     wpmData.Add(gameTime == 0 ? 0 : score.WordsAmount / gameTime);
                     goodPercentageData.Add(score.WordsAmount == 0 ? 0 : score.WordsAmount - score.IncorrectWords.Count / score.WordsAmount * 100);
                     rightWordsData.Add(score.WordsAmount - score.IncorrectWords.Count);
