@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using TikTovenaar.DataAccess;
 using TikTovenaar.Logic;
 
 namespace TikTovenaar
@@ -33,6 +34,12 @@ namespace TikTovenaar
             CurrentUser.Instance.Unset();
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
             mainWindow.SwitchToLoginScreen();
+        }
+
+        private void LeaderboardButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.SwitchToLeaderboardscreen();
         }
 
         private void AdminButton_Click(object sender, RoutedEventArgs e)

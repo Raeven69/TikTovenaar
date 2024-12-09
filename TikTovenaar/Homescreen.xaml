@@ -16,7 +16,8 @@
 
                 <Button Content="Spelen" Width="300" Height="40" Background="#0D1117" Foreground="#F0F0F0"
                     FontWeight="Bold" Click="PlayButton_Click" Margin="0,20,0,0"/>
-
+                <Button Content="Leaderbord" Width="300" Height="40" Background="#0D1117" Foreground="#F0F0F0"
+                    FontWeight="Bold" Click="LeaderboardButton_Click" Margin="0,20,0,0"/>
                 <Button Content="Statistieken" Width="300" Height="40" Background="#0D1117" Foreground="#F0F0F0"
                     FontWeight="Bold" Click="Statistics_Click" Margin="0,20,0,0"/>
                 <Button x:Name="adminButton" Content="Admin dashboard" Width="300" Height="40" Background="#0D1117" Foreground="#F0F0F0"

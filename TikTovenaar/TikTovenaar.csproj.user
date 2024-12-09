@@ -26,9 +26,6 @@
     <Compile Update="Homescreen.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="LoadingScreen.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Loginscreen.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -36,9 +33,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="WordListScreen.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="UserStatisticsScreen.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -67,9 +61,6 @@
     <Page Update="Homescreen.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="LoadingScreen.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Loginscreen.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -77,9 +68,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="WordListScreen.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="UserStatisticsScreen.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

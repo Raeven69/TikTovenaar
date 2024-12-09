@@ -25,7 +25,7 @@ namespace TikTovenaar
         // Event for notifying when a property changes, used for data binding.
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public string WordCount
+        public string WordCount 
         {
             get => _wordCount;
             set
