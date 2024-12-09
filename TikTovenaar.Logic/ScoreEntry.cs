@@ -1,13 +1,13 @@
-namespace TikTovenaar.Api
+namespace TikTovenaar.Logic
 {
     public class ScoreEntry
     {
         public int WordsAmount { get; set; } = -1;
-        public TimeOnly Time { get; set; } = TimeOnly.MinValue;
-        public DateOnly Date { get; set; } = DateOnly.MinValue;
         public int Value { get; set; } = -1;
         public List<string> IncorrectWords { get; set; } = [];
         public List<char> IncorrectLetters { get; set; } = [];
+        public List<string> CorrectWords { get; set; } = [];
+        public DateTime Time { get; set; } = DateTime.MinValue;
 
         public bool IsValid()
         {

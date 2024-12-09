@@ -106,7 +106,7 @@ namespace TikTovenaar.Test
         {
             DataHandler handler = new();
             string token = handler.Login("TestPlayer", "password", out bool _);
-            Score score = new(10, TimeOnly.Parse("00:00:00"), DateOnly.Parse("01/01/2000"), 200, [], []);
+            Score score = new(10, 200, [], [], []);
             handler.AddScore(token, score);
         }
 
