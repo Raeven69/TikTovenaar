@@ -18,7 +18,7 @@
         <TextBox x:Name="PasswordTextbox" HorizontalAlignment="Center" Text="Wachtwoord" 
                  Foreground="Gray" Margin="0,160,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="189"
                  MaxLength="50" GotFocus="RemovePlaceholder" LostFocus="AddPlaceholder"/>
-        <Button x:Name="AddButton" Content="Toevoegen gebruiker" HorizontalAlignment="Left" Margin="140,195,0,0" VerticalAlignment="Top" Click="AddButton_Click"/>
-
+        <Button x:Name="AddButton" Content="Toevoegen gebruiker" HorizontalAlignment="Center" Margin="0,193,0,0" Width="200" Height="40" VerticalAlignment="Top" Click="AddButton_Click"
+                Background="#0D1117" Foreground="#F0F0F0" FontWeight="Bold" BorderBrush="Transparent"/>
     </Grid>
 </Window>
