@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Npgsql;
+using TikTovenaar.Logic;
 
 namespace TikTovenaar.Api.Controllers
 {
@@ -17,7 +18,7 @@ namespace TikTovenaar.Api.Controllers
             }
             NpgsqlConnection connection = new Database().GetConnection();
             connection.Open();
-            using NpgsqlCommand cmd = new(@"SELECT wordsAmount, time, date, score, incorrectWords, incorrectLetters FROM scores WHERE userid = @userid", connection);
+            using NpgsqlCommand cmd = new(@"SELECT wordsamount, score, incorrectwords, incorrectletters, correctwords, time FROM scores WHERE userid = @userid", connection);
             cmd.Parameters.AddWithValue("userid", userID);
             using NpgsqlDataReader reader = cmd.ExecuteReader();
             List<ScoreEntry> scores = [];
@@ -27,11 +28,11 @@ namespace TikTovenaar.Api.Controllers
                 {
                     
                     WordsAmount = reader.GetInt32(0),
-                    Time = reader.GetFieldValue<TimeOnly>(1),
-                    Date = reader.GetFieldValue<DateOnly>(2),
-                    Value = reader.GetInt32(3),
-                    IncorrectWords = [..reader.GetFieldValue<string[]>(4)],
-                    IncorrectLetters = [..reader.GetFieldValue<char[]>(5)]
+                    Value = reader.GetInt32(1),
+                    IncorrectWords = [..reader.GetFieldValue<string[]>(2)],
+                    IncorrectLetters = [..reader.GetFieldValue<char[]>(3)],
+                    CorrectWords = [.. reader.GetFieldValue<string[]>(4)],
+                    Time = reader.GetDateTime(5)
                 };
                 scores.Add(entry);
             }
@@ -53,14 +54,13 @@ namespace TikTovenaar.Api.Controllers
             }
             NpgsqlConnection connection = new Database().GetConnection();
             connection.Open();
-            using NpgsqlCommand cmd = new(@"INSERT INTO scores(userid, wordsamount, time, date, score, incorrectwords, incorrectletters) VALUES(@userid, @wordsamount, @time, @date, @score, @incorrectwords, @incorrectletters)", connection);
+            using NpgsqlCommand cmd = new(@"INSERT INTO scores(userid, wordsamount, score, incorrectwords, incorrectletters, correctwords) VALUES(@userid, @wordsamount, @score, @incorrectwords, @incorrectletters, @correctwords)", connection);
             cmd.Parameters.AddWithValue("userid", userID);
             cmd.Parameters.AddWithValue("wordsamount", score.WordsAmount);
-            cmd.Parameters.AddWithValue("time", score.Time);
-            cmd.Parameters.AddWithValue("date", score.Date);
             cmd.Parameters.AddWithValue("score", score.Value);
             cmd.Parameters.AddWithValue("incorrectwords", score.IncorrectWords);
             cmd.Parameters.AddWithValue("incorrectletters", score.IncorrectLetters);
+            cmd.Parameters.AddWithValue("correctwords", score.CorrectWords);
             cmd.ExecuteNonQuery();
             connection.Close();
             return new(new { type = "success", message = "Score added." });
