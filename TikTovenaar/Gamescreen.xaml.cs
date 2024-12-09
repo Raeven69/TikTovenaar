@@ -3,6 +3,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using TikTovenaar.Logic;
+using TikTovenaar.DataAccess;
 using System.Windows.Media.Animation;
 using System.Windows;
 using System.Globalization;
@@ -35,8 +36,7 @@ namespace TikTovenaar
         private DataHandler _data;
         private void SetupGame()
         {
-            _data = new();
-            Game = new(_data);
+            Game = new(new DataHandler());
             Game.WordChanged += Game_wordChanged;
             Game.TimeUpdated += Game_timeUpdated;
             Game.ProgressUpdated += Game_progressUpdated;

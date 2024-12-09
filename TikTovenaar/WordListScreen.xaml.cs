@@ -1,8 +1,9 @@
-﻿
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using TikTovenaar.Logic;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace TikTovenaar
 {
@@ -58,10 +59,23 @@ namespace TikTovenaar
             else if (selectedFilter.Content.ToString() == "Fout getypte letters")
             {
                 ListBoxWords.Items.Clear();
+                Dictionary<char, int> wrongLetters = new();
                 foreach (Letter letter in _wrongLetterList)
                 {
-                    string letterText = letter.Value.ToString();
-                    AddItemToDisplay(letterText, false);
+                    if (wrongLetters.ContainsKey(letter.Value.GetValueOrDefault()))
+                    {
+                        wrongLetters[letter.Value.GetValueOrDefault()]++;
+                    }
+                    else
+                    {
+                        wrongLetters[letter.Value.GetValueOrDefault()] = 1;
+                    }
+                }
+
+                wrongLetters = wrongLetters.OrderByDescending(x => x.Value).ToDictionary();
+                foreach (KeyValuePair<char, int> letter in wrongLetters)
+                {
+                    AddItemToDisplay(letter.Key + " (" + letter.Value + "x)");
                 }
             }
         }

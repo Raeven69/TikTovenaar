@@ -35,8 +35,7 @@ namespace TikTovenaar
             _data = new();
             
             string? token = _data.Login("Swenpekke", "Scrum123!");
-            System.Diagnostics.Debug.WriteLine(token!);
-            PlayerName = _data.GetUserName(token!);
+
             InitializeComponent();
              _scoreValue = _data.GetScores(token!).OrderByDescending(x => x.Value).Select(x => x.Value).DefaultIfEmpty(0).First(); //get the highest score of an individual; if there are no scores the value will become 0
             PersonalHighScore = $"Uw hoogste score is: {_scoreValue}";

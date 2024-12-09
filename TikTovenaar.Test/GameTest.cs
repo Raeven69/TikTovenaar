@@ -1,3 +1,4 @@
+using TikTovenaar.DataAccess;
 using TikTovenaar.Logic;
 
 namespace TikTovenaar.Test
@@ -10,7 +11,7 @@ namespace TikTovenaar.Test
         public void Constructer_CurrentWordShouldBeSet()
         {
             // Arrange
-            Game game = new(handler);
+            Game game = new(new DataHandler());
 
             // Assert
             Assert.IsNotNull(game.CurrentWord);
@@ -20,7 +21,7 @@ namespace TikTovenaar.Test
         public void PressKey_AllKeysPressed_WordShouldBeSame()
         {
             // Arrange
-            Game game = new(handler);
+            Game game = new(new DataHandler());
             Word word = game.CurrentWord!;
 
             // Act
@@ -37,11 +38,11 @@ namespace TikTovenaar.Test
         public void PressKey_SpacePressed_WordShouldBeDifferent()
         {
             // Arrange
-            Game game = new(handler);
+            Game game = new(new DataHandler());
             Word word = game.CurrentWord!;
 
             // Act
-            foreach(Letter letter in game.CurrentWord!.Letters)
+            foreach (Letter letter in game.CurrentWord!.Letters)
             {
                 game.PressKey((char)letter.Value);
             }
