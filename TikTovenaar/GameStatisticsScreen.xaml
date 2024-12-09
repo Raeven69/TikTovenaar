@@ -120,7 +120,7 @@
                        Margin="380,426,0,0"
                        FontSize="36"
                        FontWeight="Bold" Foreground="White">
-                <Run Text="Fout percentage:"/>
+                <Run Text="Goed percentage:"/>
             </TextBlock>
             <Label x:Name="MistakePercentageOutput" Content="{Binding ErrorPercentage}" 
                    Opacity="0" 
