@@ -248,11 +248,17 @@ public class Game
         List<char> wrongletterchars = new(); // List with wrong Letters
         foreach(Word word in WrongWords)
         {
-            wrongwordsstrings.Add(word.getWholeWord()); // Convert Words to strings
+            if (word.getWholeWord() != null)
+            {
+                wrongwordsstrings.Add(word.getWholeWord()); // Convert Words to strings
+            }
         }
         foreach(Letter letter in WrongLetters)
         {
-            wrongletterchars.Add((char)letter.Value); // Convert Letters to Chars
+            if (letter.Value != null)
+            {
+                wrongletterchars.Add((char)letter.Value); // Convert Letters to Chars
+            }
         }
         Score score = new(WordsCount, Score, wrongwordsstrings, wrongletterchars, CorrectWords);
         _dataHandler.AddScore(CurrentUser.Instance.Token!, score);
