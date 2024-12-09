@@ -6,6 +6,8 @@ using TikTovenaar.Logic;
 using TikTovenaar.DataAccess;
 using System.Windows.Media.Animation;
 using System.Windows;
+using System.Globalization;
+using TikTovenaar.DataAccess;
 
 namespace TikTovenaar
 {
@@ -22,7 +24,7 @@ namespace TikTovenaar
         public Gamescreen()
         {
             _MainWindow = (MainWindow)Application.Current.MainWindow;
-
+            _data = new();
             InitializeComponent();
             SetupGame();
             _wizardAnimation = new(wizardImageBrush, 0.16666, 6);
@@ -31,7 +33,7 @@ namespace TikTovenaar
             // call the gamewordchanged for first word to have the animation
             Game_wordChanged(this, EventArgs.Empty);
         }
-
+        private DataHandler _data;
         private void SetupGame()
         {
             Game = new(new DataHandler());

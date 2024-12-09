@@ -1,0 +1,88 @@
+﻿<UserControl x:Class="TikTovenaar.LeaderboardScreen"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TikTovenaar" d:DataContext="{d:DesignInstance Type=local:LeaderboardScreen}"
+             mc:Ignorable="d" 
+             d:DesignWidth="1280"
+             d:DesignHeight="720"
+             d:Foreground="White">
+    <Grid Background="#000435">
+        <DataGrid x:Name="HighscoreTable" 
+          AutoGenerateColumns="False"
+          Margin="300,113,300,213" 
+          GridLinesVisibility="None" 
+          Background="#000435"
+          CanUserReorderColumns ="False"
+          CanUserResizeRows ="False"
+          CanUserSortColumns="False"
+          CanUserResizeColumns="False"
+          HeadersVisibility="Column"
+          IsReadOnly="True"
+          CanUserAddRows="False"
+          HorizontalScrollBarVisibility="Hidden"
+          VerticalScrollBarVisibility="Hidden"
+          MaxHeight="545" BorderBrush="#FF000435">
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="#0D1117"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontWeight" Value="Bold"/>
+                    <Setter Property="FontSize" Value="60"/>
+                    <Setter Property="Padding" Value="10"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Ranking" Binding="{Binding Ranking}" Width="*">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="TextAlignment" Value="Center"/>
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Naam" Binding="{Binding Name}" Width="*">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="TextAlignment" Value="Center"/>
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Score" Binding="{Binding Score}" Width="*">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="TextAlignment" Value="Center"/>
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="Background" Value="{Binding Colorcode}" />
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="FontSize" Value="30"/>
+                    <Setter Property="IsHitTestVisible" Value="False"/>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Resources>
+                <Style TargetType="ScrollBar">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Foreground" Value="Yellow"/>
+                    <Style.Triggers>
+                        <Trigger Property="Orientation" Value="Vertical">
+                            <Setter Property="Height" Value="520"/>
+                            <Setter Property="Margin" Value="0,-100,0,0"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.Resources>
+        </DataGrid>
+        <Label x:Name="PersonalHighScoreLabel" Content="{Binding PersonalHighScore}" Foreground="White" HorizontalAlignment="Center" Margin="0,500,0,0" VerticalAlignment="Center" Width="364" FontSize="30"/>
+        <Button Content="Terug" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,50" Click="ReturnButton_Click" Width="300" Height="40"
+                Background="#0D1117" Foreground= "#F0F0F0" FontWeight="Bold" BorderBrush="#FF0D1117" />
+    </Grid>
+</UserControl>

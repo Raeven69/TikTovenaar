@@ -6,6 +6,7 @@ namespace TikTovenaar.Test
     [TestClass]
     public class GameTest
     {
+        IDataHandler handler;
         [TestMethod]
         public void Constructer_CurrentWordShouldBeSet()
         {
