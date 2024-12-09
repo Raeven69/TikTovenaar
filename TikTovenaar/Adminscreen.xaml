@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="TikTovenaar.AdminScreen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TikTovenaar"
+        mc:Ignorable="d"
+        d:DesignWidth="1280"
+        d:DesignHeight="720">
+    <Grid Background="#000435">
+        <Border Width="470" Height="300" Background="#F0F0F0" CornerRadius="10"
+            HorizontalAlignment="Center" VerticalAlignment="Center"
+            Padding="20">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock Text="Welkom bij TikTovenaar Adminscherm!" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+
+                <Button x:Name="AddButton" Content="Gebruiker toevoegen" Width="300" Height="40" Background="#0D1117" Foreground="#F0F0F0"
+                    FontWeight="Bold" Click="AddButton_Click" Margin="0,20,0,0"/>
+
+                <Button x:Name="DeleteButton" Content="Gebruiker verwijderen" Width="300" Height="40" Background="#0D1117" Foreground="#F0F0F0"
+                    FontWeight="Bold" Click="DeleteButton_Click" Margin="0,20,0,0"/>
+
+
+                <Button Content="Terug naar homescherm" Width="300" Height="40" Background="#0D1117" Foreground="#F0F0F0"
+                    FontWeight="Bold" Click="ReturnButton_Click" Margin="0,20,0,0"/>
+            </StackPanel>
+        </Border>
+        <Rectangle Width="512" Height="512" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <Rectangle.Fill>
+                <ImageBrush x:Name="wizardIdleImageBrush" 
+                            ImageSource="Images/wizard_idle.png" 
+                            Viewbox="0,0,0.125,1" 
+                            ViewboxUnits="RelativeToBoundingBox" 
+                            Stretch="Fill">
+                </ImageBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle Width="512" Height="512" HorizontalAlignment="Right" VerticalAlignment="Center">
+            <Rectangle.Fill>
+                <ImageBrush x:Name="wizardJumpImageBrush" 
+                            ImageSource="Images/wizard_jump.png" 
+                            Viewbox="0,0,0.5,1"
+                            ViewboxUnits="RelativeToBoundingBox" 
+                            Stretch="Fill">
+                    <ImageBrush.Transform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleX="-1" ScaleY="1" />
+                            <TranslateTransform X="512" Y="0" />
+                        </TransformGroup>
+                    </ImageBrush.Transform>
+                </ImageBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+    </Grid>
+</UserControl>
+

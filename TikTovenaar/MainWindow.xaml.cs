@@ -46,5 +46,10 @@ namespace TikTovenaar
         {
             MainContentControl.Content = statisticsScreen;
         }
+
+        public void SwitchToAdminScreen()
+        {
+            MainContentControl.Content = new AdminScreen();
+        }
     }
 }
