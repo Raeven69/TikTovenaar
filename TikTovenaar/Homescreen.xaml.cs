@@ -15,16 +15,6 @@ namespace TikTovenaar
             InitializeComponent();
             adminButton.Visibility = isAdmin ? Visibility.Visible : Visibility.Collapsed;
 
-            WelcomeMessage.Text = $"Welkom bij TikTovenaar, {CurrentUser.Instance.Name}!";
-            if(WelcomeMessage.Text.Length > 30)
-            {
-                WelcomeMessage.FontSize = 18;
-            }
-            else
-            {
-                WelcomeMessage.FontSize = 24;
-            }
-
             _wizardAnimation1 = new(wizardIdleImageBrush, 0.16666, 6);
             _wizardAnimation1.StartAnimation(0.16666, 6, "Images/wizard_idle.png");
             _wizardAnimation2 = new(wizardJumpImageBrush, 0.16666, 6);

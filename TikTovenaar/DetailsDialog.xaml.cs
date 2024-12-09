@@ -100,7 +100,7 @@ namespace TikTovenaar
                     }
                 }
             }
-            return ("Geen categorie gevonden", "Geen betekenis gevonden");
+            return ("No category found", "No meaning found");
         }
 
         static async Task<string> GetApiResponse(string url)

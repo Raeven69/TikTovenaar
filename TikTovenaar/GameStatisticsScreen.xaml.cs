@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
+using System.Collections.Generic;
 using TikTovenaar.Logic;
 
 namespace TikTovenaar
@@ -44,14 +45,14 @@ namespace TikTovenaar
             {
                 if (_errorPercentage != value)
                 {
-                    _errorPercentage = $"{100 - float.Parse(value)}%";
+                    _errorPercentage = $"{value}%";
                     OnPropertyChanged();
                 }
             }
         }
 
         public string WordsPerMinute
-        { 
+        {
             get => _wordsPerMinute;
             set
             {
