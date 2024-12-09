@@ -153,10 +153,11 @@ public class Game
                 }
                 else
                 {
+                    _incorrectPresses += CurrentWord.Letters.Count - CurrentWord.Index;
+                    _totalPresses += CurrentWord.Letters.Count - CurrentWord.Index;
                     remainingLives--;
                     WrongWords.Add(CurrentWord);
                     WordWrong?.Invoke(this, EventArgs.Empty);
-                    WordsCount++;
                 }
                 CalculateScore(_incorrectPresses, _totalPresses, WordsCount);
 
