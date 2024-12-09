@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
 using TikTovenaar.Logic;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace TikTovenaar
 {
@@ -40,49 +41,6 @@ namespace TikTovenaar
             userScores = dataHandler.GetScores(token!);
             List<string> woordenList = dataHandler.GetWords();
             Dictionary<string, (int totaalGoed, int totaalFout)> woordenDictionary = new Dictionary<string, (int, int)>();
-            foreach (string woord in woordenList)
-            {
-                if (!woordenDictionary.ContainsKey(woord))
-                {
-                    woordenDictionary.Add(woord, (0, 0));
-                }
-            }
-            foreach (Score score in userScores)
-            {
-                foreach (var incorrectWord in score.IncorrectWords)
-                {
-                    if (!woordenDictionary.ContainsKey(incorrectWord))
-                    {
-                        woordenList.Add(incorrectWord);
-                        woordenDictionary.Add(incorrectWord, (0, 1));
-                    } 
-                    else
-                    {
-                        (int totaalGoed, int totaalFout) current = woordenDictionary[incorrectWord];
-                        woordenDictionary[incorrectWord] = (current.totaalGoed, current.totaalFout + 1);
-                    }
-                    
-                }
-                //foreach (var correctWord in score.CorrectWords)
-                //{
-                //    if (!woordenDictionary.ContainsKey(correctWord))
-                //    {
-                //        woordenList.Add(correctWord);
-                //        woordenDictionary.Add(correctWord, (1, 0));
-                //    }
-                //    else
-                //    {
-                //        (int totaalGoed, int totaalFout) current = woordenDictionary[correctWord];
-                //        woordenDictionary[correctWord] = (current.totaalGoed + 1, current.totaalFout);
-                //    }
-                //}
-            }
-
-            woordenList = woordenList.Distinct().ToList();
-            foreach (string woord in woordenList)
-            {
-                woorden.Add(new StatisticsWord(woord, woordenDictionary[woord].totaalGoed, woordenDictionary[woord].totaalFout));
-            }
 
 
 
@@ -101,12 +59,61 @@ namespace TikTovenaar
             // Stel in dat de logica wordt uitgevoerd zodra het scherm volledig geladen is.
             this.Loaded += (s, e) =>
             {
-                loadingScreen.Close();
+                int totalWordsTypedCorrectly = 0;
+                int totalWordsTypedIncorrectly = 0;
+                foreach (string woord in woordenList)
+                {
+                    if (!woordenDictionary.ContainsKey(woord))
+                    {
+                        woordenDictionary.Add(woord, (0, 0));
+                    }
+                }
+                foreach (Score score in userScores)
+                {
+                    foreach (var incorrectWord in score.IncorrectWords)
+                    {
+                        totalWordsTypedIncorrectly++;
+                        if (!woordenDictionary.ContainsKey(incorrectWord))
+                        {
+                            woordenList.Add(incorrectWord);
+                            woordenDictionary.Add(incorrectWord, (0, 1));
+                        }
+                        else
+                        {
+                            (int totaalGoed, int totaalFout) current = woordenDictionary[incorrectWord];
+                            woordenDictionary[incorrectWord] = (current.totaalGoed, current.totaalFout + 1);
+                        }
+
+                    }
+                    //foreach (var correctWord in score.CorrectWords)
+                    //{
+                    //    totalWordsTypedCorrectly++;
+                    //    if (!woordenDictionary.ContainsKey(correctWord))
+                    //    {
+                    //        woordenList.Add(correctWord);
+                    //        woordenDictionary.Add(correctWord, (1, 0));
+                    //    }
+                    //    else
+                    //    {
+                    //        (int totaalGoed, int totaalFout) current = woordenDictionary[correctWord];
+                    //        woordenDictionary[correctWord] = (current.totaalGoed + 1, current.totaalFout);
+                    //    }
+                    //}
+                }
+
+                woordenList = woordenList.Distinct().ToList();
+                foreach (string woord in woordenList)
+                {
+                    woorden.Add(new StatisticsWord(woord, woordenDictionary[woord].totaalGoed, woordenDictionary[woord].totaalFout));
+                }
                 PrintButtons();
 
                 int averageScore = 0;
                 int totalScore = 0;
                 int totalWordsTyped = 0;
+
+                int totalGamesPlayed = userScores.Count;
+                
 
                 // Voorbeeldgegevens voor grafieken.
                 List<int> wpmData = new List<int> { }; // WPM-waarden.
@@ -124,6 +131,10 @@ namespace TikTovenaar
                     averageScore += score.Value;
                     totalScore += score.Value;
                     totalWordsTyped += score.WordsAmount;
+
+
+
+
                 }
                 averageScore /= userScores.Count;
 
@@ -131,6 +142,9 @@ namespace TikTovenaar
                 AvgScoreText.Text = averageScore.ToString(); // Gemiddelde score.
                 TotalScoreText.Text = totalScore.ToString(); // Totale score.
                 TotalWordsTypedText.Text = totalWordsTyped.ToString(); // Totaal aantal getypte woorden..
+                TotalWordsTypedIncorrectly.Text = totalWordsTypedIncorrectly.ToString(); // Totaal aantal fout getypte woorden.
+                TotalWordsTypedCorrectly.Text = totalWordsTypedCorrectly.ToString(); // Totaal aantal correct getypte woorden.
+                TotalGamesPlayed.Text = totalGamesPlayed.ToString(); // Totaal aantal gespeelde spellen.
 
                 // Teken de verschillende grafieken met de voorbeeldgegevens.
                 DrawWPMGraph(wpmData);
@@ -140,7 +154,7 @@ namespace TikTovenaar
 
                 // breng de scrollsnelheid naar beneden anders gaat die wel heel snel
                 scrollViewer.PreviewMouseWheel += (s, e) => scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset + (e.Delta > 0 ? -20 : 20));
-
+                loadingScreen.Close();
             };
 
             DataContext = this;
