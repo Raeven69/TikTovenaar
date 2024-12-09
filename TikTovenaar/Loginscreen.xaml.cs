@@ -22,8 +22,8 @@ namespace TikTovenaar
         {
             try
             {
-                string token = Handler.Login(UsernameTextBox.Text, PasswordBox.Password);
-                CurrentUser.Instance.Set(UsernameTextBox.Text, token);
+                string token = Handler.Login(UsernameTextBox.Text, PasswordBox.Password, out bool admin);
+                CurrentUser.Instance.Set(UsernameTextBox.Text, token, admin);
                 MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
                 mainWindow.SwitchToHomeScreen();
             }
