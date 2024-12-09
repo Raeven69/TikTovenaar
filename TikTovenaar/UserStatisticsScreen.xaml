@@ -1,0 +1,136 @@
+<UserControl x:Class="TikTovenaar.UserStatisticsScreen"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:oxy="http://oxyplot.org/wpf"
+             xmlns:local="clr-namespace:TikTovenaar"
+             mc:Ignorable="d" 
+             d:DesignWidth="1280"
+             d:DesignHeight="720">
+    <Grid Background="#000435">
+        <!-- Back Button -->
+        <Button Content="terug" Width="50" Height="30" FontSize="16" Foreground="#F0F0F0" Background="#D32F2F" 
+                HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,5,0" 
+                Click="Terug_Click" BorderBrush="Transparent" BorderThickness="0" Panel.ZIndex="10000"/>
+
+        <!-- ScrollViewer to allow scrolling -->
+        <ScrollViewer x:Name="scrollViewer" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
+            <!-- Main Content -->
+            <Grid Margin="0,75,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Stats Title -->
+                <TextBlock FontSize="60" Foreground="#F0F0F0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
+                    Jouw statistieken
+                </TextBlock>
+
+                <!-- Gemiddeld behaalde score -->
+                <Grid Grid.Row="1" Margin="75,5,5,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Gemiddeld behaalde score:" FontSize="25" Foreground="#F0F0F0" VerticalAlignment="Center"/>
+                    <TextBlock Name="AvgScoreText" FontSize="25" Foreground="#F0F0F0" VerticalAlignment="Center" Grid.Column="1" HorizontalAlignment="Center" Margin="0,0,500,0"/>
+                </Grid>
+
+                <!-- Totale behaalde score -->
+                <Grid Grid.Row="2" Margin="75,5,5,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Totale behaalde score:" FontSize="25" Foreground="#F0F0F0" VerticalAlignment="Center"/>
+                    <TextBlock Name="TotalScoreText" FontSize="25" Foreground="#F0F0F0" VerticalAlignment="Center" Grid.Column="1" HorizontalAlignment="Center" Margin="0,0,500,0"/>
+                </Grid>
+
+                <!-- Totaal aantal woorden getyped -->
+                <Grid Grid.Row="3" Margin="75,5,5,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Totaal aantal woorden getyped:" FontSize="25" Foreground="#F0F0F0" VerticalAlignment="Center"/>
+                    <TextBlock Name="TotalWordsTypedText" FontSize="25" Foreground="#F0F0F0" VerticalAlignment="Center" Grid.Column="1" HorizontalAlignment="Center" Margin="0,0,500,0"/>
+                </Grid>
+
+                <!-- Totaal aantal incorrecte woorden getyped -->
+                <Grid Grid.Row="4" Margin="75,5,5,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Totaal aantal woorden fout getyped:" FontSize="25" Foreground="#F0F0F0" VerticalAlignment="Center"/>
+                    <TextBlock Name="TotalWordsTypedIncorrectly" FontSize="25" Foreground="#F0F0F0" VerticalAlignment="Center" Grid.Column="1" HorizontalAlignment="Center" Margin="0,0,500,0"/>
+                </Grid>
+                <!-- Totaal aantal correctly woorden getyped -->
+                <Grid Grid.Row="5" Margin="75,5,5,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Totaal aantal woorden goed getyped:" FontSize="25" Foreground="#F0F0F0" VerticalAlignment="Center"/>
+                    <TextBlock Name="TotalWordsTypedCorrectly" FontSize="25" Foreground="#F0F0F0" VerticalAlignment="Center" Grid.Column="1" HorizontalAlignment="Center" Margin="0,0,500,0"/>
+                </Grid>
+                <!-- Totaal aantal games gespeelt -->
+                <Grid Grid.Row="6" Margin="75,5,5,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Totaal aantal spellen gespeelt:" FontSize="25" Foreground="#F0F0F0" VerticalAlignment="Center"/>
+                    <TextBlock Name="TotalGamesPlayed" FontSize="25" Foreground="#F0F0F0" VerticalAlignment="Center" Grid.Column="1" HorizontalAlignment="Center" Margin="0,0,500,0"/>
+                </Grid>
+
+                <!-- Graphs for WPM, Wrong %, and Right/Wrong Stats -->
+                <StackPanel Grid.Row="7" Margin="0,10">
+                    <oxy:PlotView Name="WPMPlotView" Height="600" Margin="50" Background="Transparent"/>
+                    <oxy:PlotView Name="WrongPercentagePlotView" Height="600" Margin="50" Background="Transparent"/>
+                    <oxy:PlotView Name="RightWrongPlotView" Height="600" Margin="50" Background="Transparent"/>
+                </StackPanel>
+
+                <!-- Search Bar and Sort Options (Positioned just above the Dynamic Grid) -->
+                <Grid Grid.Row="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100*" />
+                        <ColumnDefinition Width="800*" />
+                        <ColumnDefinition Width="100*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50*" />
+                            <ColumnDefinition Width="5*" />
+                            <ColumnDefinition Width="15*" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Search Bar (now spanning the same width as the buttons below) -->
+                        <TextBox Name="searchBar" FontSize="30" TextChanged="SearchBar_TextChanged" Grid.Column="0" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
+
+                        <!-- Sort Order Button (▲ or ▼) -->
+                        <Button Name="VolgwordenButton" Grid.Column="1" Content="▲" FontSize="50" Click="VolgwordenButtonClick"/>
+
+                        <!-- Sort Options ComboBox (next to search bar) -->
+                        <ComboBox Name="SortOptiesButton" ItemsSource="{Binding sortOpties}" Grid.Column="2" SelectionChanged="SortOptiesVerandering" SelectedIndex="0" FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    </Grid>
+                </Grid>
+
+                <!-- Dynamic Content Grid (For displaying words) -->
+                <Grid Grid.Row="9" Name="DynamicGrid" HorizontalAlignment="Center">
+                    <!-- Dynamic content (buttons for words) will be added here -->
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

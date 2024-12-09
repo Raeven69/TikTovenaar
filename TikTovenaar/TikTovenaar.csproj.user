@@ -18,6 +18,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="LeaderboardScreen.xaml.cs">
+    <Compile Update="LoadingScreen.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Loginscreen.xaml.cs">
@@ -27,6 +28,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="WordListScreen.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UserStatisticsScreen.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -47,6 +51,7 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Leaderboardscreen.xaml">
+    <Page Update="LoadingScreen.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Loginscreen.xaml">
@@ -56,6 +61,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="WordListScreen.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UserStatisticsScreen.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
