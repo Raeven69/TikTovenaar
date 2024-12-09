@@ -33,13 +33,18 @@ namespace TikTovenaar
         
         public LeaderboardScreen()
         {
+
             _data = new();
+            LoadingScreen loadingScreen = new LoadingScreen();
+            loadingScreen.Show();
 
             InitializeComponent();
+
              _scoreValue = _data.GetScores(CurrentUser.Instance.Token!).OrderByDescending(x => x.Value).Select(x => x.Value).DefaultIfEmpty(0).First(); //get the highest score of an individual; if there are no scores the value will become 0
             PersonalHighScore = $"Uw hoogste score is: {_scoreValue}";
             PersonalHighScoreLabel.Content = PersonalHighScore;
             HighscoreTable.ItemsSource = (System.Collections.IEnumerable)SortLeaderboard(_data.GetHighscores(), CurrentUser.Instance.Token!); //sort and bind it to the highscore datagrid
+            loadingScreen.Close();
         }
 
         private void ReturnButton_Click(object sender, RoutedEventArgs e)

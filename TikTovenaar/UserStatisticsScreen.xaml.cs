@@ -31,12 +31,7 @@ namespace TikTovenaar
 
             LoadingScreen loadingScreen = new LoadingScreen();
             loadingScreen.Show();
-            
-
-
-
             dataHandler = _dataHandler;
-
             userScores = dataHandler.GetScores(CurrentUser.Instance.Token);
             List<string> woordenList = dataHandler.GetWords();
             Dictionary<string, (int totaalGoed, int totaalFout)> woordenDictionary = new Dictionary<string, (int, int)>();
@@ -52,7 +47,7 @@ namespace TikTovenaar
                 "Alfabetisch",
                 "Aantal goed",
                 "Aantal fout",
-                "Totaal gespeelt"
+                "Totaal gespeeld"
             };
 
             // Stel in dat de logica wordt uitgevoerd zodra het scherm volledig geladen is.
@@ -228,7 +223,7 @@ namespace TikTovenaar
                     // word gesorteerd op aantal fout groot naar klein en als er 2 het zelfde aantal fout hebben worden ze op alfabetische volgorde gesorteerd
                     gesorteerdeWoorden = woorden.Where(woord => woord.woord.StartsWith(searchText)).OrderByDescending(w => w.totaalFout).ThenBy(w => w.woord).ToArray();
                 }
-                else if (SortOptiesButton.SelectedItem.Equals("Totaal gespeelt"))
+                else if (SortOptiesButton.SelectedItem.Equals("Totaal gespeeld"))
                 {
                     // word gesorteerd op totaal gespeelt groot naar klein en als er 2 het zelfde aantal totaal gespeelt hebben worden ze op alfabetische volgorde gesorteerd
                     gesorteerdeWoorden = woorden.Where(woord => woord.woord.StartsWith(searchText)).OrderByDescending(w => w.totaalGespeelt).ThenBy(w => w.woord).ToArray();
@@ -255,7 +250,7 @@ namespace TikTovenaar
                     // word gesorteerd op aantal fout klein naar groot en als er 2 het zelfde aantal fout hebben worden ze op alfabetische volgorde gesorteerd
                     gesorteerdeWoorden = woorden.Where(woord => woord.woord.StartsWith(searchText)).OrderBy(w => w.totaalFout).ThenBy(w => w.woord).ToArray();
                 }
-                else if (SortOptiesButton.SelectedItem.Equals("Totaal gespeelt"))
+                else if (SortOptiesButton.SelectedItem.Equals("Totaal gespeeld"))
                 {
                     // word gesorteerd op totaal gespeelt klein naar grooten als er 2 het zelfde aantal totaal gespeelt hebben worden ze op alfabetische volgorde gesorteerd
                     gesorteerdeWoorden = woorden.Where(woord => woord.woord.StartsWith(searchText)).OrderBy(w => w.totaalGespeelt).ThenBy(w => w.woord).ToArray();
