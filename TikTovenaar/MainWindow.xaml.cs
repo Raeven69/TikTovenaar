@@ -12,11 +12,12 @@ namespace TikTovenaar
 
             // set the background music
             //SoundManager.PlayBackgroundSound("Sounds/wizard_theme_music.mp3");
-            SoundManager.PlayBackgroundSound("Sounds/Coconut Maaaall.mp3");
+            SoundManager.PlayBackgroundSound("Sounds/Coconut Mall.mp3");
             //SoundManager.PlaySoundEffect("Sounds/coc.mp3");
 
             // set the first screen
-            MainContentControl.Content = new Loginscreen();
+            //MainContentControl.Content = new Loginscreen();
+            MainContentControl.Content = new SettingsScreen();
         }
 
         public void SwitchToHomeScreen()
@@ -61,6 +62,11 @@ namespace TikTovenaar
         public void SwitchToUserStatisticsScreen()
         {
             MainContentControl.Content = new UserStatisticsScreen(new DataHandler());
+        }
+
+        public void SwitchToSettingsScreen()
+        {
+            MainContentControl.Content = new SettingsScreen();
         }
     }
 }
