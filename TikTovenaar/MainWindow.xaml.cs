@@ -48,6 +48,10 @@ namespace TikTovenaar
             MainContentControl.Content = statisticsScreen;
         }
 
+        public void SwitchToAdminScreen()
+        {
+            MainContentControl.Content = new AdminScreen();
+        }
         public void SwitchToLeaderboardscreen()
         {
             MainContentControl.Content = new LeaderboardScreen();
