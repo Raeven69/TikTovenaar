@@ -117,9 +117,9 @@ namespace TikTovenaar
 
                 foreach ( ScoreEntry score in userScores ) {
                     int gameTime = (int)(DateTime.Now - score.Time).TotalMinutes;
-                    wpmData.Add(gameTime == 0 ? 0 : score.WordsAmount / gameTime);
-                    goodPercentageData.Add(score.WordsAmount == 0 ? 0 : score.WordsAmount - score.IncorrectWords.Count / score.WordsAmount * 100);
-                    rightWordsData.Add(score.WordsAmount - score.IncorrectWords.Count);
+                    wpmData.Add(gameTime == 0 ? 0 : (int)((double)score.WordsAmount / gameTime));
+                    goodPercentageData.Add(score.WordsAmount == 0 ? 0 : (int)(((double)score.CorrectWords.Count/score.WordsAmount)*100));
+                    rightWordsData.Add(score.CorrectWords.Count);
                     wrongWordsData.Add(score.IncorrectWords.Count);
 
                     averageScore += score.Value;
@@ -398,7 +398,8 @@ namespace TikTovenaar
                 Minimum = 0,
                 Maximum = data.Count - 1,
                 MajorStep = 1,
-                AbsoluteMinimum = 0
+                AbsoluteMinimum = 0,
+                IsZoomEnabled = false
             };
 
             // Voeg een y-as toe voor de WPM-waarden.
@@ -408,7 +409,8 @@ namespace TikTovenaar
                 Title = "WPM",
                 Minimum = 0,
                 Maximum = maxValue + (maxValue * 0.1), // Voeg 10% marge toe aan de maximumwaarde.
-                AbsoluteMinimum = 0
+                AbsoluteMinimum = 0,
+                IsZoomEnabled = false
             };
 
             plotModel.Axes.Add(xAxis);
@@ -456,7 +458,8 @@ namespace TikTovenaar
                 Minimum = 0,
                 Maximum = data.Count - 1,
                 MajorStep = 1,
-                AbsoluteMinimum = 0
+                AbsoluteMinimum = 0,
+                IsZoomEnabled = false
             };
 
             // Voeg een y-as toe voor foutpercentages.
@@ -467,7 +470,8 @@ namespace TikTovenaar
                 Minimum = 0,
                 Maximum = Math.Min(maxValue + (maxValue * 0.1), 100), // Zorg dat het percentage niet boven 100% komt.
                 AbsoluteMinimum = 0,
-                AbsoluteMaximum = 1,
+                AbsoluteMaximum = 100,
+                IsZoomEnabled = false
             };
 
             plotModel.Axes.Add(xAxis);
@@ -523,7 +527,8 @@ namespace TikTovenaar
                 Minimum = 0,
                 Maximum = rightWordsData.Count - 1,
                 MajorStep = 1,
-                AbsoluteMinimum = 0
+                AbsoluteMinimum = 0,
+                IsZoomEnabled = false
             };
 
             // Voeg een y-as toe voor het aantal woorden.
@@ -533,7 +538,8 @@ namespace TikTovenaar
                 Title = "Aantal Woorden",
                 Minimum = 0,
                 Maximum = maxValue + (maxValue * 0.1), // Voeg 10% marge toe aan de maximumwaarde.
-                AbsoluteMinimum = 0
+                AbsoluteMinimum = 0,
+                IsZoomEnabled = false
             };
 
             plotModel.Axes.Add(xAxis);
