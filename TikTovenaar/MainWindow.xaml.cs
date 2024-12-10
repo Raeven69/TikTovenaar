@@ -11,7 +11,8 @@ namespace TikTovenaar
             InitializeComponent();
 
             // set the background music
-            SoundManager.PlayBackgroundSound("Sounds/wizard_theme_music.mp3");
+            //SoundManager.PlayBackgroundSound("Sounds/wizard_theme_music.mp3");
+            SoundManager.PlayBackgroundSound("Sounds/Coconut Maaaall.mp3");
             //SoundManager.PlaySoundEffect("Sounds/coc.mp3");
 
             // set the first screen
