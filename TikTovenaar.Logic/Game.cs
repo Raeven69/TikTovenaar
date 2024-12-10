@@ -261,7 +261,15 @@ public class Game
                 wrongletterchars.Add((char)letter.Value); // Convert Letters to Chars
             }
         }
-        Score score = new(WordsCount, Score, wrongwordsstrings, wrongletterchars, CorrectWords);
+        Score score = new()
+        {
+            WordsAmount = WordsCount,
+            Value = Score,
+            IncorrectWords = wrongwordsstrings,
+            IncorrectLetters = wrongletterchars,
+            CorrectWords = CorrectWords,
+            Duration = TimeSpan.FromSeconds(TimeElapsed)
+        };
         _dataHandler.AddScore(CurrentUser.Instance.Token!, score);
         _timeTimer.Stop();
         _progressTimer.Stop();
