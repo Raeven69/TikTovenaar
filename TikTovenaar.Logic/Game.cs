@@ -118,7 +118,8 @@ public class Game
             }
             else
             {
-                if(CurrentWord.IsCompleted)
+                WordsCount++;
+                if (CurrentWord.IsCompleted)
                 {
                     if(CurrentWord.IsWrong == true)
                     {
@@ -126,8 +127,7 @@ public class Game
                         WrongWords.Add(CurrentWord);
 
                         WordWrong?.Invoke(this, EventArgs.Empty);
-                    }
-                    WordsCount++;
+                    }    
                 }
                 else
                 {
