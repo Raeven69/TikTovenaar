@@ -12,7 +12,7 @@ namespace TikTovenaar
 
             // set the background music
             SoundManager.PlayBackgroundSound("Sounds/wizard_theme_music.mp3");
-            SoundManager.PlaySoundEffect("Sounds/coc.mp3");
+            //SoundManager.PlaySoundEffect("Sounds/coc.mp3");
 
             // set the first screen
             MainContentControl.Content = new Loginscreen();
@@ -48,6 +48,15 @@ namespace TikTovenaar
             MainContentControl.Content = statisticsScreen;
         }
 
+        public void SwitchToAdminScreen()
+        {
+            MainContentControl.Content = new AdminScreen();
+        }
+        public void SwitchToLeaderboardscreen()
+        {
+            MainContentControl.Content = new LeaderboardScreen();
+        }
+        
         public void SwitchToUserStatisticsScreen()
         {
             MainContentControl.Content = new UserStatisticsScreen(new DataHandler());

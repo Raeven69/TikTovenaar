@@ -25,7 +25,7 @@ namespace TikTovenaar
         // Event for notifying when a property changes, used for data binding.
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public string WordCount
+        public string WordCount 
         {
             get => _wordCount;
             set
@@ -45,7 +45,7 @@ namespace TikTovenaar
             {
                 if (_errorPercentage != value)
                 {
-                    _errorPercentage = $"{value}%";
+                    _errorPercentage = $"{100 - float.Parse(value):0.00}%";
                     OnPropertyChanged();
                 }
             }

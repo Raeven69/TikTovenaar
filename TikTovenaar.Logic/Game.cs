@@ -1,4 +1,5 @@
 ﻿
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Timers;
 using TikTovenaar.Logic;
@@ -12,6 +13,28 @@ public class Game
     
     public List<Word> WordList { get; private set; } = new();
     public List<Word> WrongWords { get; private set; } = new();
+    public List<string> CorrectWords
+    {
+        get
+        {
+            //List for the correct words as strings
+            List<string> _rightWordsStrings = new();
+
+            //Filter incorrect words and get the correct ones
+            List<Word> _rightWords = WordList.Where(word => !WrongWords.Contains(word)).ToList();
+
+            //Convert the Word objects to strings and add them to _rightWords
+            foreach (Word word in _rightWords)
+            {
+                _rightWordsStrings.Add(word.getWholeWord());
+            }
+
+            // Return list of correct words as strings
+            return _rightWordsStrings;
+        }
+    }
+
+
     public List<Letter> WrongLetters { get; private set; } = new();
 
 
@@ -42,14 +65,13 @@ public class Game
     public event EventHandler<double>? ProgressUpdated; // Added for progress updates
     public event EventHandler? GameFinished;
     public event EventHandler? WordWrong;
-
+    private string? token;
     public Game(IDataHandler handler)
     {
         _dataHandler = handler;
 
         GenerateWords();
         NextWord();
-
         // Timer for updating game time (1 second interval)
         _timeTimer = new(1000);
         _timeTimer.Elapsed += TimeTimerElapsed;
@@ -118,7 +140,8 @@ public class Game
             }
             else
             {
-                if(CurrentWord.IsCompleted)
+                WordsCount++;
+                if (CurrentWord.IsCompleted)
                 {
                     if(CurrentWord.IsWrong == true)
                     {
@@ -126,15 +149,15 @@ public class Game
                         WrongWords.Add(CurrentWord);
 
                         WordWrong?.Invoke(this, EventArgs.Empty);
-                    }
-                    WordsCount++;
+                    }    
                 }
                 else
                 {
+                    _incorrectPresses += CurrentWord.Letters.Count - CurrentWord.Index;
+                    _totalPresses += CurrentWord.Letters.Count - CurrentWord.Index;
                     remainingLives--;
                     WrongWords.Add(CurrentWord);
                     WordWrong?.Invoke(this, EventArgs.Empty);
-                    WordsCount++;
                 }
                 CalculateScore(_incorrectPresses, _totalPresses, WordsCount);
 
@@ -221,6 +244,33 @@ public class Game
         Finished = true;
         CalculateErrorPercentage(_incorrectPresses, _totalPresses);
         CalculateScore(_incorrectPresses, _totalPresses, WordsCount);
+
+        List<string>wrongwordsstrings = new(); // List with wrong Words
+        List<char> wrongletterchars = new(); // List with wrong Letters
+        foreach(Word word in WrongWords)
+        {
+            if (word.getWholeWord() != null)
+            {
+                wrongwordsstrings.Add(word.getWholeWord()); // Convert Words to strings
+            }
+        }
+        foreach(Letter letter in WrongLetters)
+        {
+            if (letter.Value != null)
+            {
+                wrongletterchars.Add((char)letter.Value); // Convert Letters to Chars
+            }
+        }
+        Score score = new()
+        {
+            WordsAmount = WordsCount,
+            Value = Score,
+            IncorrectWords = wrongwordsstrings,
+            IncorrectLetters = wrongletterchars,
+            CorrectWords = CorrectWords,
+            Duration = TimeSpan.FromSeconds(TimeElapsed)
+        };
+        _dataHandler.AddScore(CurrentUser.Instance.Token!, score);
         _timeTimer.Stop();
         _progressTimer.Stop();
         GameFinished?.Invoke(this, EventArgs.Empty);

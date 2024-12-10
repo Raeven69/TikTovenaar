@@ -2,7 +2,16 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
+    <Compile Update="AddUserDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Adminscreen.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="App.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="DeleteUserDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="DetailsDialog.xaml.cs">
@@ -17,9 +26,6 @@
     <Compile Update="Homescreen.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="LoadingScreen.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Loginscreen.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -29,12 +35,18 @@
     <Compile Update="WordListScreen.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="UserStatisticsScreen.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="AddUserDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Adminscreen.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="App.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="DeleteUserDialog.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="DetailsDialog.xaml">
@@ -49,9 +61,6 @@
     <Page Update="Homescreen.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="LoadingScreen.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Loginscreen.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -59,9 +68,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="WordListScreen.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="UserStatisticsScreen.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

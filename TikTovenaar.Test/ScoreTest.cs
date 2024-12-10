@@ -1,4 +1,5 @@
 using TikTovenaar.DataAccess;
+using TikTovenaar.Logic;
 
 namespace TikTovenaar.Test
 {
@@ -6,6 +7,7 @@ namespace TikTovenaar.Test
     public class ScoreTest
     {
         Game game;
+        IDataHandler handler;
         [TestInitialize]
         public void Initialise() //creates game because its needed in all the tests
         {

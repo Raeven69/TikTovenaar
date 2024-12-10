@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Net.Http.Headers;
 using TikTovenaar.Logic;
 
 namespace TikTovenaar.DataAccess
@@ -19,6 +20,7 @@ namespace TikTovenaar.DataAccess
         private static void ThrowIfError(HttpResponseMessage response)
         {
             dynamic? result = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result) ?? throw new RequestFailedException("Something went wrong.");
+            Console.WriteLine(result);
             if (result is not JArray && (string)result.type != "success")
             {
                 throw new RequestFailedException((string)result.message);
@@ -32,6 +34,7 @@ namespace TikTovenaar.DataAccess
             List<KeyValuePair<string, string>> data = [
                 new("wordsAmount", score.WordsAmount.ToString()),
                 new("value", score.Value.ToString()),
+                new("duration", score.Duration.ToString())
             ];
             foreach (string word in score.IncorrectWords)
             {
@@ -62,24 +65,24 @@ namespace TikTovenaar.DataAccess
             return scores;
         }
 
-        public List<ScoreEntry> GetScores(string token)
+        public List<Score> GetScores(string token)
         {
             using HttpRequestMessage request = new(HttpMethod.Get, "score");
             request.Headers.Authorization = new("Bearer", token);
             HttpResponseMessage response = client.SendAsync(request).Result;
             ThrowIfError(response);
             dynamic? result = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result);
-            List<ScoreEntry> scores = [];
+            List<Score> scores = [];
             foreach (dynamic score in result!)
             {
-                ScoreEntry entry = new()
+                Score entry = new()
                 {
                     WordsAmount = (int)score.wordsAmount,
                     Value = (int)score.value,
                     IncorrectWords = score.incorrectWords.ToObject<List<string>>(),
                     IncorrectLetters = score.incorrectLetters.ToObject<List<char>>(),
                     CorrectWords = score.correctWords.ToObject<List<string>>(),
-                    Time = DateTime.Parse((string)score.time),
+                    Duration = TimeSpan.Parse((string)score.duration),
                 };
                 scores.Add(entry);
             }

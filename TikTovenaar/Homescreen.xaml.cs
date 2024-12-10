@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using TikTovenaar.DataAccess;
 using TikTovenaar.Logic;
 
 namespace TikTovenaar
@@ -9,11 +10,10 @@ namespace TikTovenaar
         private WizardAnimation _wizardAnimation1;
         private WizardAnimation _wizardAnimation2;
 
-        private bool isAdmin = false;
         public Homescreen()
         {
             InitializeComponent();
-            adminButton.Visibility = isAdmin ? Visibility.Visible : Visibility.Collapsed;
+            adminButton.Visibility = CurrentUser.Instance.IsAdmin ? Visibility.Visible : Visibility.Collapsed;
 
             _wizardAnimation1 = new(wizardIdleImageBrush, 0.16666, 6);
             _wizardAnimation1.StartAnimation(0.16666, 6, "Images/wizard_idle.png");
@@ -36,9 +36,16 @@ namespace TikTovenaar
             mainWindow.SwitchToLoginScreen();
         }
 
+        private void LeaderboardButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.SwitchToLeaderboardscreen();
+        }
+
         private void AdminButton_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.SwitchToAdminScreen();
         }
             
         private void Statistics_Click(object sender, RoutedEventArgs e)
