@@ -116,8 +116,8 @@ namespace TikTovenaar
                 List<int> wrongWordsData = new List<int> { }; // Foute woorden
 
                 foreach ( Score score in userScores ) {
-                    int gameTime = (int)score.Duration.TotalMinutes;
-                    wpmData.Add(gameTime == 0 ? 0 : (int)((double)score.WordsAmount / gameTime));
+                    double gameTime = score.Duration.TotalMinutes;
+                    wpmData.Add(gameTime == 0 ? 0 : (int)(score.WordsAmount / gameTime));
                     goodPercentageData.Add(score.WordsAmount == 0 ? 0 : (int)(((double)score.CorrectWords.Count/score.WordsAmount)*100));
                     rightWordsData.Add(score.CorrectWords.Count);
                     wrongWordsData.Add(score.IncorrectWords.Count);
