@@ -84,7 +84,7 @@ namespace TikTovenaar
 
                     if (!line.Trim().Contains("{{"))
                     {
-                        return ("No category found", line.Trim().Replace("#", ""));
+                        return ("+Geen categorie gevonden", line.Trim().Replace("#", ""));
                     }
                     else
                     {
@@ -100,7 +100,7 @@ namespace TikTovenaar
                     }
                 }
             }
-            return ("No category found", "No meaning found");
+            return ("Geen categorie gevonden", "Geen betekenis gevonden");
         }
 
         static async Task<string> GetApiResponse(string url)
