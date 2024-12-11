@@ -18,12 +18,37 @@
                      HorizontalAlignment="Left" VerticalAlignment="Bottom"
                      Padding="20" Margin="10,0,0,10" Value="100" Foreground="#4CAF50"/>
 
+        <TextBlock x:Name="streakText"
+                   Text="Streak: 0"
+                   FontSize="24px"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Foreground="#F0F0F0"
+                   Margin="0,0,10,250">
+        </TextBlock>
+        <Rectangle Width="60" Height="80" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="200,0,0,300">
+            <Rectangle.Fill>
+                <ImageBrush x:Name="fireImageBrush" 
+            ImageSource="Images/burning_loop_1.png"
+            Viewbox="0,0,0.125,1" 
+            ViewboxUnits="RelativeToBoundingBox" 
+            Stretch="Fill">
+                    <ImageBrush.Transform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleX="-1" ScaleY="1" />
+                            <TranslateTransform X="60" Y="0" />
+                        </TransformGroup>
+                    </ImageBrush.Transform>
+                </ImageBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+
         <TextBlock x:Name="currentWordText" 
-           Opacity="0"
-           FontSize="60px" 
-           Foreground="#F0F0F0" 
-           HorizontalAlignment="Center"
-           VerticalAlignment="Center">
+                   Opacity="0"
+                   FontSize="60px" 
+                   Foreground="#F0F0F0" 
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center">  
         </TextBlock>
 
         <ProgressBar x:Name="WordTimer"
