@@ -38,8 +38,7 @@
   </ItemGroup>
 
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="cd .\&#xD;&#xA;set ide=true&#xD;&#xA;&quot;$(TargetPath)&quot;" />
-  </Target>
-
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="&quot;$(TargetPath)&quot;" />
+	</Target>
 </Project>
