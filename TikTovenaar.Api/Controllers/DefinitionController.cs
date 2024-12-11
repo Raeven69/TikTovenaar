@@ -27,9 +27,9 @@ namespace TikTovenaar.Api.Controllers
                             {
                                 int startCategory = line.Trim().IndexOf("{{") + 2;
                                 int endCategory = line.Trim().IndexOf('|');
-                                int startMeaning = line.Trim().IndexOf("}}") + 2;
+                                int startMeaning = line.Trim().LastIndexOf("}}") + 2;
                                 string category = line[startCategory..endCategory].Trim();
-                                string meaning = line[startMeaning..].Replace("[", "").Replace("]", "").Trim();
+                                string meaning = line[startMeaning..].Replace("[", "").Replace("]", "").Replace("<br>", "\n").Trim();
                                 return new(new { type = "success", message = new { category, meaning } });
                             }
                         }
