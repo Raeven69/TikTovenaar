@@ -24,6 +24,11 @@ namespace TikTovenaar
             }
         }
 
+        public static void SetBackgroundVulume(int volume)
+        {
+            _backgroundMediaPlayer.Volume = (double)volume/100;
+        }
+
         public static void StopBackgroundSound()
         {
             _backgroundMediaPlayer.Stop();
