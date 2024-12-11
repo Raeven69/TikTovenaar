@@ -10,7 +10,7 @@ using WixSharp.UI.Forms;
 using WixSharp.UI.WPF;
 using IO = System.IO;
 
-namespace WixSharp_Setup1
+namespace TikTovenaar.Installer
 {
     /// <summary>
     /// The standard LicenceDialog.

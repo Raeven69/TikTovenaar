@@ -5,7 +5,7 @@ using WixSharp.UI.Forms;
 
 using WixSharp.UI.WPF;
 
-namespace WixSharp_Setup1
+namespace TikTovenaar.Installer
 {
     /// <summary>
     /// The standard WelcomeDialog.
@@ -15,15 +15,12 @@ namespace WixSharp_Setup1
     /// <seealso cref="System.Windows.Markup.IComponentConnector" />
     public partial class WelcomeDialog : WpfDialog, IWpfDialog
     {
-        private readonly string _title = "Welkom bij de installeer tovenaar!";
-
         /// <summary>
         /// Initializes a new instance of the <see cref="WelcomeDialog" /> class.
         /// </summary>
         public WelcomeDialog()
         {
             InitializeComponent();
-            Title.Text = _title;
         }
 
         /// <summary>

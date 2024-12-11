@@ -1,5 +1,5 @@
 <wixsharp:WpfDialog
-    x:Class="WixSharp_Setup1.InstallDirDialog"
+    x:Class="TikTovenaar.Installer.MaintenanceTypeDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -39,37 +39,83 @@
                         Grid.Column="0"
                         FontSize="12"
                         FontWeight="Bold">
-                        [InstallDirDlgTitle]
+                        [MaintenanceTypeDlgTitle]
                     </TextBlock>
                     <TextBlock
                         x:Name="DialogDescription"
                         Margin="17,5"
                         VerticalAlignment="Stretch"
                         TextWrapping="WrapWithOverflow">
-                        [InstallDirDlgDescription]
+                        [MaintenanceTypeDlgDescription]
                     </TextBlock>
                 </StackPanel>
             </Grid>
         </Border>
 
-        <StackPanel Grid.Row="1" Margin="20,10">
-            <TextBlock MinHeight="35" TextWrapping="WrapWithOverflow">
-                [InstallDirDlgFolderLabel]
-            </TextBlock>
-            <TextBox
-                x:Name="InstallDirPath"
-                Height="18"
-                Margin="0,10"
-                VerticalContentAlignment="Center"
-                Text="{Binding InstallDirPath}" />
+        <Grid Grid.Row="1" Margin="20,10,20,10">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
             <Button
-                x:Name="ChangeInstallDir"
+                x:Name="Change"
                 Height="23"
-                MinWidth="140"
+                MinWidth="112"
                 HorizontalAlignment="Left"
-                Click="ChangeInstallDir_Click"
-                Content="[InstallDirDlgChange]" />
-        </StackPanel>
+                VerticalAlignment="Top"
+                Click="Change_Click">
+                [MaintenanceTypeDlgChangeButton]
+            </Button>
+            <TextBlock
+                MinHeight="35"
+                Margin="20,35,0,0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                TextWrapping="WrapWithOverflow">
+                [MaintenanceTypeDlgChangeText]
+            </TextBlock>
+
+            <Button
+                x:Name="Repair"
+                Grid.Row="1"
+                Height="23"
+                MinWidth="112"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Click="Repair_Click">
+                [MaintenanceTypeDlgRepairButton]
+            </Button>
+            <TextBlock
+                Grid.Row="1"
+                MinHeight="35"
+                Margin="20,35,0,0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                TextWrapping="WrapWithOverflow">
+                [MaintenanceTypeDlgRepairText]
+            </TextBlock>
+
+            <Button
+                x:Name="Remove"
+                Grid.Row="2"
+                Height="23"
+                MinWidth="112"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Click="Remove_Click">
+                [MaintenanceTypeDlgRemoveButton]
+            </Button>
+            <TextBlock
+                Grid.Row="2"
+                MinHeight="35"
+                Margin="20,35,0,0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                TextWrapping="WrapWithOverflow">
+                [MaintenanceTypeDlgRemoveText]
+            </TextBlock>
+        </Grid>
 
         <Border
             Grid.Row="2"
@@ -95,7 +141,7 @@
                     x:Name="GoNext"
                     Height="23"
                     MinWidth="73"
-                    Click="GoNext_Click">
+                    IsEnabled="false">
                     [WixUINext]
                 </Button>
                 <Separator Width="20" Opacity="0" />
