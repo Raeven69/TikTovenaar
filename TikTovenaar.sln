@@ -20,6 +20,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TikTovenaar.Api", "TikToven
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WixSharp Setup1", "WixSharp Setup1\WixSharp Setup1.csproj", "{EC134859-2CB0-43EF-94B3-DDD2DCFC77D5}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TikTovenaar.Installer", "WixSharp Setup1\TikTovenaar.Installer.csproj", "{19C273BC-DD01-4C4A-9880-01E918C48BE7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,10 @@ Global
 		{EC134859-2CB0-43EF-94B3-DDD2DCFC77D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC134859-2CB0-43EF-94B3-DDD2DCFC77D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC134859-2CB0-43EF-94B3-DDD2DCFC77D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19C273BC-DD01-4C4A-9880-01E918C48BE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19C273BC-DD01-4C4A-9880-01E918C48BE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19C273BC-DD01-4C4A-9880-01E918C48BE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19C273BC-DD01-4C4A-9880-01E918C48BE7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

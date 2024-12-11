@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
-using WixSharp;
 using WixSharp.UI.WPF;
 
-namespace WixSharp_Setup1
+namespace WixSharp
 {
     public class Program
     {
