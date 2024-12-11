@@ -38,7 +38,7 @@
   </ItemGroup>
 
 
-	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(CI)' != 'true'">
 		<Exec Command="&quot;$(TargetPath)&quot;" />
 	</Target>
 </Project>
