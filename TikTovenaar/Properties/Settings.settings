@@ -2,11 +2,14 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TikTovenaar.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="musicVolume" Type="System.Int32" Scope="User">
+    <Setting Name="backgroundMusicVolume" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">100</Value>
     </Setting>
     <Setting Name="soundEffectVolume" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">100</Value>
+    </Setting>
+    <Setting Name="lastSelectedBackgroundMusic" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

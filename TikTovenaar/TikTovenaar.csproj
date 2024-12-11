@@ -42,7 +42,7 @@
     <Content Include="Sounds\wizard_attack.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Sounds\wizard_theme_music.mp3">
+    <Content Include="Sounds\Background\wizard_theme_music.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -68,7 +68,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Update="Sounds\Coconut Mall.mp3">
+    <None Update="Sounds\Background\Coconut Mall.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

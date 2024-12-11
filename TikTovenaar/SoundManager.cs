@@ -28,10 +28,19 @@ namespace TikTovenaar
         {
             _backgroundMediaPlayer.Volume = (double)volume/100;
         }
+        public static void SetSoundEffectVulume(int volume)
+        {
+            _soundEffectMediaPlayer.Volume = (double)volume/100;
+        }
 
         public static void StopBackgroundSound()
         {
             _backgroundMediaPlayer.Stop();
+        }
+
+        public static void CheckPlayingMusic()
+        {
+            _backgroundMediaPlayer.SpeedRatio = 2;
         }
 
         public static void PlaySoundEffect(string soundEffectFilePath)

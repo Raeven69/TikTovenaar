@@ -26,12 +26,12 @@ namespace TikTovenaar.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("100")]
-        public int musicVolume {
+        public int backgroundMusicVolume {
             get {
-                return ((int)(this["musicVolume"]));
+                return ((int)(this["backgroundMusicVolume"]));
             }
             set {
-                this["musicVolume"] = value;
+                this["backgroundMusicVolume"] = value;
             }
         }
         
@@ -44,6 +44,18 @@ namespace TikTovenaar.Properties {
             }
             set {
                 this["soundEffectVolume"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string lastSelectedBackgroundMusic {
+            get {
+                return ((string)(this["lastSelectedBackgroundMusic"]));
+            }
+            set {
+                this["lastSelectedBackgroundMusic"] = value;
             }
         }
     }
