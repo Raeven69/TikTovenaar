@@ -24,7 +24,7 @@ namespace TikTovenaar
 
         private IDataHandler dataHandler;
 
-        private List<ScoreEntry> userScores;
+        private List<Score> userScores;
 
         public UserStatisticsScreen(IDataHandler _dataHandler)
         {
@@ -33,7 +33,7 @@ namespace TikTovenaar
             loadingScreen.Show();
             dataHandler = _dataHandler;
             userScores = dataHandler.GetScores(CurrentUser.Instance.Token);
-            List<string> woordenList = dataHandler.GetWords();
+            List<string> woordenList = new List<string>();
             Dictionary<string, (int totaalGoed, int totaalFout)> woordenDictionary = new Dictionary<string, (int, int)>();
 
 
@@ -55,14 +55,8 @@ namespace TikTovenaar
             {
                 int totalWordsTypedCorrectly = 0;
                 int totalWordsTypedIncorrectly = 0;
-                foreach (string woord in woordenList)
-                {
-                    if (!woordenDictionary.ContainsKey(woord))
-                    {
-                        woordenDictionary.Add(woord, (0, 0));
-                    }
-                }
-                foreach (ScoreEntry score in userScores)
+                
+                foreach (Score score in userScores)
                 {
                     foreach (var incorrectWord in score.IncorrectWords)
                     {
@@ -115,9 +109,9 @@ namespace TikTovenaar
                 List<int> rightWordsData = new List<int> { }; // Correcte woorden.
                 List<int> wrongWordsData = new List<int> { }; // Foute woorden
 
-                foreach ( ScoreEntry score in userScores ) {
-                    int gameTime = (int)(DateTime.Now - score.Time).TotalMinutes;
-                    wpmData.Add(gameTime == 0 ? 0 : (int)((double)score.WordsAmount / gameTime));
+                foreach ( Score score in userScores ) {
+                    double gameTime = score.Duration.TotalMinutes;
+                    wpmData.Add(gameTime == 0 ? 0 : (int)(score.WordsAmount / gameTime));
                     goodPercentageData.Add(score.WordsAmount == 0 ? 0 : (int)(((double)score.CorrectWords.Count/score.WordsAmount)*100));
                     rightWordsData.Add(score.CorrectWords.Count);
                     wrongWordsData.Add(score.IncorrectWords.Count);

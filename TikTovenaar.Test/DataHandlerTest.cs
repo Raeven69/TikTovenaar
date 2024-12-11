@@ -106,7 +106,12 @@ namespace TikTovenaar.Test
         {
             DataHandler handler = new();
             string token = handler.Login("TestPlayer", "password", out bool _);
-            Score score = new(10, 200, [], [], []);
+            Score score = new()
+            {
+                WordsAmount = 10,
+                Value = 200,
+                Duration = TimeSpan.FromSeconds(10)
+            };
             handler.AddScore(token, score);
         }
 

@@ -45,7 +45,7 @@ namespace TikTovenaar
             {
                 if (_errorPercentage != value)
                 {
-                    _errorPercentage = $"{value}%";
+                    _errorPercentage = $"{100 - float.Parse(value):0.00}%";
                     OnPropertyChanged();
                 }
             }
