@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using WixSharp;
 using WixSharp.UI.WPF;
@@ -10,19 +11,22 @@ namespace TikTovenaar.Installer
     {
         static void Main()
         {
-            var project = new ManagedProject("Installeer tovenaar",
-                              new Dir(@"%ProgramFiles%\TikTovenaar",
-                                  new WixSharp.File("Program.cs")));
-
-            project.GUID = new Guid("ea03ac19-a5c9-4cad-ba64-f232063453bf");
-
-            // project.ManagedUI = ManagedUI.DefaultWpf; // all stock UI dialogs
-
-            //custom set of UI WPF dialogs
-            project.ManagedUI = new ManagedUI();
             string workingDirectory = Environment.CurrentDirectory;
             string projectDirectory = Directory.GetParent(workingDirectory).Parent.Parent.Parent.Parent.FullName; //gets the default project files
-            project.BackgroundImage = $"{projectDirectory}\\TikTovenaar\\Images\\logo.png";
+            string targetDirectory = Path.Combine(projectDirectory, "TikTovenaar", "bin", "Release", "net8.0-windows", "publish", "win-x86");
+            var targetFiles = Directory.EnumerateFiles(targetDirectory, "*").Where(file => !file.EndsWith("pdb"));
+
+            var project = new ManagedProject("Installeer tovenaar",
+                              new Dir(@"%ProgramFiles%\TikTovenaar",
+                                  new Files(Path.Combine(targetDirectory, "*.*"), f => !f.EndsWith(".pdb") && !f.EndsWith("."))))
+            {
+                GUID = new Guid("ea03ac19-a5c9-4cad-ba64-f232063453bf"),
+
+                
+                ManagedUI = new ManagedUI(),
+
+                BackgroundImage = $"{projectDirectory}\\TikTovenaar\\Images\\logo.png"
+            };
 
 
             Console.WriteLine(projectDirectory);
