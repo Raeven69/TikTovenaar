@@ -6,7 +6,7 @@
         WindowStartupLocation="CenterScreen"
         xmlns:local="clr-namespace:TikTovenaar"
         mc:Ignorable="d"
-        Title="DeleteUserDialog" Height="250" Width="400" WindowStyle="None" ResizeMode="NoResize"
+        Title="Gebruiker verwijderen" Height="250" Width="400" WindowStyle="None" ResizeMode="NoResize"
         BorderBrush="#0D1117" BorderThickness="4">
     <Grid Background="#000435">
         <Button Content="X" Width="20" Height="20" FontSize="12" Foreground="#F0F0F0" Background="#D32F2F" 

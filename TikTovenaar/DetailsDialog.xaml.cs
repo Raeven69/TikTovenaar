@@ -29,7 +29,7 @@ namespace TikTovenaar
                 subTitleText.Text = exc.Message;
             }
         }
-
+        
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             Close();
