@@ -10,6 +10,27 @@ namespace TikTovenaar
         private static MediaPlayer _backgroundMediaPlayer = new MediaPlayer();
         private static MediaPlayer _soundEffectMediaPlayer = new MediaPlayer();
 
+        public static void InitMusic()
+        {
+            SetBackgroundVulume(Properties.Settings.Default.backgroundMusicVolume);
+            SetSoundEffectVulume(Properties.Settings.Default.soundEffectVolume);
+            string lastSelectedBackgroundMusic = Properties.Settings.Default.lastSelectedBackgroundMusic;
+            List<string> backgroundMusicInFiles = new List<string>();
+            string folderPath = "Sounds/Background";
+            if (Directory.Exists(folderPath))
+            {
+                string[] mp3Files = Directory.GetFiles(folderPath, "*.mp3");
+                foreach (string file in mp3Files)
+                {
+                    backgroundMusicInFiles.Add(System.IO.Path.GetFileName(file));
+                }
+            }
+            if (backgroundMusicInFiles.Contains(lastSelectedBackgroundMusic))
+            {
+                PlayBackgroundSound("Sounds/Background/" + lastSelectedBackgroundMusic);
+            }
+        }
+
         public static void PlayBackgroundSound(string soundFilePath)
         {
             try
@@ -38,10 +59,7 @@ namespace TikTovenaar
             _backgroundMediaPlayer.Stop();
         }
 
-        public static void CheckPlayingMusic()
-        {
-            _backgroundMediaPlayer.SpeedRatio = 2;
-        }
+        
 
         public static void PlaySoundEffect(string soundEffectFilePath)
         {

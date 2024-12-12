@@ -9,7 +9,7 @@
       <Value Profile="(Default)">100</Value>
     </Setting>
     <Setting Name="lastSelectedBackgroundMusic" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">wizard_theme_music.mp3</Value>
     </Setting>
   </Settings>
 </SettingsFile>

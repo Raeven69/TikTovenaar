@@ -1,22 +1,10 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Controls.Primitives;
+using Microsoft.WindowsAPICodePack.Dialogs;
 
 
 namespace TikTovenaar
@@ -32,12 +20,7 @@ namespace TikTovenaar
         {
             InitializeComponent();
             DataContext = this;
-            MusicVolume = Properties.Settings.Default.backgroundMusicVolume;
-            SoundEffectVolume = Properties.Settings.Default.soundEffectVolume;
-            backgroundMusicOptions = new ObservableCollection<string>
-            {
-                "Geen achtergrond muziek"
-            };
+            backgroundMusicOptions = new ObservableCollection<string>();
             LoadBackGroundMusic();
 
             if (backgroundMusicOptions.Contains(Properties.Settings.Default.lastSelectedBackgroundMusic))
@@ -48,7 +31,9 @@ namespace TikTovenaar
             {
                 BackgroundMusicComboBox.SelectedItem = "Geen achtergrond muziek";
             }
-           SoundManager.CheckPlayingMusic();
+            musicVolume = Properties.Settings.Default.backgroundMusicVolume;
+            soundEffectVolume = Properties.Settings.Default.soundEffectVolume;
+
         }
 
         private int musicVolume;
@@ -58,6 +43,14 @@ namespace TikTovenaar
             get => musicVolume;
             set
             {
+                if (value == 0)
+                {
+                    SoundManager.StopBackgroundSound();
+                }
+                if (musicVolume == 0 && value > 0)
+                {
+                    SoundManager.PlayBackgroundSound("Sounds/Background/" + Properties.Settings.Default.lastSelectedBackgroundMusic);
+                }
                 musicVolume = value;
                 Properties.Settings.Default.backgroundMusicVolume = musicVolume;
                 Properties.Settings.Default.Save();
@@ -89,6 +82,8 @@ namespace TikTovenaar
 
         private void LoadBackGroundMusic()
         {
+            backgroundMusicOptions.Clear();
+            backgroundMusicOptions.Add("Geen achtergrond muziek");
             string folderPath = "Sounds/Background";
             if (Directory.Exists(folderPath))
             {
@@ -110,22 +105,47 @@ namespace TikTovenaar
 
         private void BackgroundMusicComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+
             string selectedMusic = BackgroundMusicComboBox.SelectedItem.ToString();
-            Properties.Settings.Default.lastSelectedBackgroundMusic = selectedMusic;
-            Properties.Settings.Default.Save();
-            if (selectedMusic != "Geen achtergrond muziek")
+            string lastSelectedBackgroundMusic = Properties.Settings.Default.lastSelectedBackgroundMusic;
+            if (!selectedMusic.Equals(lastSelectedBackgroundMusic))
             {
-                SoundManager.PlayBackgroundSound("Sounds/Background/" + selectedMusic);
-            }
-            else
-            {
-                SoundManager.StopBackgroundSound();
+                Properties.Settings.Default.lastSelectedBackgroundMusic = selectedMusic;
+                Properties.Settings.Default.Save();
+                if (selectedMusic != "Geen achtergrond muziek")
+                {
+                    SoundManager.PlayBackgroundSound("Sounds/Background/" + selectedMusic);
+                }
+                else
+                {
+                    SoundManager.StopBackgroundSound();
+                }
+
             }
         }
 
         private void AddMusic_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start("explorer.exe", "Sounds/Background");
+            string absolutePath = System.IO.Path.GetFullPath("Sounds/Background");
+            
+            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
+
+            dialog.Filters.Add(new CommonFileDialogFilter("MP3 Bestanden", "*.mp3"));
+            dialog.Title = "Selecteer een MP3-bestand";
+
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                //selectedPath = dialog.FileName;
+                MessageBox.Show($"Geselecteerde map: ");
+            }
+            
+            
         }
+
+        private void SoundEffectVolume_DragCompleted(object sender, DragCompletedEventArgs e)
+        {
+            SoundManager.PlaySoundEffect("Sounds/wizard_attack.mp3");
+        }
+
     }
 }
