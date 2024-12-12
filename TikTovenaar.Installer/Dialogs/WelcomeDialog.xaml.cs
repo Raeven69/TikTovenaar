@@ -18,9 +18,14 @@ namespace TikTovenaar.Installer
         /// <summary>
         /// Initializes a new instance of the <see cref="WelcomeDialog" /> class.
         /// </summary>
+        private string _title = "Welkom bij de Installeer tovenaar!";
+        private string _description = "De installeer tovenaar zal TikTovenaar op uw apparaat installeren. " +
+                                      "Klik op volgende om door te gaan of op annuleren om de installatie te stoppen";
         public WelcomeDialog()
         {
             InitializeComponent();
+            Title.Text = _title;
+            DialogDescription.Text = _description;
         }
 
         /// <summary>
