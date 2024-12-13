@@ -14,6 +14,9 @@
     <Compile Update="DeleteUserDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="DeleteUsers.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="DetailsDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -47,6 +50,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="DeleteUserDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="DeleteUsers.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="DetailsDialog.xaml">
