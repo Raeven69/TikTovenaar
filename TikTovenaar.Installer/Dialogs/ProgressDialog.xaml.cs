@@ -20,9 +20,13 @@ namespace TikTovenaar.Installer
         /// <summary>
         /// Initializes a new instance of the <see cref="ProgressDialog" /> class.
         /// </summary>
+        private string _installDescription = "De spreuken van de Tiktovenaar worden opgeroepen...";
+        private string _installTitle = "Tiktovenaar installeren";
         public ProgressDialog()
         {
             InitializeComponent();
+            DialogTitleLabel.Text = _installTitle;
+            DialogDescription.Text = _installDescription;
         }
 
         /// <summary>
@@ -31,7 +35,6 @@ namespace TikTovenaar.Installer
         /// </summary>
         public void Init()
         {
-            UpdateTitles(ManagedFormHost.Runtime.Session);
 
             DataContext = model = new ProgressDialogModel { Host = ManagedFormHost };
             model.StartExecute();
@@ -41,27 +44,7 @@ namespace TikTovenaar.Installer
         /// Updates the titles of the dialog depending on what type of installation action MSI is performing.
         /// </summary>
         /// <param name="session">The session.</param>
-        public void UpdateTitles(ISession session)
-        {
-            if (session.IsUninstalling())
-            {
-                DialogTitleLabel.Text = "[ProgressDlgTitleRemoving]";
-                DialogDescription.Text = "[ProgressDlgTextRemoving]";
-            }
-            else if (session.IsRepairing())
-            {
-                DialogTitleLabel.Text = "[ProgressDlgTextRepairing]";
-                DialogDescription.Text = "[ProgressDlgTitleRepairing]";
-            }
-            else if (session.IsInstalling())
-            {
-                DialogTitleLabel.Text = "[ProgressDlgTitleInstalling]";
-                DialogDescription.Text = "[ProgressDlgTextInstalling]";
-            }
 
-            // `Localize` resolves [...] titles and descriptions into the localized strings stored in MSI resources tables
-            this.Localize();
-        }
 
         ProgressDialogModel model;
 

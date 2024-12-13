@@ -40,7 +40,6 @@
                         Grid.Column="0"
                         FontSize="12"
                         FontWeight="Bold">
-                        [ProgressDlgTitleInstalling]
                     </TextBlock>
                 </StackPanel>
             </Grid>
@@ -51,7 +50,7 @@
                 x:Name="DialogDescription"
                 MinHeight="35"
                 TextWrapping="WrapWithOverflow">
-                [ProgressDlgTextInstalling]
+                
             </TextBlock>
             <StackPanel
                 MinHeight="30"

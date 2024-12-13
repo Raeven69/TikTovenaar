@@ -29,13 +29,19 @@ namespace TikTovenaar.Installer
             }
             string targetDirectory = Path.Combine(projectDirectory, "TikTovenaar", "bin", "Release", "net8.0-windows", "publish", "win-x86");
             Console.WriteLine(targetDirectory);
-            var project = new ManagedProject("Installeer tovenaar",
-                              new Dir(@"%ProgramFiles%\TikTovenaar",
-                                  new Files(Path.Combine(targetDirectory, "*.*"), f => !f.EndsWith(".pdb") && !f.EndsWith("."))))
+            
+            var project = new ManagedProject("Tiktovenaar",
+                            //actual install directory
+                            new InstallDir(@"%ProgramFiles%\TikTovenaar",
+                             new Files(Path.Combine(targetDirectory, "*.*"), f => !f.EndsWith(".pdb") && !f.EndsWith(".")),
+                            //adds shortcut to desktop 
+                             new Dir(@"%Desktop%",
+                               new ExeFileShortcut("TikTovenaar", "[INSTALLDIR]TikTovenaar.exe", arguments: ""),
+                               //adds shortcut to program menu to allow it to be searched
+                               new Dir(@"%ProgramMenu%\Tiktovenaar",
+                                 new ExeFileShortcut("TikTovenaar", "[INSTALLDIR]Tiktovenaar.exe", arguments: "")))))
             {
                 GUID = new Guid("ea03ac19-a5c9-4cad-ba64-f232063453bf"),
-
-
                 ManagedUI = new ManagedUI(),
                 BackgroundImage = $"{projectDirectory}\\TikTovenaar\\Images\\logo.png"
             };
@@ -43,15 +49,14 @@ namespace TikTovenaar.Installer
 
             project.UIInitialized += e =>
             {
-                // Since the default MSI localization data has no entry for 'CustomDlgTitle' (and other custom labels) we
-                // need to add this new content dynamically. Alternatively, you can use WiX localization files (wxl).
-
+                //used to change the dialog buttons
+                //gets started whenever the ui is initialised (event)
                 MsiRuntime runtime = e.ManagedUI.Shell.MsiRuntime();
-                
                 runtime.UIText["WixUINext"] = "Volgende";
                 runtime.UIText["WixUICancel"] = "Annuleren";
                 runtime.UIText["WixUIBack"] = "Vorige";
-                
+                runtime.UIText["InstallDirDlgChange"] = "Wijzigen...";
+                runtime.UIText["WixUIFinish"] = "Afronden";
             };
 
             project.OutDir = Path.Combine(projectDirectory, "TikTovenaar.Installer");
@@ -59,21 +64,9 @@ namespace TikTovenaar.Installer
 
             project.ManagedUI.InstallDialogs.Add<TikTovenaar.Installer.WelcomeDialog>()
                                             .Add<TikTovenaar.Installer.LicenceDialog>()
-                                            //.Add<TikTovenaar.Installer.FeaturesDialog>()
                                             .Add<TikTovenaar.Installer.InstallDirDialog>()
                                             .Add<TikTovenaar.Installer.ProgressDialog>()
                                             .Add<TikTovenaar.Installer.ExitDialog>();
-
-            project.ManagedUI.ModifyDialogs.Add<TikTovenaar.Installer.MaintenanceTypeDialog>()
-                                           .Add<TikTovenaar.Installer.FeaturesDialog>()
-                                           .Add<TikTovenaar.Installer.ProgressDialog>()
-                                           .Add<TikTovenaar.Installer.ExitDialog>();
-
-            
-
-            //project.SourceBaseDir = "<input dir path>";
-
-
             project.BuildMsi();
         }
     }

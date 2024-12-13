@@ -20,12 +20,14 @@ namespace TikTovenaar.Installer
         /// Initializes a new instance of the <see cref="InstallDirDialog"/> class.
         /// </summary>
         private string _installDescription = "Druk op Volgende om TikTovenaar te installeren in de standaard locatie of druk op Wijzigen om de installatielocatie aan te passen";
-        private string _installTitle = "Installeerlocatie"; 
+        private string _installTitle = "Installeerlocatie";
+        private string _installLocationDescription = "Tiktovenaar wordt geïnstalleerd in: ";
         public InstallDirDialog()
         {
             InitializeComponent();
             DialogDescription.Text = _installDescription;
             InstallTitle.Text = _installTitle;
+            InstallDirDescription.Text = _installLocationDescription;
         }
 
         /// <summary>

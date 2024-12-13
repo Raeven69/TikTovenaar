@@ -21,9 +21,13 @@ namespace TikTovenaar.Installer
         /// <summary>
         /// Initializes a new instance of the <see cref="ExitDialog"/> class.
         /// </summary>
+        private string _exitTitle = "De Tiktovenaar is klaar om te toveren";
+        private string _exitDescription = "Druk op afronden om af te ronden";
         public ExitDialog()
         {
             InitializeComponent();
+            DialogDescription.Text = _exitDescription;
+            DialogTitleLabel.Text = _exitTitle;
         }
 
         /// <summary>
