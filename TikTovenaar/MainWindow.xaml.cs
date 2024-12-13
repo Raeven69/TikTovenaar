@@ -14,8 +14,7 @@ namespace TikTovenaar
             //zorgt dat muziek wordt afgespeeld
             SoundManager.InitMusic();
             // set the first screen
-            //MainContentControl.Content = new Loginscreen();
-            MainContentControl.Content = new SettingsScreen();
+            MainContentControl.Content = new Loginscreen();
         }
 
         public void SwitchToHomeScreen()
