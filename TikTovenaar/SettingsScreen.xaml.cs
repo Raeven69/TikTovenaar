@@ -112,7 +112,7 @@ namespace TikTovenaar
                 {
                     Properties.Settings.Default.lastSelectedBackgroundMusic = selectedMusic;
                     Properties.Settings.Default.Save();
-                    if (selectedMusic != "Geen achtergrond muziek")
+                    if (!selectedMusic.Equals("Geen achtergrond muziek"))
                     {
                         SoundManager.PlayBackgroundSound("Sounds/Background/" + selectedMusic);
                     }
@@ -155,8 +155,29 @@ namespace TikTovenaar
                 }
                 
             }
+        }
+
+        private void Remove_Click(object sender, RoutedEventArgs e)
+        {
             
-            
+            if (BackgroundMusicComboBox.SelectedItem != null)
+            {
+                if (!BackgroundMusicComboBox.SelectedItem.ToString().Equals("Geen achtergrond muziek") && !BackgroundMusicComboBox.SelectedItem.ToString().Equals("wizard_theme_music.mp3"))
+                {
+                    LoadingScreen loadingScreen = new LoadingScreen("Laden");
+                    loadingScreen.Show();
+                    SoundManager.StopBackgroundSound();
+                    System.IO.File.Delete("Sounds/Background/" + BackgroundMusicComboBox.SelectedItem.ToString());
+                    LoadBackGroundMusic();
+                    BackgroundMusicComboBox.SelectedItem = "Geen achtergrond muziek";
+                    loadingScreen.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Kan niet verwijdert worden");
+                }
+
+            }
         }
 
         private void SoundEffectVolume_DragCompleted(object sender, DragCompletedEventArgs e)

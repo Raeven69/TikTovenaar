@@ -18,11 +18,13 @@
                 <TextBlock Text="Achtergrond muziek" FontSize="30" HorizontalAlignment="Center"/>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="9*"/>
+                        <ColumnDefinition Width="8*"/>
+                        <ColumnDefinition Width="1*"/>
                         <ColumnDefinition Width="1*"/>
                     </Grid.ColumnDefinitions>
                     <ComboBox Name="BackgroundMusicComboBox" Grid.Column="0" FontSize="20" HorizontalContentAlignment="Center" ItemsSource="{Binding backgroundMusicOptions}" SelectionChanged="BackgroundMusicComboBox_SelectionChanged"/>
-                    <Button Content="Add" FontSize="20" HorizontalContentAlignment="Center" Grid.Column="1" VerticalAlignment="Center" Click="AddMusic_Click"/>
+                    <Button Content="Remove" FontSize="20" HorizontalContentAlignment="Center" Grid.Column="1" VerticalAlignment="Center" Click="Remove_Click"/>
+                    <Button Content="Add" FontSize="20" HorizontalContentAlignment="Center" Grid.Column="2" VerticalAlignment="Center" Click="AddMusic_Click"/>
                 </Grid>
                 <TextBlock Text="Achtergrond muziek volume" FontSize="30" HorizontalAlignment="Center"/>
                 <Viewbox>
