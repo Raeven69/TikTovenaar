@@ -33,7 +33,7 @@ namespace TikTovenaar
             loadingScreen.Show();
             dataHandler = _dataHandler;
             userScores = dataHandler.GetScores(CurrentUser.Instance.Token);
-            List<string> woordenList = dataHandler.GetWords();
+            List<string> woordenList = new List<string>();
             Dictionary<string, (int totaalGoed, int totaalFout)> woordenDictionary = new Dictionary<string, (int, int)>();
 
 
@@ -55,13 +55,7 @@ namespace TikTovenaar
             {
                 int totalWordsTypedCorrectly = 0;
                 int totalWordsTypedIncorrectly = 0;
-                foreach (string woord in woordenList)
-                {
-                    if (!woordenDictionary.ContainsKey(woord))
-                    {
-                        woordenDictionary.Add(woord, (0, 0));
-                    }
-                }
+                
                 foreach (Score score in userScores)
                 {
                     foreach (var incorrectWord in score.IncorrectWords)

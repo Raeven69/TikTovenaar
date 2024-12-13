@@ -6,8 +6,6 @@ using TikTovenaar.Logic;
 using TikTovenaar.DataAccess;
 using System.Windows.Media.Animation;
 using System.Windows;
-using System.Globalization;
-using TikTovenaar.DataAccess;
 
 namespace TikTovenaar
 {
@@ -19,6 +17,7 @@ namespace TikTovenaar
         private Game Game { get; set; }
 
         private WizardAnimation _wizardAnimation;
+        private FireAnimation _fireAnimation;
 
         private MainWindow _MainWindow;
         public Gamescreen()
@@ -30,8 +29,10 @@ namespace TikTovenaar
             _wizardAnimation = new(wizardImageBrush, 0.16666, 6);
             _wizardAnimation.StartAnimation(0.16666, 6, "Images/wizard_idle.png");
 
+            _fireAnimation = new(fireImageBrush, "Images/burning_start_1.png", 0.25, 4, "Images/burning_loop_1.png", 0.125, 8, "Images/burning_end_1.png", 0.2, 5);
+
             // call the gamewordchanged for first word to have the animation
-            Game_wordChanged(this, EventArgs.Empty);
+            Game_wordChanged(this, new StreakEventArgs(0));
         }
         private DataHandler _data;
         private void SetupGame()
@@ -100,8 +101,46 @@ namespace TikTovenaar
         /// <summary>
         /// Below this line are all the event handlers
         /// </summary>
-        private void Game_wordChanged(object? sender, EventArgs e)
+        private void Game_wordChanged(object? sender, StreakEventArgs e)
         {
+            // Create the fade-in animation
+            DoubleAnimation fadeIn = new(0, 1, TimeSpan.FromSeconds(0.5));
+
+            // Create the fade-out animation
+            DoubleAnimation fadeOut = new(1, 0, TimeSpan.FromSeconds(0.5));
+
+            // Update the streak text
+            if (e.Streak == 0)
+            {
+                streakText.Opacity = 0;
+                if(_fireAnimation.fireActive)
+                {
+                    streakText.BeginAnimation(OpacityProperty, fadeOut);
+                    _fireAnimation.EndFire();
+                }
+            }
+            else
+            { 
+                streakText.Text = "Streak: " + e.Streak;
+                if(!_fireAnimation.fireActive)
+                {
+                    streakText.BeginAnimation(OpacityProperty, fadeIn);
+                    _fireAnimation.StartFire();
+                }
+                else
+                {
+                    // add a grow shrink animation
+                    DoubleAnimation growShrink = new()
+                    {
+                        From = 24,
+                        To = 28,
+                        Duration = TimeSpan.FromSeconds(0.2),
+                        AutoReverse = true
+                    };
+                    streakText.BeginAnimation(FontSizeProperty, growShrink);
+                }
+            } 
+
             WordTimer.Value = 100;
 
             // Stop the timer to prevent the progress bar from going down
@@ -120,9 +159,6 @@ namespace TikTovenaar
 
             // Play sound effect
             SoundManager.PlaySoundEffect("Sounds/wizard_attack.mp3");
-
-            // Create the fade-in animation
-            DoubleAnimation fadeIn = new(0, 1, TimeSpan.FromSeconds(0.5));
 
             if (randomNumber == 0)
             {

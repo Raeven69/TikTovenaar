@@ -138,5 +138,13 @@ namespace TikTovenaar.Test
             handler.Login("TestPlayer", "password", out bool admin);
             Assert.IsFalse(admin);
         }
+
+        [TestMethod]
+        public void GetDefinition_blabla_()
+        {
+            DataHandler handler = new();
+            Definition def = handler.GetDefinition("sigma");
+            Assert.AreEqual("wiskunde", def.Category);
+        }
     }
 }
