@@ -35,18 +35,17 @@
                     VerticalAlignment="Stretch"
                     Source="{Binding Banner}" />
                 <StackPanel Margin="9">
-                    <TextBlock
+                    <TextBlock Name="InstallTitle"
                         Grid.Column="0"
                         FontSize="12"
                         FontWeight="Bold">
-                        [InstallDirDlgTitle]
+                        
                     </TextBlock>
                     <TextBlock
                         x:Name="DialogDescription"
                         Margin="17,5"
                         VerticalAlignment="Stretch"
                         TextWrapping="WrapWithOverflow">
-                        [InstallDirDlgDescription]
                     </TextBlock>
                 </StackPanel>
             </Grid>

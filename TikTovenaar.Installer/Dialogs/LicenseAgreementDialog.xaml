@@ -35,11 +35,10 @@
                     VerticalAlignment="Stretch"
                     Source="{Binding Banner}" />
                 <StackPanel Margin="9">
-                    <TextBlock
+                    <TextBlock x:Name="LicenseAgreementTitle"
                         Grid.Column="0"
                         FontSize="12"
                         FontWeight="Bold">
-                        [LicenseAgreementDlgTitle]
                     </TextBlock>
                     <TextBlock
                         x:Name="DialogDescription"
@@ -67,8 +66,8 @@
             Margin="10"
             VerticalAlignment="Bottom"
             VerticalContentAlignment="Center"
-            IsChecked="{Binding LicenseAcceptedChecked}">
-            [LicenseAgreementDlgLicenseAcceptedCheckBox]
+            IsChecked="{Binding LicenseAcceptedChecked}"
+            >
         </CheckBox>
 
         <Border

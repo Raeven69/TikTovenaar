@@ -23,9 +23,15 @@ namespace TikTovenaar.Installer
         /// <summary>
         /// Initializes a new instance of the <see cref="LicenceDialog"/> class.
         /// </summary>
+        private string _licenseAgreementBox = "Ik ga akkoord met de algemene licentievoorwaarden";
+        private string _licenseDescriptionText = "Lees alstublieft de onderstaande licentievoorwaarden";
+        private string _licenseTitle = "Algemene licentievoorwaarden";
         public LicenceDialog()
         {
             InitializeComponent();
+            LicenseAcceptedChecked.Content = _licenseAgreementBox;
+            DialogDescription.Text = _licenseDescriptionText;
+            LicenseAgreementTitle.Text = _licenseTitle;
         }
 
         /// <summary>
