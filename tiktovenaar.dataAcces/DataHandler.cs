@@ -19,7 +19,6 @@ namespace TikTovenaar.DataAccess
         private static void ThrowIfError(HttpResponseMessage response)
         {
             dynamic? result = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result) ?? throw new RequestFailedException("Something went wrong.");
-            Console.WriteLine(result);
             if (result is not JArray && (string)result.type != "success")
             {
                 throw new RequestFailedException((string)result.message);
@@ -134,6 +133,14 @@ namespace TikTovenaar.DataAccess
                 new KeyValuePair<string, string>("username", username)
             ]);
             ThrowIfError(client.SendAsync(request).Result);
+        }
+
+        public Definition GetDefinition(string word)
+        {
+            HttpResponseMessage response = client.GetAsync($"definition?word={word}").Result;
+            ThrowIfError(response);
+            dynamic? result = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result);
+            return new((string)result!.message.category, (string)result!.message.meaning);
         }
     }
 }
