@@ -43,35 +43,22 @@
             <Grid>
                 <!-- Search Bar -->
                 <TextBox x:Name="SearchUserTextBox"
-                     HorizontalAlignment="Stretch" 
-                     VerticalAlignment="Top" 
-                     Margin="0,0,0,10" 
-                     Height="40" 
-                     FontSize="16">
-                    <TextBox.Style>
-                        <Style TargetType="TextBox">
-                            <Setter Property="Foreground" Value="#888888"/>
-                            <Setter Property="Text" Value="Zoek een gebruiker..."/>
-                            <Style.Triggers>
-                                <Trigger Property="IsKeyboardFocused" Value="True">
-                                    <Setter Property="Foreground" Value="Black"/>
-                                    <Setter Property="Text" Value=""/>
-                                </Trigger>
-                                <DataTrigger Binding="{Binding Text, RelativeSource={RelativeSource Self}}" Value="">
-                                    <Setter Property="Foreground" Value="#888888"/>
-                                    <Setter Property="Text" Value="Zoek een gebruiker..."/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBox.Style>
-                </TextBox>
-
+                 HorizontalAlignment="Stretch"
+                 VerticalAlignment="Top"
+                 Margin="0,0,0,10"
+                 Height="40"
+                 FontSize="16"
+                 Foreground="#888888"
+                 Text="Zoek een gebruiker..."
+                 GotFocus="SearchUserTextBox_GotFocus"
+                 LostFocus="SearchUserTextBox_LostFocus"
+                 TextChanged="SearchUserTextBox_TextChanged"/>
 
                 <ListBox x:Name="ListBoxUsers" 
                      Background="#000435" 
                      Foreground="#F0F0F0" 
                      ScrollViewer.VerticalScrollBarVisibility="Auto" 
-                     MaxHeight="600"
+                     MaxHeight="1000"
                      HorizontalContentAlignment="Stretch">
                 </ListBox>
             </Grid>

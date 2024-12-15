@@ -61,5 +61,10 @@ namespace TikTovenaar
         {
             MainContentControl.Content = new UserStatisticsScreen(new DataHandler());
         }
+
+        public void SwitchToDeleteUsersScreen()
+        {
+            MainContentControl.Content = new DeleteUsers();
+        }
     }
 }
