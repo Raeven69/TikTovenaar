@@ -58,7 +58,7 @@
                      Background="#000435" 
                      Foreground="#F0F0F0" 
                      ScrollViewer.VerticalScrollBarVisibility="Auto" 
-                     MaxHeight="1000"
+                     MaxHeight="620"
                      HorizontalContentAlignment="Stretch">
                 </ListBox>
             </Grid>
