@@ -8,7 +8,7 @@
         d:DesignWidth="1280"
         d:DesignHeight="720">
     <Grid Background="#000435">
-        <Border Width="400" Height="400" Background="#F0F0F0" CornerRadius="10"
+        <Border Width="400" Height="500" Background="#F0F0F0" CornerRadius="10"
             HorizontalAlignment="Center" VerticalAlignment="Center"
             Padding="20">
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
