@@ -74,37 +74,49 @@ namespace TikTovenaar
             _currentFrame++;
         }
 
-        public void StartFire()
+        public void StartFire(int streak)
         {
             _imageBrush.Opacity = 1;
             PlayAnimation(_startImagePath, _startImageFrameWidth, _startImageTotalFrames, () =>
             {
-                LoopFire();
-            });
+                LoopFire(streak);
+            }, streak: streak);
             fireActive = true;
         }
 
-        private void LoopFire()
+        private void LoopFire(int streak)
         {
-            PlayAnimation(_loopImagePath, _loopImageFrameWidth, _loopImageTotalFrames, null, true);
+            PlayAnimation(_loopImagePath, _loopImageFrameWidth, _loopImageTotalFrames, null, true, streak);
         }
-
-        public void EndFire()
+        public void EndFire(int streak)
         {
-            PlayAnimation(_endImagePath, _endImageFrameWidth, _endImageTotalFrames, () => _imageBrush.Opacity = 0);
+            PlayAnimation(_endImagePath, _endImageFrameWidth, _endImageTotalFrames, () => _imageBrush.Opacity = 0, streak: streak);
             fireActive = false;
         }
-
-        private void PlayAnimation(string imagePath, double frameWidth, int totalFrames, Action onComplete, bool loop = false)
+        public void ChangeFireColor(int streak)
         {
-            _currentImagePath = imagePath;
+            PlayAnimation(_loopImagePath, _loopImageFrameWidth, _loopImageTotalFrames, () => LoopFire(streak), true, streak);
+        }
+
+        private void PlayAnimation(string imagePath, double frameWidth, int totalFrames, Action onComplete, bool loop = false, int streak = 1)
+        {
+            // Update the file name dynamically using streak
+            if(streak > 5)
+            {
+                streak = 5;
+            }
+            string updatedImagePath = imagePath.Replace("1", streak.ToString());
+
+            _currentImagePath = updatedImagePath;
             _currentFrameWidth = frameWidth;
             _totalFrames = totalFrames;
             _currentFrame = 0;
-            _onAnimationComplete = loop ? () => LoopFire() : onComplete;
+            _onAnimationComplete = loop ? () => LoopFire(streak) : onComplete;
 
-            _imageBrush.ImageSource = new BitmapImage(new Uri($"pack://application:,,,/{imagePath}", UriKind.Absolute));
+            // Load the image source with the updated path
+            _imageBrush.ImageSource = new BitmapImage(new Uri($"pack://application:,,,/{updatedImagePath}", UriKind.Absolute));
             _animationTimer.Start();
         }
+
     }
 }
