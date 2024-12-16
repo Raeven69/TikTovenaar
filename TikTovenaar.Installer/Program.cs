@@ -14,23 +14,15 @@ namespace TikTovenaar.Installer
         {
             string workingDirectory = Environment.CurrentDirectory;
             string projectDirectory = Directory.GetParent(workingDirectory).Parent.Parent.Parent.Parent.FullName; //gets the default project files
-            Console.WriteLine(workingDirectory + "HOI");
-            Console.WriteLine(projectDirectory + " HOI2");
             if (workingDirectory.EndsWith("TikTovenaar"))
             {
-                Console.WriteLine(workingDirectory);
                 projectDirectory = workingDirectory;
-                Console.WriteLine(projectDirectory.Length);
             }
-            else
-            {
 
-                Console.WriteLine(projectDirectory + " HOI");
-            }
             string targetDirectory = Path.Combine(projectDirectory, "TikTovenaar", "bin", "Release", "net8.0-windows", "publish", "win-x86");
             Console.WriteLine(targetDirectory);
             
-            var project = new ManagedProject("Tiktovenaar",
+            ManagedProject project = new ManagedProject("TikTovenaar",
                             //actual install directory
                             new InstallDir(@"%ProgramFiles%\TikTovenaar",
                              new Files(Path.Combine(targetDirectory, "*.*"), f => !f.EndsWith(".pdb") && !f.EndsWith(".")),
@@ -43,7 +35,8 @@ namespace TikTovenaar.Installer
             {
                 GUID = new Guid("ea03ac19-a5c9-4cad-ba64-f232063453bf"),
                 ManagedUI = new ManagedUI(),
-                BackgroundImage = $"{projectDirectory}\\TikTovenaar\\Images\\logo.png"
+                BackgroundImage = $"{projectDirectory}\\TikTovenaar\\Images\\background.png",
+                BannerImage = $"{projectDirectory}\\TikTovenaar\\Images\\banner.png",
             };
             project.ControlPanelInfo.Manufacturer = "TikTovenaar BV";
 
@@ -57,8 +50,11 @@ namespace TikTovenaar.Installer
                 runtime.UIText["WixUIBack"] = "Vorige";
                 runtime.UIText["InstallDirDlgChange"] = "Wijzigen...";
                 runtime.UIText["WixUIFinish"] = "Afronden";
+                runtime.UIText["MaintenanceTypeDlgChangeButton"] = "Wijzigen...";
+                runtime.UIText["MaintenanceTypeDlgRepairButton"] = "Repareren";
+                runtime.UIText["MaintenanceTypeDlgVerwijderenButton"] = "Verwijderen";
             };
-
+            
             project.OutDir = Path.Combine(projectDirectory, "TikTovenaar.Installer");
             Console.WriteLine(projectDirectory);
 
@@ -67,6 +63,10 @@ namespace TikTovenaar.Installer
                                             .Add<TikTovenaar.Installer.InstallDirDialog>()
                                             .Add<TikTovenaar.Installer.ProgressDialog>()
                                             .Add<TikTovenaar.Installer.ExitDialog>();
+
+            project.ManagedUI.ModifyDialogs.Add<TikTovenaar.Installer.MaintenanceTypeDialog>()
+                               .Add<TikTovenaar.Installer.ProgressDialog>()
+                               .Add<TikTovenaar.Installer.ExitDialog>();
             project.BuildMsi();
         }
     }

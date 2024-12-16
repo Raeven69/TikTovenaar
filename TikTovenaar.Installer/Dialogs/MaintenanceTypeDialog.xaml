@@ -36,10 +36,10 @@
                     Source="{Binding Banner}" />
                 <StackPanel Margin="9">
                     <TextBlock
+                        x:Name="DialogTitle"
                         Grid.Column="0"
                         FontSize="12"
                         FontWeight="Bold">
-                        [MaintenanceTypeDlgTitle]
                     </TextBlock>
                     <TextBlock
                         x:Name="DialogDescription"
@@ -68,14 +68,13 @@
                 [MaintenanceTypeDlgChangeButton]
             </Button>
             <TextBlock
+                x:Name="ChangeText"
                 MinHeight="35"
                 Margin="20,35,0,0"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 TextWrapping="WrapWithOverflow">
-                [MaintenanceTypeDlgChangeText]
             </TextBlock>
-
             <Button
                 x:Name="Repair"
                 Grid.Row="1"
@@ -87,6 +86,7 @@
                 [MaintenanceTypeDlgRepairButton]
             </Button>
             <TextBlock
+                x:Name="RepairText"
                 Grid.Row="1"
                 MinHeight="35"
                 Margin="20,35,0,0"
@@ -107,13 +107,13 @@
                 [MaintenanceTypeDlgRemoveButton]
             </Button>
             <TextBlock
+                x:Name="RemoveText"
                 Grid.Row="2"
                 MinHeight="35"
                 Margin="20,35,0,0"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 TextWrapping="WrapWithOverflow">
-                [MaintenanceTypeDlgRemoveText]
             </TextBlock>
         </Grid>
 

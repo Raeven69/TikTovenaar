@@ -17,9 +17,19 @@ namespace TikTovenaar.Installer
         /// <summary>
         /// Initializes a new instance of the <see cref="MaintenanceTypeDialog" /> class.
         /// </summary>
+        private string _changeText = "Druk op de wijzigen knop om de installatielocatie te wijzigen";
+        private string _repairText = "Druk op de repareren knop om een eventuele kapotte installatie te fixen";
+        private string _removeText = "Druk op de verwijderen knop om de TikTovenaar uw systeem te laten verlaten";
+        private string _title = "Onderhoudscherm";
+        private string _description = "Welkom bij het onderhoudscherm van de TikTovenaar. Via dit scherm kan je verschillende installatie opties aanpassen";
         public MaintenanceTypeDialog()
         {
             InitializeComponent();
+            ChangeText.Text = _changeText;
+            RepairText.Text = _repairText;
+            RemoveText.Text = _removeText;
+            DialogTitle.Text = _title;
+            DialogDescription.Text = _description;
         }
 
         /// <summary>

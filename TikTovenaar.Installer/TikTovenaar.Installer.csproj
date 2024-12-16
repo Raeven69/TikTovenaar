@@ -39,6 +39,6 @@
 
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(CI)' != 'true'">
-		<Exec Command="&quot;$(TargetPath)&quot;" />
+		<Exec Command="&quot;$(TargetPath)&quot;" IgnoreExitCode="true" />
 	</Target>
 </Project>
