@@ -37,7 +37,6 @@
 
   <ItemGroup>
     <Resource Include="Images\burning_end_1.png" />
-    <Resource Include="Images\burning_loop_1.png" />
     <Resource Include="Images\burning_end_2.png" />
     <Resource Include="Images\burning_end_3.png" />
     <Resource Include="Images\burning_end_4.png" />
