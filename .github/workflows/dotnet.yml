@@ -17,8 +17,7 @@ jobs:
         dotnet-version: 8.0.x
     - name: Build
       run: dotnet build --configuration Release
-    - name: Test
-      run: dotnet test
+
     - name: API
       run: dotnet build TikTovenaar.Api\TikTovenaar.Api.csproj --runtime linux-x64 --configuration Release
     - name: Build installer
@@ -39,4 +38,6 @@ jobs:
        with: 
          name: TikTovenaar
          path: TikTovenaar.Installer\TikTovenaar.msi
+    - name: Test
+      run: dotnet test
            
