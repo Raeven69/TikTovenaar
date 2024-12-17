@@ -36,7 +36,7 @@ jobs:
     -  name: Upload TikTovenaarInstaller
        uses: actions/upload-artifact@v4
        with: 
-         name: TikTovenaar
+         name: TikTovenaarInstaller
          path: TikTovenaar.Installer\TikTovenaar.msi
     - name: Test
       run: dotnet test
