@@ -158,5 +158,16 @@ namespace TikTovenaar.DataAccess
             dynamic? result = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result);
             return new((string)result!.message.category, (string)result!.message.meaning);
         }
+
+        public string Authorize(string token, out bool admin)
+        {
+            using HttpRequestMessage request = new(HttpMethod.Post, "authorize");
+            request.Headers.Authorization = new("Bearer", token);
+            HttpResponseMessage response = client.SendAsync(request).Result;
+            ThrowIfError(response);
+            dynamic? result = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result);
+            admin = result!.message.admin;
+            return (string)result!.message.username;
+        }
     }
 }
