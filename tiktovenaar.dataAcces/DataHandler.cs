@@ -53,10 +53,31 @@ namespace TikTovenaar.DataAccess
 
         public Leaderboards GetLeaderboards(int limit = -1)
         {
-            HttpResponseMessage response = client.GetAsync($"highscores?limit={limit}").Result;
-            ThrowIfError(response);
-            Leaderboards? leaderboards = JsonConvert.DeserializeObject<Leaderboards>(response.Content.ReadAsStringAsync().Result);
-            return leaderboards!;
+            try
+            {
+                HttpResponseMessage response = client.GetAsync($"leaderboards?limit={limit}").Result;
+                dynamic? leaderboards = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result);
+                List<PartialScore<int>> scores = [];
+                List<PartialScore<double>> wpm = [];
+                List<PartialScore<int>> levels = [];
+                foreach (dynamic score in leaderboards!.scores)
+                {
+                    scores.Add(new((string)score.player, (int)score.value));
+                }
+                foreach (dynamic wpmScore in leaderboards!.scores)
+                {
+                    wpm.Add(new((string)wpmScore.player, (double)wpmScore.value));
+                }
+                foreach (dynamic level in leaderboards!.scores)
+                {
+                    levels.Add(new((string)level.player, (int)level.value));
+                }
+                return new(scores, wpm, levels);
+            }
+            catch (Exception)
+            {
+                throw new RequestFailedException("Something went wrong.");
+            }
         }
 
         public List<Score> GetScores(string token)
