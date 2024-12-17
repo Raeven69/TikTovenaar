@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Images\logo.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -50,6 +51,7 @@
     <Resource Include="Images\wizard_attack_1.png" />
     <Resource Include="Images\wizard_idle.png" />
     <Resource Include="Images\wizard_jump.png" />
+    <Content Include="Images\logo.ico" />
     <Content Include="Sounds\coc.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
