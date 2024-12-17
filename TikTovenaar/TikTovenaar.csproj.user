@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup />
+  <PropertyGroup>
+    <_LastSelectedProfileId>C:\Users\Gebruiker\OneDrive\Documenten\oosdd\KBS\Tiktovenaar applicatie\TikTovenaar\TikTovenaar\Properties\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Update="AddUserDialog.xaml.cs">
       <SubType>Code</SubType>
@@ -30,6 +32,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="MainWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="SettingsScreen.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="WordListScreen.xaml.cs">
@@ -65,6 +70,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="SettingsScreen.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="WordListScreen.xaml">

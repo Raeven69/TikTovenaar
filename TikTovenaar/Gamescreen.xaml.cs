@@ -101,6 +101,7 @@ namespace TikTovenaar
         /// <summary>
         /// Below this line are all the event handlers
         /// </summary>
+        private int lastStreak = 0;
         private void Game_wordChanged(object? sender, StreakEventArgs e)
         {
             // Create the fade-in animation
@@ -116,16 +117,15 @@ namespace TikTovenaar
                 if(_fireAnimation.fireActive)
                 {
                     streakText.BeginAnimation(OpacityProperty, fadeOut);
-                    _fireAnimation.EndFire();
+                    _fireAnimation.EndFire(lastStreak);
                 }
             }
             else
             { 
-                streakText.Text = "Streak: " + e.Streak;
-                if(!_fireAnimation.fireActive)
+                if (!_fireAnimation.fireActive)
                 {
+                    _fireAnimation.StartFire(e.Streak);
                     streakText.BeginAnimation(OpacityProperty, fadeIn);
-                    _fireAnimation.StartFire();
                 }
                 else
                 {
@@ -138,8 +138,13 @@ namespace TikTovenaar
                         AutoReverse = true
                     };
                     streakText.BeginAnimation(FontSizeProperty, growShrink);
+                    _fireAnimation.ChangeFireColor(e.Streak);
                 }
-            } 
+                streakText.Text = "Streak: " + e.Streak + "x";
+                
+
+            }
+            lastStreak = e.Streak;
 
             WordTimer.Value = 100;
 
