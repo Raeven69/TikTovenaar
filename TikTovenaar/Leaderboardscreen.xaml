@@ -10,10 +10,8 @@
              d:Foreground="White">
     <Grid Background="#000435">
         <ComboBox x:Name="FilterOptions" 
-          Width="200" 
-          HorizontalAlignment="Left" 
-          VerticalAlignment="Top" 
-          Margin="10"
+          VerticalAlignment="Bottom" 
+          Margin="10,0,1039,692"
           SelectionChanged="FilterOptions_SelectionChanged"
           Background="#0D1117" 
           Foreground="#FF0D1117" 
@@ -23,7 +21,8 @@
           FontSize="14" 
           HorizontalContentAlignment="Center" 
           VerticalContentAlignment="Center" 
-          Height="30">
+          Height="28"
+          >
             <ComboBoxItem Content="WPM" Tag="WPM" />
             <ComboBoxItem Content="Total Score" Tag="TotalScore" />
             <ComboBoxItem Content="Total Typed Words" Tag="TypedWords" />
@@ -35,7 +34,7 @@
 
         <DataGrid x:Name="HighscoreTable" 
           AutoGenerateColumns="False"
-          Margin="300,113,300,213" 
+          Margin="170,113,170,115" 
           GridLinesVisibility="None" 
           Background="#000435"
           CanUserReorderColumns ="False"

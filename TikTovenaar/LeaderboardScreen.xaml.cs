@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,6 +41,7 @@ namespace TikTovenaar
 
             InitializeComponent();
 
+            FilterOptions.SelectedIndex = 4;
             _scoreValue = _data.GetScores(CurrentUser.Instance.Token!).OrderByDescending(x => x.Value).Select(x => x.Value).DefaultIfEmpty(0).First(); //get the highest score of an individual; if there are no scores the value will become 0
             PersonalHighScore = $"Uw hoogste score is: {_scoreValue}";
             PersonalHighScoreLabel.Content = PersonalHighScore;
