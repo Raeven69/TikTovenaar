@@ -35,7 +35,7 @@ namespace TikTovenaar
             _scoreValue = _data.GetScores(CurrentUser.Instance.Token!).OrderByDescending(x => x.Value).Select(x => x.Value).DefaultIfEmpty(0).First(); //get the highest score of an individual; if there are no scores the value will become 0
             PersonalHighScore = $"Uw hoogste score is: {_scoreValue}";
             PersonalHighScoreLabel.Content = PersonalHighScore;
-            HighscoreTable.ItemsSource = (System.Collections.IEnumerable)SortLeaderboard(_data.GetHighscores(), CurrentUser.Instance.Token!); //sort and bind it to the highscore datagrid
+            HighscoreTable.ItemsSource = (System.Collections.IEnumerable)SortLeaderboard(_data.GetLeaderboards(), CurrentUser.Instance.Token!); //sort and bind it to the highscore datagrid
             loadingScreen.Close();
         }
 
@@ -44,9 +44,9 @@ namespace TikTovenaar
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
             mainWindow.SwitchToHomeScreen();
         }
-        private object SortLeaderboard(List<PartialScore> scores, string? token)
+        private object SortLeaderboard(Leaderboards scores, string? token)
         {
-            return scores
+            return scores.Scores
                 .OrderByDescending(score => score.Value) // Sort by score descending
                 .Select((score, index) => new LeaderboardEntry //class with all the entries needed for the leaderboard screen
                 {

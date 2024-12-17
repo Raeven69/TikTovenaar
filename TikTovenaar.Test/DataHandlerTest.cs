@@ -119,8 +119,8 @@ namespace TikTovenaar.Test
         public void GetHighscores_ShouldExist()
         {
             DataHandler handler = new();
-            List<PartialScore> scores = handler.GetHighscores();
-            Assert.IsTrue(scores.Count > 0 && scores[0].Player.Length > 0);
+            Leaderboards scores = handler.GetLeaderboards();
+            Assert.IsTrue(scores.Scores.Count > 0 && scores.Scores[0].Player.Length > 0);
         }
 
         [TestMethod]
