@@ -28,9 +28,9 @@ namespace TikTovenaar
         private readonly DataHandler _data;
         private int _scoreValue;
         public string PlayerName { get; private set; }
-        
 
-        
+
+
         public LeaderboardScreen()
         {
 
@@ -40,7 +40,7 @@ namespace TikTovenaar
 
             InitializeComponent();
 
-             _scoreValue = _data.GetScores(CurrentUser.Instance.Token!).OrderByDescending(x => x.Value).Select(x => x.Value).DefaultIfEmpty(0).First(); //get the highest score of an individual; if there are no scores the value will become 0
+            _scoreValue = _data.GetScores(CurrentUser.Instance.Token!).OrderByDescending(x => x.Value).Select(x => x.Value).DefaultIfEmpty(0).First(); //get the highest score of an individual; if there are no scores the value will become 0
             PersonalHighScore = $"Uw hoogste score is: {_scoreValue}";
             PersonalHighScoreLabel.Content = PersonalHighScore;
             HighscoreTable.ItemsSource = (System.Collections.IEnumerable)SortLeaderboard(_data.GetHighscores(), CurrentUser.Instance.Token!); //sort and bind it to the highscore datagrid
@@ -65,5 +65,62 @@ namespace TikTovenaar
                 })
                 .ToList();
         }
+
+        private void FilterOptions_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (FilterOptions.SelectedItem is ComboBoxItem selectedOption)
+            {
+                string filter = selectedOption.Tag.ToString();
+
+                // Dummy leaderboard data (replace this with actual data logic as needed)
+                var dummyData = new List<LeaderboardEntry>
+        {
+            new LeaderboardEntry { Ranking = 1, Name = "Player1", Score = 500, WPM = 60, WordsTyped = 100, Streak = 5 },
+            new LeaderboardEntry { Ranking = 2, Name = "Player2", Score = 450, WPM = 55, WordsTyped = 90, Streak = 4 },
+            new LeaderboardEntry { Ranking = 3, Name = "Player3", Score = 400, WPM = 50, WordsTyped = 80, Streak = 3 },
+        };
+
+                List<LeaderboardEntry> sortedData;
+                string columnHeader;
+
+                switch (filter)
+                {
+                    case "WPM":
+                        columnHeader = "WPM";
+                        sortedData = dummyData.OrderByDescending(entry => entry.WPM).ToList();
+                        break;
+                    case "TotalScore":
+                        columnHeader = "Total Score";
+                        sortedData = dummyData.OrderByDescending(entry => entry.Score).ToList();
+                        break;
+                    case "TypedWords":
+                        columnHeader = "Typed Words";
+                        sortedData = dummyData.OrderByDescending(entry => entry.WordsTyped).ToList();
+                        break;
+                    case "Streak":
+                        columnHeader = "Streak";
+                        sortedData = dummyData.OrderByDescending(entry => entry.Streak).ToList();
+                        break;
+                    case "Score":
+                        columnHeader = "Score";
+                        sortedData = (List<LeaderboardEntry>)SortLeaderboard(_data.GetHighscores(), CurrentUser.Instance.Token!);
+                        break;
+                    default:
+                        columnHeader = "Score";
+                        sortedData = (List<LeaderboardEntry>)SortLeaderboard(_data.GetHighscores(), CurrentUser.Instance.Token!);
+                        break;
+                }
+
+                // Update the header for the score column
+                var scoreColumn = HighscoreTable.Columns[2]; // Assuming the "Score" column is at index 2
+                scoreColumn.Header = columnHeader;
+
+                // Update the leaderboard table
+                HighscoreTable.ItemsSource = sortedData;
+            }
+        }
+
+
     }
+
 }

@@ -97,8 +97,20 @@
                 <!-- Graphs for WPM, Wrong %, and Right/Wrong Stats -->
                 <StackPanel Grid.Row="7" Margin="0,10">
                     <oxy:PlotView Name="WPMPlotView" Height="600" Margin="50" Background="Transparent"/>
+                    <TextBlock x:Name="WPMMessageText" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                   FontSize="16" Foreground="Red" Text="Grafieken nog niet mogelijk, heeft meer dan 2 spellen nodig." 
+                   Visibility="Collapsed" />
+                    
                     <oxy:PlotView Name="WrongPercentagePlotView" Height="600" Margin="50" Background="Transparent"/>
+                    <TextBlock x:Name="GoodPercentageMessageText" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                   FontSize="16" Foreground="Red" Text="Grafieken nog niet mogelijk, heeft meer dan 2 spellen nodig." 
+                   Visibility="Collapsed" />
+                    
                     <oxy:PlotView Name="RightWrongPlotView" Height="600" Margin="50" Background="Transparent"/>
+                    <TextBlock x:Name="RightWrongMessageText" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                   FontSize="16" Foreground="Red" Text="Grafieken nog niet mogelijk, heeft meer dan 2 spellen nodig." 
+                   Visibility="Collapsed" />
+                    
                 </StackPanel>
 
                 <!-- Search Bar and Sort Options (Positioned just above the Dynamic Grid) -->

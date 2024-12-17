@@ -9,6 +9,30 @@
              d:DesignHeight="720"
              d:Foreground="White">
     <Grid Background="#000435">
+        <ComboBox x:Name="FilterOptions" 
+          Width="200" 
+          HorizontalAlignment="Left" 
+          VerticalAlignment="Top" 
+          Margin="10"
+          SelectionChanged="FilterOptions_SelectionChanged"
+          Background="#0D1117" 
+          Foreground="#FF0D1117" 
+          BorderBrush="#FF0D1117" 
+          BorderThickness="1" 
+          Padding="5" 
+          FontSize="14" 
+          HorizontalContentAlignment="Center" 
+          VerticalContentAlignment="Center" 
+          Height="30">
+            <ComboBoxItem Content="WPM" Tag="WPM" />
+            <ComboBoxItem Content="Total Score" Tag="TotalScore" />
+            <ComboBoxItem Content="Total Typed Words" Tag="TypedWords" />
+            <ComboBoxItem Content="Streak" Tag="Streak" />
+            <ComboBoxItem Content="Score" Tag="Score" />
+            <!-- Added the Score option -->
+        </ComboBox>
+
+
         <DataGrid x:Name="HighscoreTable" 
           AutoGenerateColumns="False"
           Margin="300,113,300,213" 

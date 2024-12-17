@@ -124,7 +124,14 @@ namespace TikTovenaar
 
 
                 }
-                averageScore /= userScores.Count;
+
+                if (userScores.Count == 0)
+                {
+                    averageScore = 0;
+                }
+                else {
+                    averageScore /= userScores.Count;
+                }
 
                 // Voorbeeldgegevens om de statistieken te tonen - vervang door echte gegevens.
                 AvgScoreText.Text = averageScore.ToString(); // Gemiddelde score.
@@ -357,6 +364,19 @@ namespace TikTovenaar
         // Methode om een grafiek te tekenen die het gemiddelde WPM toont.
         private void DrawWPMGraph(List<int> data)
         {
+
+            if (data.Count <= 2)
+            {
+                // Show the message and hide the graph
+                WPMPlotView.Visibility = Visibility.Collapsed;
+                WPMMessageText.Visibility = Visibility.Visible;
+                return;
+            }
+
+            // Hide the message and show the graph
+            WPMPlotView.Visibility = Visibility.Visible;
+            WPMMessageText.Visibility = Visibility.Collapsed;
+
             // Maak een nieuw grafiekmodel voor WPM.
             var plotModel = new PlotModel { Title = "Gemiddelde WPM" };
 
@@ -417,6 +437,17 @@ namespace TikTovenaar
         // Methode om een grafiek te tekenen voor het gemiddelde foutpercentage.
         private void DrawGoodPercentageGraph(List<int> data)
         {
+            if (data.Count <= 2)
+            {
+                // Show the message and hide the graph
+                WrongPercentagePlotView.Visibility = Visibility.Collapsed;
+                GoodPercentageMessageText.Visibility = Visibility.Visible;
+                return;
+            }
+
+            WrongPercentagePlotView.Visibility = Visibility.Visible;
+            GoodPercentageMessageText.Visibility = Visibility.Collapsed;
+
             // Maak een nieuw grafiekmodel voor foutpercentages.
             var plotModel = new PlotModel { Title = "Gemiddeld Goed Percentage" };
 
@@ -478,6 +509,18 @@ namespace TikTovenaar
         // Methode om een grafiek te tekenen die het aantal correcte en foute woorden toont.
         private void DrawRightWrongGraph(List<int> rightWordsData, List<int> wrongWordsData)
         {
+            if (rightWordsData.Count <= 2 || wrongWordsData.Count <= 2)
+            {
+                // Show the message and hide the graph
+                RightWrongPlotView.Visibility = Visibility.Collapsed;
+                RightWrongMessageText.Visibility = Visibility.Visible;
+                return;
+            }
+
+            // Hide the message and show the graph
+            RightWrongPlotView.Visibility = Visibility.Visible;
+            RightWrongMessageText.Visibility = Visibility.Collapsed;
+
             // Maak een nieuw grafiekmodel voor correcte en foute woorden.
             var plotModel = new PlotModel { Title = "Totaal Aantal Woorden Goed en Fout" };
 
