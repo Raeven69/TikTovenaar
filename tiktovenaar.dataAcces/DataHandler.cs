@@ -20,7 +20,7 @@ namespace TikTovenaar.DataAccess
         private static void ThrowIfError(HttpResponseMessage response)
         {
             dynamic? result = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result) ?? throw new RequestFailedException("Something went wrong.");
-            if (result is not JArray && (string)result.type != "success")
+            if (result is not JArray && result is not Leaderboards && (string)result.type != "success")
             {
                 throw new RequestFailedException((string)result.message);
             }
@@ -51,17 +51,12 @@ namespace TikTovenaar.DataAccess
             ThrowIfError(client.SendAsync(request).Result);
         }
 
-        public List<PartialScore> GetHighscores(int limit = -1)
+        public Leaderboards GetLeaderboards(int limit = -1)
         {
             HttpResponseMessage response = client.GetAsync($"highscores?limit={limit}").Result;
             ThrowIfError(response);
-            dynamic? result = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result);
-            List<PartialScore> scores = [];
-            foreach (dynamic score in result!)
-            {
-                scores.Add(new((string)score.player, (int)score.value));
-            }
-            return scores;
+            Leaderboards? leaderboards = JsonConvert.DeserializeObject<Leaderboards>(response.Content.ReadAsStringAsync().Result);
+            return leaderboards!;
         }
 
         public List<Score> GetScores(string token)

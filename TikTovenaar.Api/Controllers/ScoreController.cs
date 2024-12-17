@@ -54,7 +54,7 @@ namespace TikTovenaar.Api.Controllers
             }
             NpgsqlConnection connection = new Database().GetConnection();
             connection.Open();
-            using NpgsqlCommand cmd = new(@"INSERT INTO scores(userid, wordsamount, score, incorrectwords, incorrectletters, correctwords, duration) VALUES(@userid, @wordsamount, @score, @incorrectwords, @incorrectletters, @correctwords, @duration)", connection);
+            using NpgsqlCommand cmd = new(@"INSERT INTO scores(userid, wordsamount, score, incorrectwords, incorrectletters, correctwords, duration, wpm) VALUES(@userid, @wordsamount, @score, @incorrectwords, @incorrectletters, @correctwords, @duration, @wpm)", connection);
             cmd.Parameters.AddWithValue("userid", userID);
             cmd.Parameters.AddWithValue("wordsamount", score.WordsAmount);
             cmd.Parameters.AddWithValue("score", score.Value);
@@ -62,6 +62,7 @@ namespace TikTovenaar.Api.Controllers
             cmd.Parameters.AddWithValue("incorrectletters", score.IncorrectLetters);
             cmd.Parameters.AddWithValue("correctwords", score.CorrectWords);
             cmd.Parameters.AddWithValue("duration", score.Duration);
+            cmd.Parameters.AddWithValue("wpm", score.WPM);
             cmd.ExecuteNonQuery();
             connection.Close();
             return new(new { type = "success", message = "Score added." });

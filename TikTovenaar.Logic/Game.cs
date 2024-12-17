@@ -218,9 +218,7 @@ public class Game
             Debug.WriteLine($"Invalid WPM input detected {totalWords} {correctKeys} {TimeElapsed}");
             return 0;
         }
-        double avgLength = (double)correctKeys / totalWords; //calculate average length for the wpm calculation
-        double wpm = (correctKeys / avgLength) / (TimeElapsed / 60.0);
-        WPM = Math.Round(wpm, 2);
+        WPM = Math.Round(totalWords / (TimeElapsed / 60.0), 2);
         return WPM; // Round to 2 decimal places
     }
     public double CalculateErrorPercentage(int incorrectKeys, int totalKeys)
@@ -288,7 +286,8 @@ public class Game
             IncorrectWords = wrongwordsstrings,
             IncorrectLetters = wrongletterchars,
             CorrectWords = CorrectWords,
-            Duration = TimeSpan.FromSeconds(TimeElapsed)
+            Duration = TimeSpan.FromSeconds(TimeElapsed),
+            WPM = WPM
         };
         _dataHandler.AddScore(CurrentUser.Instance.Token!, score);
         _timeTimer.Stop();

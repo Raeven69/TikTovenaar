@@ -8,6 +8,7 @@ namespace TikTovenaar.Logic
         public List<char> IncorrectLetters { get; set; } = [];
         public List<string> CorrectWords { get; set; } = [];
         public TimeSpan Duration { get; set; } = TimeSpan.Zero;
+        public double WPM { get; set; } = 0.0;
 
         public bool IsValid()
         {
