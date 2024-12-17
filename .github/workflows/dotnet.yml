@@ -27,12 +27,12 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: TikTovenaar
-        path: TikTovenaar\bin\Debug\net8.0-windows
+        path: TikTovenaar\bin\Release\net8.0-windows
     - name: Upload TikTovenaarAPI
       uses: actions/upload-artifact@v4
       with:
         name: TikTovenaarAPI
-        path: TikTovenaar.Api\bin\Debug\net8.0\linux-x64
+        path: TikTovenaar.Api\bin\Release\net8.0\linux-x64
     -  name: Upload TikTovenaarInstaller
        uses: actions/upload-artifact@v4
        with: 
