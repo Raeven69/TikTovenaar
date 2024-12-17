@@ -18,7 +18,7 @@ namespace TikTovenaar
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
-        {
+        { 
                 if (UserTextbox.Text == "")
                 {
                     MessageBox.Show("Vul het gebruikersveld in om de gebruiker te verwijderen");

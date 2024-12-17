@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Diagnostics;
 using TikTovenaar.Logic;
 
 namespace TikTovenaar.DataAccess
@@ -123,6 +124,21 @@ namespace TikTovenaar.DataAccess
                 new KeyValuePair<string, string>("password", password)
             ]);
             ThrowIfError(client.SendAsync(request).Result);
+        }
+
+        public List<PartialUser> GetUsers(string token)
+        {
+            using HttpRequestMessage request = new(HttpMethod.Get, "user");
+            request.Headers.Authorization = new("Bearer", token);
+            HttpResponseMessage response = client.SendAsync(request).Result;
+            ThrowIfError(response);
+            dynamic? result = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result);
+            List<PartialUser> users = [];
+            foreach (dynamic user in result!)
+            {
+                users.Add(new((int)user.id, (string)user.name));
+            }
+            return users;
         }
 
         public void DeleteUser(string token, string username)
