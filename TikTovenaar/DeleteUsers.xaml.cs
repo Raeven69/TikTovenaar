@@ -73,20 +73,8 @@ namespace TikTovenaar
 
             button.Click += (sender, e) =>
             {
-                MessageBoxResult knop = MessageBox.Show($"De gebruiker met naam {userName} staat op het punt om verwijderd te worden", "Druk ja om te bevestigen ", MessageBoxButton.YesNo); //add message box
-                if (knop == MessageBoxResult.Yes)
-                {
-                    try
-                    {
-                        dataHandler.DeleteUser(CurrentUser.Instance.Token, userName);
-                    }
-                    catch (RequestFailedException ex)
-                    {
-                        MessageBox.Show("Kan gebruiker niet verwijderen.");
-                        return;
-                    }
-                    MessageBox.Show($"De gebruiker met naam {userName} is verwijderd");
-                }
+                ConfirmDialog confirmDialog = new ConfirmDialog(userName);
+                confirmDialog.ShowDialog();
             };
 
             stackPanel.Children.Add(button);

@@ -41,26 +41,34 @@
         <!-- Main Container -->
         <Border BorderBrush="#F0F0F0" BorderThickness="1" Padding="20" Margin="300,150,300,150">
             <Grid>
+                <!-- Define Rows -->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <!-- Search Bar -->
+                    <RowDefinition Height="*"/>
+                    <!-- ListBox (Scalable) -->
+                </Grid.RowDefinitions>
+
                 <!-- Search Bar -->
                 <TextBox x:Name="SearchUserTextBox"
-                 HorizontalAlignment="Stretch"
-                 VerticalAlignment="Top"
-                 Margin="0,0,0,10"
-                 Height="40"
-                 FontSize="16"
-                 Foreground="#888888"
-                 Text="Zoek een gebruiker..."
-                 GotFocus="SearchUserTextBox_GotFocus"
-                 LostFocus="SearchUserTextBox_LostFocus"
-                 TextChanged="SearchUserTextBox_TextChanged"/>
+                         HorizontalAlignment="Stretch"
+                         VerticalAlignment="Top"
+                         Height="40"
+                         FontSize="16"
+                         Foreground="#888888"
+                         Text="Zoek een gebruiker..."
+                         GotFocus="SearchUserTextBox_GotFocus"
+                         LostFocus="SearchUserTextBox_LostFocus"
+                         TextChanged="SearchUserTextBox_TextChanged"/>
 
+                <!-- Scalable ListBox -->
                 <ListBox x:Name="ListBoxUsers" 
-                     Background="#000435" 
-                     Foreground="#F0F0F0" 
-                     ScrollViewer.VerticalScrollBarVisibility="Auto" 
-                     MaxHeight="620"
-                     HorizontalContentAlignment="Stretch">
-                </ListBox>
+                         Grid.Row="1"
+                         Background="#000435" 
+                         Foreground="#F0F0F0" 
+                         ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                         HorizontalContentAlignment="Stretch"
+                         Margin="0,10,0,0"/>
             </Grid>
         </Border>
 
@@ -74,7 +82,6 @@
                 Click="ReturnToAdminScreen_Click"
                 Background="#FF0D1117" BorderBrush="#FF235AAE"
                 Height="60"
-                Width="200"
-                />
+                Width="200"/>
     </Grid>
 </UserControl>
