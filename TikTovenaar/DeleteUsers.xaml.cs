@@ -25,17 +25,15 @@ namespace TikTovenaar
     {
         private List<string> _userList = new List<string>
             {
-                "Lebron James",
-                "Lionel Messi",
-                "Luke Skywalker",
-                "Leia Organa"
             };
+
+        private List<PartialUser> _userListRaw = new();
 
         DataHandler dataHandler = new();
         public DeleteUsers()
         {
             InitializeComponent();
-            BuildUserList();
+            UpdateUserList();
         }
 
         private void ReturnToAdminScreen_Click(object sender, RoutedEventArgs e)
@@ -73,8 +71,13 @@ namespace TikTovenaar
 
             button.Click += (sender, e) =>
             {
-                ConfirmDialog confirmDialog = new ConfirmDialog(userName);
-                confirmDialog.ShowDialog();
+                ConfirmDialog dialog = new ConfirmDialog(userName, () =>
+                {
+                    UpdateUserList();
+                });
+
+                dialog.ShowDialog();
+
             };
 
             stackPanel.Children.Add(button);
@@ -89,6 +92,9 @@ namespace TikTovenaar
 
         private void BuildUserList()
         {
+            // Clear the ListBox before rebuilding
+            ListBoxUsers.Items.Clear();
+
             foreach (String name in _userList)
             {
                 AddItemToDisplay(name);
@@ -117,6 +123,17 @@ namespace TikTovenaar
             {
                 AddItemToDisplay(name);
             }
+        }
+
+        private void UpdateUserList()
+        {
+            _userListRaw = dataHandler.GetUsers(CurrentUser.Instance.Token);
+            _userList.Clear();
+            foreach (var user in _userListRaw)
+            {
+                _userList.Add(user.Name);
+            }
+            BuildUserList();
         }
         private void SearchUserTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {

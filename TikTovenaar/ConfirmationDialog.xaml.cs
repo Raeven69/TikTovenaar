@@ -20,11 +20,15 @@ namespace TikTovenaar
     public partial class ConfirmDialog : Window
     {
         private String _name;
-        public ConfirmDialog(String name)
+        private readonly Action _onYesPressed;
+
+        public ConfirmDialog(String name, Action onNoPressed)
         {
             this._name = name;
+            this._onYesPressed = onNoPressed;
             InitializeComponent();
         }
+
 
         private void YesButton_Click(object sender, RoutedEventArgs e)
         {
@@ -39,12 +43,14 @@ namespace TikTovenaar
                 subTitleText.Text = $"Kan {_name} niet verwijderen";
                 subTitleText.Foreground = Brushes.Red;
             }
+            _onYesPressed?.Invoke(); // Invoke the callback function if it's not null
         }
 
         private void NoButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
+
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
