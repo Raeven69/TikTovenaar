@@ -8,6 +8,7 @@ namespace TikTovenaar
     public partial class Loginscreen : UserControl
     {
         private DataHandler Handler { get; }
+        string token;
 
         public Loginscreen()
         {
@@ -29,7 +30,7 @@ namespace TikTovenaar
             }
             catch (RequestFailedException exc)
             {
-                ErrorText.Text = exc.Error ?? "Fields cannot be empty.";
+                ErrorText.Text = exc.Error != null ? "Gebruikersnaam of wachtwoord onjuist." : "Vul alle velden in.";
                 ErrorText.Visibility = Visibility.Visible;
             }
         }

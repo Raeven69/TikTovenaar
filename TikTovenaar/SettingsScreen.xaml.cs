@@ -90,7 +90,7 @@ namespace TikTovenaar
                 string[] mp3Files = Directory.GetFiles(folderPath, "*.mp3");
                 foreach (string file in mp3Files)
                 {
-                    backgroundMusicOptions.Add(System.IO.Path.GetFileName(file));
+                    backgroundMusicOptions.Add(Path.GetFileName(file));
                 }
             }
         }
@@ -138,9 +138,9 @@ namespace TikTovenaar
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
                 string selectedPath = dialog.FileName;
-                string targetFolder = System.IO.Path.GetFullPath("Sounds/Background");
-                string fileName = System.IO.Path.GetFileName(selectedPath);
-                string destinationPath = System.IO.Path.Combine(targetFolder, fileName);
+                string targetFolder = Path.GetFullPath("Sounds/Background");
+                string fileName = Path.GetFileName(selectedPath);
+                string destinationPath = Path.Combine(targetFolder, fileName);
                 
                 if (!System.IO.File.Exists(destinationPath))
                 {
@@ -178,8 +178,7 @@ namespace TikTovenaar
                 }
                 else
                 {
-                    // Toon een foutmelding als het bestand niet verwijderd kan worden.
-                    MessageBox.Show("Kan niet verwijdert worden");
+                    MessageBox.Show("Kan niet verwijderd worden");
                 }
 
             }

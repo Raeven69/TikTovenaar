@@ -23,13 +23,13 @@ namespace TikTovenaar.Api.Controllers
                     if (!BCrypt.Net.BCrypt.Verify(user.Password, password))
                     {
                         connection.Close();
-                        return new(new { type = "error", message = "Password invalid." });
+                        return new(new { type = "error", message = "Username or password incorrect." });
                     }
                 }
                 catch (Exception)
                 {
                     connection.Close();
-                    return new(new { type = "error", message = "Password invalid." });
+                    return new(new { type = "error", message = "Username or password incorrect." });
                 }
                 string token = Utils.CreateToken(reader.GetInt32(0));
                 bool admin = reader.GetString(3) == "admin";
@@ -37,7 +37,7 @@ namespace TikTovenaar.Api.Controllers
                 return new(new { type = "success", message = new { authentication = $"Bearer {token}", admin } });
             }
             connection.Close();
-            return new(new { type = "error", message = "User not found." });
+            return new(new { type = "error", message = "Username or password incorrect." });
         }
     }
 }
