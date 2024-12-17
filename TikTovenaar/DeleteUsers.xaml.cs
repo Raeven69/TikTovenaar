@@ -58,29 +58,33 @@ namespace TikTovenaar
                 Margin = new Thickness(0, 0, 40, 0)
             });
 
-            Button button = new Button
+            if (userName != CurrentUser.Instance.Name)
             {
-                Content = "Verwijder Gebruiker",
-                Style = (Style)Resources["StyledButton"],
-                FontSize = 18,
-                Width = 220,
-                Height = 50,
-                Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF0D1117")),
-                BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF235AAE"))
-            };
-
-            button.Click += (sender, e) =>
-            {
-                ConfirmDialog dialog = new ConfirmDialog(userName, () =>
+                Button button = new Button
                 {
-                    UpdateUserList();
-                });
+                    Content = "Verwijder Gebruiker",
+                    Style = (Style)Resources["StyledButton"],
+                    FontSize = 18,
+                    Width = 220,
+                    Height = 50,
+                    Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF0D1117")),
+                    BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF235AAE"))
+                };
 
-                dialog.ShowDialog();
+                button.Click += (sender, e) =>
+                {
+                    ConfirmDialog dialog = new ConfirmDialog(userName, () =>
+                    {
+                        UpdateUserList();
+                    });
 
-            };
+                    dialog.ShowDialog();
 
-            stackPanel.Children.Add(button);
+                };
+
+                stackPanel.Children.Add(button);
+            }
+
 
             var item = new ListBoxItem
             {
