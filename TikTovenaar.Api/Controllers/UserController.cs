@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Npgsql;
+using TikTovenaar.Logic;
 
 namespace TikTovenaar.Api.Controllers
 {
