@@ -13,15 +13,24 @@ namespace TikTovenaar.Installer
         static void Main()
         {
             string workingDirectory = Environment.CurrentDirectory;
-            string projectDirectory = Directory.GetParent(workingDirectory).Parent.Parent.Parent.Parent.FullName; //gets the default project files
+            string projectDirectory = workingDirectory;
+            System.IO.DirectoryInfo parentDir = Directory.GetParent(workingDirectory);
+            for (int i = 0; i < 4 && parentDir != null; i++)
+            {
+                parentDir = parentDir.Parent;
+            }
+            if (parentDir != null)
+            {
+                projectDirectory = parentDir.FullName;
+            } //gets the default project files
+
+
             if (workingDirectory.EndsWith("TikTovenaar"))
             {
                 projectDirectory = workingDirectory;
             }
 
-            string targetDirectory = Path.Combine(projectDirectory, "TikTovenaar", "bin", "Release", "net8.0-windows", "publish", "win-x86");
-            Console.WriteLine(targetDirectory);
-            
+            string targetDirectory = Path.Combine(projectDirectory, "TikTovenaar", "bin", "Release", "net8.0-windows");            
             ManagedProject project = new ManagedProject("TikTovenaar",
                             //actual install directory
                             new InstallDir(@"%ProgramFiles%\TikTovenaar",
@@ -54,10 +63,7 @@ namespace TikTovenaar.Installer
                 runtime.UIText["MaintenanceTypeDlgRepairButton"] = "Repareren";
                 runtime.UIText["MaintenanceTypeDlgVerwijderenButton"] = "Verwijderen";
             };
-            
             project.OutDir = Path.Combine(projectDirectory, "TikTovenaar.Installer");
-            Console.WriteLine(projectDirectory);
-
             project.ManagedUI.InstallDialogs.Add<TikTovenaar.Installer.WelcomeDialog>()
                                             .Add<TikTovenaar.Installer.LicenceDialog>()
                                             .Add<TikTovenaar.Installer.InstallDirDialog>()
