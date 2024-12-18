@@ -10,6 +10,9 @@ namespace TikTovenaar.Installer
 {
     public class Program
     {
+        /// <summary>
+        /// This is a script that's 
+        /// </summary>
         static void Main()
         {
             string workingDirectory = Environment.CurrentDirectory;
@@ -35,7 +38,7 @@ namespace TikTovenaar.Installer
                             //actual install directory
                             new InstallDir(@"%ProgramFiles%\TikTovenaar",
                              new Files(Path.Combine(targetDirectory, "*.*"), f => !f.EndsWith(".pdb") && !f.EndsWith(".")),
-                            //adds shortcut to desktop 
+                             //adds shortcut to desktop 
                              new Dir(@"%Desktop%",
                                new ExeFileShortcut("TikTovenaar", "[INSTALLDIR]TikTovenaar.exe", arguments: ""),
                                //adds shortcut to program menu to allow it to be searched
@@ -61,7 +64,7 @@ namespace TikTovenaar.Installer
                 runtime.UIText["WixUIFinish"] = "Afronden";
                 runtime.UIText["MaintenanceTypeDlgChangeButton"] = "Wijzigen...";
                 runtime.UIText["MaintenanceTypeDlgRepairButton"] = "Repareren";
-                runtime.UIText["MaintenanceTypeDlgVerwijderenButton"] = "Verwijderen";
+                runtime.UIText["MaintenanceTypeDlgRemoveButton"] = "Verwijderen";
             };
             project.OutDir = Path.Combine(projectDirectory, "TikTovenaar.Installer");
             project.ManagedUI.InstallDialogs.Add<TikTovenaar.Installer.WelcomeDialog>()
