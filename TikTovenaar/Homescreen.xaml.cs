@@ -40,6 +40,9 @@ namespace TikTovenaar
         }
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
+            // zorgt dat je token niet meer word onhouden
+            Properties.Settings.Default.inlogToken = null;
+            Properties.Settings.Default.Save();
             CurrentUser.Instance.Unset();
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
             mainWindow.SwitchToLoginScreen();
@@ -67,6 +70,15 @@ namespace TikTovenaar
         {
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
             mainWindow.SwitchToSettingsScreen();
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            var window = Window.GetWindow(this);
+            if (window != null)
+            {
+                window.Close();
+            }
         }
     }
 }
