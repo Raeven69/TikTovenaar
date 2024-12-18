@@ -17,12 +17,12 @@ jobs:
         dotnet-version: 8.0.x
     - name: Build
       run: dotnet build --configuration Release
-
     - name: API
       run: dotnet build TikTovenaar.Api\TikTovenaar.Api.csproj --runtime linux-x64 --configuration Release
     - name: Build installer
       run: dotnet build TikTovenaar.Installer\TikTovenaar.Installer.csproj --configuration Release
-      
+    - name: Run Installer Project
+      run: dotnet run --project TikTovenaar.Installer/TikTovenaar.Installer.csproj --configuration Release
     - name: Upload TikTovenaar
       uses: actions/upload-artifact@v4
       with:
