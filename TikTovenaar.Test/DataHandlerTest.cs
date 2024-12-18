@@ -119,8 +119,8 @@ namespace TikTovenaar.Test
         public void GetHighscores_ShouldExist()
         {
             DataHandler handler = new();
-            List<PartialScore> scores = handler.GetHighscores();
-            Assert.IsTrue(scores.Count > 0 && scores[0].Player.Length > 0);
+            Leaderboards scores = handler.GetLeaderboards();
+            Assert.IsTrue(scores.Scores.Count > 0 && scores.Scores[0].Player.Length > 0);
         }
 
         [TestMethod]
@@ -140,11 +140,27 @@ namespace TikTovenaar.Test
         }
 
         [TestMethod]
-        public void GetDefinition_blabla_()
+        public void GetDefinition_Sigma_ShouldEqualWiskunde()
         {
             DataHandler handler = new();
             Definition def = handler.GetDefinition("sigma");
             Assert.AreEqual("wiskunde", def.Category);
+        }
+
+        [TestMethod]
+        public void Authorize_IncorrectToken_ShouldThrow()
+        {
+            DataHandler handler = new();
+            Assert.ThrowsException<RequestFailedException>(() => handler.Authorize("test", out bool _));
+        }
+
+        [TestMethod]
+        public void Authorize_CorrectToken_ShouldEqualUsername()
+        {
+            DataHandler handler = new();
+            string? token = handler.Login("TestPlayer", "password", out bool _);
+            string username = handler.Authorize(token!, out bool _);
+            Assert.AreEqual("TestPlayer", username);
         }
     }
 }

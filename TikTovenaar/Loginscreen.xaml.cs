@@ -8,6 +8,7 @@ namespace TikTovenaar
     public partial class Loginscreen : UserControl
     {
         private DataHandler Handler { get; }
+        string token;
 
         public Loginscreen()
         {

@@ -7,12 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using TikTovenaar.DataAccess;
 using TikTovenaar.Logic;
 
@@ -29,21 +24,18 @@ namespace TikTovenaar
         private int _scoreValue;
         public string PlayerName { get; private set; }
         
-
-        
         public LeaderboardScreen()
         {
-
             _data = new();
             LoadingScreen loadingScreen = new LoadingScreen();
             loadingScreen.Show();
 
             InitializeComponent();
 
-             _scoreValue = _data.GetScores(CurrentUser.Instance.Token!).OrderByDescending(x => x.Value).Select(x => x.Value).DefaultIfEmpty(0).First(); //get the highest score of an individual; if there are no scores the value will become 0
+            _scoreValue = _data.GetScores(CurrentUser.Instance.Token!).OrderByDescending(x => x.Value).Select(x => x.Value).DefaultIfEmpty(0).First(); //get the highest score of an individual; if there are no scores the value will become 0
             PersonalHighScore = $"Uw hoogste score is: {_scoreValue}";
             PersonalHighScoreLabel.Content = PersonalHighScore;
-            HighscoreTable.ItemsSource = (System.Collections.IEnumerable)SortLeaderboard(_data.GetHighscores(), CurrentUser.Instance.Token!); //sort and bind it to the highscore datagrid
+            HighscoreTable.ItemsSource = (System.Collections.IEnumerable)SortLeaderboard(_data.GetLeaderboards(), CurrentUser.Instance.Token!); //sort and bind it to the highscore datagrid
             loadingScreen.Close();
         }
 
@@ -52,9 +44,9 @@ namespace TikTovenaar
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
             mainWindow.SwitchToHomeScreen();
         }
-        private object SortLeaderboard(List<PartialScore> scores, string? token)
+        private object SortLeaderboard(Leaderboards scores, string? token)
         {
-            return scores
+            return scores.Scores
                 .OrderByDescending(score => score.Value) // Sort by score descending
                 .Select((score, index) => new LeaderboardEntry //class with all the entries needed for the leaderboard screen
                 {

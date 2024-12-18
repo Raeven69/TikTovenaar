@@ -33,7 +33,7 @@ namespace TikTovenaar.Installer
                 projectDirectory = workingDirectory;
             }
 
-            string targetDirectory = Path.Combine(projectDirectory, "TikTovenaar", "bin", "Release", "net8.0-windows");
+            string targetDirectory = Path.Combine(projectDirectory, "TikTovenaar", "bin", "Release", "net8.0-windows");            
             ManagedProject project = new ManagedProject("TikTovenaar",
                             //actual install directory
                             new InstallDir(@"%ProgramFiles%\TikTovenaar",
