@@ -10,23 +10,35 @@ namespace TikTovenaar.Installer
 {
     public class Program
     {
+        /// <summary>
+        /// This is a script that's 
+        /// </summary>
         static void Main()
         {
             string workingDirectory = Environment.CurrentDirectory;
-            string projectDirectory = Directory.GetParent(workingDirectory).Parent.Parent.Parent.Parent.FullName; //gets the default project files
+            string projectDirectory = workingDirectory;
+            System.IO.DirectoryInfo parentDir = Directory.GetParent(workingDirectory);
+            for (int i = 0; i < 4 && parentDir != null; i++)
+            {
+                parentDir = parentDir.Parent;
+            }
+            if (parentDir != null)
+            {
+                projectDirectory = parentDir.FullName;
+            } //gets the default project files
+
+
             if (workingDirectory.EndsWith("TikTovenaar"))
             {
                 projectDirectory = workingDirectory;
             }
 
-            string targetDirectory = Path.Combine(projectDirectory, "TikTovenaar", "bin", "Release", "net8.0-windows", "publish", "win-x86");
-            Console.WriteLine(targetDirectory);
-            
+            string targetDirectory = Path.Combine(projectDirectory, "TikTovenaar", "bin", "Release", "net8.0-windows");
             ManagedProject project = new ManagedProject("TikTovenaar",
                             //actual install directory
                             new InstallDir(@"%ProgramFiles%\TikTovenaar",
                              new Files(Path.Combine(targetDirectory, "*.*"), f => !f.EndsWith(".pdb") && !f.EndsWith(".")),
-                            //adds shortcut to desktop 
+                             //adds shortcut to desktop 
                              new Dir(@"%Desktop%",
                                new ExeFileShortcut("TikTovenaar", "[INSTALLDIR]TikTovenaar.exe", arguments: ""),
                                //adds shortcut to program menu to allow it to be searched
@@ -52,12 +64,9 @@ namespace TikTovenaar.Installer
                 runtime.UIText["WixUIFinish"] = "Afronden";
                 runtime.UIText["MaintenanceTypeDlgChangeButton"] = "Wijzigen...";
                 runtime.UIText["MaintenanceTypeDlgRepairButton"] = "Repareren";
-                runtime.UIText["MaintenanceTypeDlgVerwijderenButton"] = "Verwijderen";
+                runtime.UIText["MaintenanceTypeDlgRemoveButton"] = "Verwijderen";
             };
-            
             project.OutDir = Path.Combine(projectDirectory, "TikTovenaar.Installer");
-            Console.WriteLine(projectDirectory);
-
             project.ManagedUI.InstallDialogs.Add<TikTovenaar.Installer.WelcomeDialog>()
                                             .Add<TikTovenaar.Installer.LicenceDialog>()
                                             .Add<TikTovenaar.Installer.InstallDirDialog>()
