@@ -20,7 +20,7 @@ namespace TikTovenaar.DataAccess
         private static void ThrowIfError(HttpResponseMessage response)
         {
             dynamic? result = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result) ?? throw new RequestFailedException("Something went wrong.");
-            if (result is not JArray && (string)result.type != "success")
+            if (result is not JArray && result is not Leaderboards && (string)result.type != "success")
             {
                 throw new RequestFailedException((string)result.message);
             }
@@ -51,17 +51,33 @@ namespace TikTovenaar.DataAccess
             ThrowIfError(client.SendAsync(request).Result);
         }
 
-        public List<PartialScore> GetHighscores(int limit = -1)
+        public Leaderboards GetLeaderboards(int limit = -1)
         {
-            HttpResponseMessage response = client.GetAsync($"highscores?limit={limit}").Result;
-            ThrowIfError(response);
-            dynamic? result = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result);
-            List<PartialScore> scores = [];
-            foreach (dynamic score in result!)
+            try
             {
-                scores.Add(new((string)score.player, (int)score.value));
+                HttpResponseMessage response = client.GetAsync($"leaderboards?limit={limit}").Result;
+                dynamic? leaderboards = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result);
+                List<PartialScore<int>> scores = [];
+                List<PartialScore<double>> wpm = [];
+                List<PartialScore<int>> levels = [];
+                foreach (dynamic score in leaderboards!.scores)
+                {
+                    scores.Add(new((string)score.player, (int)score.value));
+                }
+                foreach (dynamic wpmScore in leaderboards!.scores)
+                {
+                    wpm.Add(new((string)wpmScore.player, (double)wpmScore.value));
+                }
+                foreach (dynamic level in leaderboards!.scores)
+                {
+                    levels.Add(new((string)level.player, (int)level.value));
+                }
+                return new(scores, wpm, levels);
             }
-            return scores;
+            catch (Exception)
+            {
+                throw new RequestFailedException("Something went wrong.");
+            }
         }
 
         public List<Score> GetScores(string token)
