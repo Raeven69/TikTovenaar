@@ -30,9 +30,7 @@ namespace TikTovenaar.Installer
                 projectDirectory = workingDirectory;
             }
 
-            string targetDirectory = Path.Combine(projectDirectory, "TikTovenaar", "bin", "Release", "net8.0-windows", "publish", "win-x86");
-            Console.WriteLine(targetDirectory);
-            
+            string targetDirectory = Path.Combine(projectDirectory, "TikTovenaar", "bin", "Release", "net8.0-windows");            
             ManagedProject project = new ManagedProject("TikTovenaar",
                             //actual install directory
                             new InstallDir(@"%ProgramFiles%\TikTovenaar",
@@ -65,10 +63,7 @@ namespace TikTovenaar.Installer
                 runtime.UIText["MaintenanceTypeDlgRepairButton"] = "Repareren";
                 runtime.UIText["MaintenanceTypeDlgVerwijderenButton"] = "Verwijderen";
             };
-            
             project.OutDir = Path.Combine(projectDirectory, "TikTovenaar.Installer");
-            Console.WriteLine(projectDirectory);
-
             project.ManagedUI.InstallDialogs.Add<TikTovenaar.Installer.WelcomeDialog>()
                                             .Add<TikTovenaar.Installer.LicenceDialog>()
                                             .Add<TikTovenaar.Installer.InstallDirDialog>()
