@@ -26,7 +26,9 @@ namespace TikTovenaar.Api.Controllers
             }
             string name = reader.GetString(1);
             bool admin = reader.GetString(3) == "admin";
-            return new(new { type = "success", message = new { username = name, admin } });
+            connection.Close();
+            int gainedXP = Utils.LoginBonus((int)id, out int streak);
+            return new(new { type = "success", message = new { username = name, admin, gainedXP, streak } });
         }
     }
 }

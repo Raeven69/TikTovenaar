@@ -65,6 +65,7 @@ namespace TikTovenaar.Api.Controllers
             cmd.Parameters.AddWithValue("wpm", score.WPM);
             cmd.ExecuteNonQuery();
             connection.Close();
+            Utils.GainXP((int)userID, score.Value);
             return new(new { type = "success", message = "Score added." });
         }
     }
