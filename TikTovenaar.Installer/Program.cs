@@ -13,7 +13,18 @@ namespace TikTovenaar.Installer
         static void Main()
         {
             string workingDirectory = Environment.CurrentDirectory;
-            string projectDirectory = Directory.GetParent(workingDirectory).Parent.Parent.Parent.Parent.FullName; //gets the default project files
+            string projectDirectory = workingDirectory;
+            System.IO.DirectoryInfo parentDir = Directory.GetParent(workingDirectory);
+            for (int i = 0; i < 4 && parentDir != null; i++)
+            {
+                parentDir = parentDir.Parent;
+            }
+            if (parentDir != null)
+            {
+                projectDirectory = parentDir.FullName;
+            } //gets the default project files
+
+
             if (workingDirectory.EndsWith("TikTovenaar"))
             {
                 projectDirectory = workingDirectory;
