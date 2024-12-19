@@ -31,10 +31,12 @@ namespace TikTovenaar.Api.Controllers
                     connection.Close();
                     return new(new { type = "error", message = "Username or password incorrect." });
                 }
-                string token = Utils.CreateToken(reader.GetInt32(0));
+                int userID = reader.GetInt32(0);
+                string token = Utils.CreateToken(userID);
                 bool admin = reader.GetString(3) == "admin";
                 connection.Close();
-                return new(new { type = "success", message = new { authentication = $"Bearer {token}", admin } });
+                int gainedXP = Utils.LoginBonus(userID, out int streak);
+                return new(new { type = "success", message = new { authentication = $"Bearer {token}", admin, gainedXP, streak } });
             }
             connection.Close();
             return new(new { type = "error", message = "Username or password incorrect." });

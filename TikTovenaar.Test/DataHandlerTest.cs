@@ -34,14 +34,14 @@ namespace TikTovenaar.Test
         public void Login_CorrectCredentials_ShouldNotThrow()
         {
             DataHandler handler = new();
-            handler.Login("TestPlayer", "password", out bool _);
+            handler.Login("TestPlayer", "password");
         }
 
         [TestMethod]
         public void Login_IncorrectCredentials_ShouldThrow()
         {
             DataHandler handler = new();
-            Assert.ThrowsException<RequestFailedException>(() => {  handler.Login("test", "test", out bool _); });
+            Assert.ThrowsException<RequestFailedException>(() => {  handler.Login("test", "test"); });
         }
 
         public static string CreateName()
@@ -60,91 +60,107 @@ namespace TikTovenaar.Test
         public void Register_Admin_DoesNotThrow()
         {
             DataHandler handler = new();
-            string token = handler.Login("TestAdmin", "password", out bool _);
+            LoginResponse login = handler.Login("TestAdmin", "password");
             string name = CreateName();
-            handler.Register(token!, name, "Password123!");
-            handler.Login(name, "Password123!", out bool _);
-            handler.DeleteUser(token!, name);
+            handler.Register(login.Token, name, "Password123!");
+            handler.Login(name, "Password123!");
+            handler.DeleteUser(login.Token, name);
         }
 
         [TestMethod]
         public void Register_NoAdmin_ShouldThrow()
         {
             DataHandler handler = new();
-            string token = handler.Login("TestPlayer", "password", out bool _);
+            LoginResponse login = handler.Login("TestPlayer", "password");
             string name = CreateName();
-            Assert.ThrowsException<RequestFailedException>(() => { handler.Register(token, name, "Password123!"); });
+            Assert.ThrowsException<RequestFailedException>(() => { handler.Register(login.Token, name, "Password123!"); });
         }
 
         [TestMethod]
         public void Register_UsernameExists_ShouldThrow()
         {
             DataHandler handler = new();
-            string token = handler.Login("TestAdmin", "password", out bool _);
-            Assert.ThrowsException<RequestFailedException>(() => { handler.Register(token!, "TestPlayer", "Password123!"); });
+            LoginResponse login = handler.Login("TestAdmin", "password");
+            Assert.ThrowsException<RequestFailedException>(() => { handler.Register(login.Token, "TestPlayer", "Password123!"); });
         }
 
         [TestMethod]
         public void Register_InvalidUsername_ShouldThrow()
         {
             DataHandler handler = new();
-            string token = handler.Login("TestAdmin", "password", out bool _);
-            Assert.ThrowsException<RequestFailedException>(() => { handler.Register(token!, "a", "Password123!"); });
+            LoginResponse login = handler.Login("TestAdmin", "password");
+            Assert.ThrowsException<RequestFailedException>(() => { handler.Register(login.Token, "a", "Password123!"); });
         }
 
         [TestMethod]
         public void Register_InvalidPassword_ShouldThrow()
         {
             DataHandler handler = new();
-            string token = handler.Login("TestAdmin", "password", out bool _);
+            LoginResponse login = handler.Login("TestAdmin", "password");
             string name = CreateName();
-            Assert.ThrowsException<RequestFailedException>(() => { handler.Register(token, name, "password"); });
+            Assert.ThrowsException<RequestFailedException>(() => { handler.Register(login.Token, name, "password"); });
         }
 
         [TestMethod]
         public void AddScore_ShouldNotThrow()
         {
             DataHandler handler = new();
-            string token = handler.Login("TestPlayer", "password", out bool _);
+            LoginResponse login = handler.Login("TestPlayer", "password");
             Score score = new()
             {
                 WordsAmount = 10,
                 Value = 200,
                 Duration = TimeSpan.FromSeconds(10)
             };
-            handler.AddScore(token, score);
+            handler.AddScore(login.Token, score);
         }
 
         [TestMethod]
         public void GetHighscores_ShouldExist()
         {
             DataHandler handler = new();
-            List<PartialScore> scores = handler.GetHighscores();
-            Assert.IsTrue(scores.Count > 0 && scores[0].Player.Length > 0);
+            Leaderboards scores = handler.GetLeaderboards();
+            Assert.IsTrue(scores.Scores.Count > 0 && scores.Scores[0].Player.Length > 0);
         }
 
         [TestMethod]
         public void Login_IsAdmin_ShouldBeTrue()
         {
             DataHandler handler = new();
-            handler.Login("TestAdmin", "password", out bool admin);
-            Assert.IsTrue(admin);
+            LoginResponse login = handler.Login("TestAdmin", "password");
+            Assert.IsTrue(login.Admin);
         }
 
         [TestMethod]
         public void Login_NotAdmin_ShouldBeFalse()
         {
             DataHandler handler = new();
-            handler.Login("TestPlayer", "password", out bool admin);
-            Assert.IsFalse(admin);
+            LoginResponse login = handler.Login("TestPlayer", "password");
+            Assert.IsFalse(login.Admin);
         }
 
         [TestMethod]
-        public void GetDefinition_blabla_()
+        public void GetDefinition_Sigma_ShouldEqualWiskunde()
         {
             DataHandler handler = new();
             Definition def = handler.GetDefinition("sigma");
             Assert.AreEqual("wiskunde", def.Category);
+        }
+
+        [TestMethod]
+        public void Authorize_IncorrectToken_ShouldThrow()
+        {
+            DataHandler handler = new();
+            Assert.ThrowsException<RequestFailedException>(() => handler.Authorize("test"));
+        }
+
+        [TestMethod]
+        public void Authorize_CorrectToken_ShouldEqualUsername()
+        {
+            DataHandler handler = new();
+            LoginResponse login = handler.Login("TestPlayer", "password");
+            LoginResponse auth = handler.Authorize(login.Token);
+            Assert.AreEqual("TestPlayer", auth.Name);
         }
     }
 }

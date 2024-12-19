@@ -20,13 +20,13 @@ namespace TikTovenaar.DataAccess
         private static void ThrowIfError(HttpResponseMessage response)
         {
             dynamic? result = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result) ?? throw new RequestFailedException("Something went wrong.");
-            if (result is not JArray && (string)result.type != "success")
+            if (result is not JArray && result is not Leaderboards && (string)result.type != "success")
             {
                 throw new RequestFailedException((string)result.message);
             }
         }
 
-        public void AddScore(string token, Score score)
+        public int AddScore(string token, Score score)
         {
             using HttpRequestMessage request = new(HttpMethod.Post, "score");
             request.Headers.Authorization = new("Bearer", token);
@@ -49,19 +49,36 @@ namespace TikTovenaar.DataAccess
             }
             request.Content = new FormUrlEncodedContent(data);
             ThrowIfError(client.SendAsync(request).Result);
+            return 0;
         }
 
-        public List<PartialScore> GetHighscores(int limit = -1)
+        public Leaderboards GetLeaderboards(int limit = -1)
         {
-            HttpResponseMessage response = client.GetAsync($"highscores?limit={limit}").Result;
-            ThrowIfError(response);
-            dynamic? result = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result);
-            List<PartialScore> scores = [];
-            foreach (dynamic score in result!)
+            try
             {
-                scores.Add(new((string)score.player, (int)score.value));
+                HttpResponseMessage response = client.GetAsync($"leaderboards?limit={limit}").Result;
+                dynamic? leaderboards = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result);
+                List<PartialScore<int>> scores = [];
+                List<PartialScore<double>> wpm = [];
+                List<PartialScore<int>> levels = [];
+                foreach (dynamic score in leaderboards!.scores)
+                {
+                    scores.Add(new((string)score.player, (int)score.value));
+                }
+                foreach (dynamic wpmScore in leaderboards!.scores)
+                {
+                    wpm.Add(new((string)wpmScore.player, (double)wpmScore.value));
+                }
+                foreach (dynamic level in leaderboards!.scores)
+                {
+                    levels.Add(new((string)level.player, (int)level.value));
+                }
+                return new(scores, wpm, levels);
             }
-            return scores;
+            catch (Exception)
+            {
+                throw new RequestFailedException("Something went wrong.");
+            }
         }
 
         public List<Score> GetScores(string token)
@@ -101,7 +118,7 @@ namespace TikTovenaar.DataAccess
             return words;
         }
 
-        public string Login(string username, string password, out bool admin)
+        public LoginResponse Login(string username, string password)
         {
             FormUrlEncodedContent data = new([
                 new("username", username),
@@ -111,8 +128,11 @@ namespace TikTovenaar.DataAccess
             ThrowIfError(response);
             dynamic? result = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result);
             string token = result!.message.authentication;
-            admin = result!.message.admin;
-            return token["Bearer ".Length..];
+            token = token["Bearer ".Length..];
+            bool admin = result!.message.admin;
+            int gainedXP = result!.message.gainedXP;
+            int streak = result!.message.streak;
+            return new(username, token, admin, gainedXP, streak);
         }
 
         public void Register(string token, string username, string password)
@@ -157,6 +177,20 @@ namespace TikTovenaar.DataAccess
             ThrowIfError(response);
             dynamic? result = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result);
             return new((string)result!.message.category, (string)result!.message.meaning);
+        }
+
+        public LoginResponse Authorize(string token)
+        {
+            using HttpRequestMessage request = new(HttpMethod.Post, "authorize");
+            request.Headers.Authorization = new("Bearer", token);
+            HttpResponseMessage response = client.SendAsync(request).Result;
+            ThrowIfError(response);
+            dynamic? result = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result);
+            string name = result!.message.username;
+            bool admin = result!.message.admin;
+            int gainedXP = result!.message.gainedXP;
+            int streak = result!.message.streak;
+            return new(name, token, admin, gainedXP, streak);
         }
     }
 }
