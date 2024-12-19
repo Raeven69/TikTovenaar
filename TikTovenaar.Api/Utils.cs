@@ -5,6 +5,7 @@ using JWT.Serializers;
 using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
 using Npgsql;
+using System.IO;
 using System.Security.Cryptography;
 
 namespace TikTovenaar.Api
@@ -71,6 +72,69 @@ namespace TikTovenaar.Api
             catch (Exception)
             {
                 return null;
+            }
+        }
+
+        public static int LoginBonus(int userID, out int streak)
+        {
+            NpgsqlConnection connection = new Database().GetConnection();
+            connection.Open();
+            using NpgsqlCommand cmd = new(@"SELECT * FROM players WHERE id = @id", connection);
+            cmd.Parameters.AddWithValue("id", userID);
+            using NpgsqlDataReader reader = cmd.ExecuteReader();
+            if (!reader.Read())
+            {
+                streak = 0;
+                return 0;
+            }
+            int level = reader.GetInt32(4);
+            DateTime lastLogin = reader.GetDateTime(5);
+            int loginStreak = reader.GetInt32(6);
+            int xp = reader.GetInt32(7);
+            reader.Close();
+            int gainedXP = 0;
+            if ((DateTime.Now - lastLogin).TotalDays > 0)
+            {
+                gainedXP = loginStreak * 1000;
+                loginStreak++;
+                xp += gainedXP;
+                int gainedLevel = xp / 10000;
+                level += gainedLevel;
+                xp %= 10000;
+            }
+            using NpgsqlCommand update = new(@"UPDATE players SET level = @level, lastlogin = @currentDate, loginstreak = @loginstreak, xp = @xp WHERE id = @id", connection);
+            update.Parameters.AddWithValue("level", level);
+            update.Parameters.AddWithValue("currentDate", DateTime.Now);
+            update.Parameters.AddWithValue("loginstreak", loginStreak);
+            update.Parameters.AddWithValue("xp", xp);
+            update.Parameters.AddWithValue("id", userID);
+            update.ExecuteNonQuery();
+            connection.Close();
+            streak = loginStreak;
+            return gainedXP;
+        }
+
+        public static void GainXP(int userID, int gainedXP)
+        {
+            NpgsqlConnection connection = new Database().GetConnection();
+            connection.Open();
+            using NpgsqlCommand cmd = new(@"SELECT * FROM players WHERE id = @id", connection);
+            cmd.Parameters.AddWithValue("id", userID);
+            using NpgsqlDataReader reader = cmd.ExecuteReader();
+            if (reader.Read())
+            {
+                int level = reader.GetInt32(4);
+                int xp = reader.GetInt32(7);
+                reader.Close();
+                xp += gainedXP;
+                level += xp / 10000;
+                xp %= 10000;
+                using NpgsqlCommand update = new(@"UPDATE players SET level = @level, xp = @xp WHERE id = @id", connection);
+                update.Parameters.AddWithValue("level", level);
+                update.Parameters.AddWithValue("xp", xp);
+                update.Parameters.AddWithValue("id", userID);
+                update.ExecuteNonQuery();
+                connection.Close();
             }
         }
     }

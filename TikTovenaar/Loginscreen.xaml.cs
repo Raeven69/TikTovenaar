@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using TikTovenaar.DataAccess;
 using TikTovenaar.Logic;
@@ -35,10 +34,9 @@ namespace TikTovenaar
         {
             try
             {
-                string token = Handler.Login(UsernameTextBox.Text, PasswordBox.Password, out bool admin);
-                CurrentUser.Instance.Set(UsernameTextBox.Text, token, admin);
-                // opslaan token
-                Properties.Settings.Default.inlogToken = token;
+                LoginResponse login = Handler.Login(UsernameTextBox.Text, PasswordBox.Password);
+                CurrentUser.Instance.Set(UsernameTextBox.Text, login.Token, login.Admin);
+                Properties.Settings.Default.inlogToken = login.Token;
                 Properties.Settings.Default.Save();
                 MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
                 mainWindow.SwitchToHomeScreen();
@@ -59,8 +57,8 @@ namespace TikTovenaar
                 try
                 {
                     //probeert in te loggen
-                    string userName = Handler.Authorize(token, out bool admin);
-                    CurrentUser.Instance.Set(userName, token, admin);
+                    LoginResponse login = Handler.Authorize(token);
+                    CurrentUser.Instance.Set(login.Name, login.Token, login.Admin);
                     return true;
                 }
                 catch (RequestFailedException exc)
