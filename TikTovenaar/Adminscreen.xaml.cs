@@ -41,8 +41,8 @@ namespace TikTovenaar
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            DeleteUserDialog deleteUserDialog = new();
-            deleteUserDialog.ShowDialog();
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.SwitchToDeleteUsersScreen();
         }
 
         private void ReturnButton_Click(object sender, RoutedEventArgs e)

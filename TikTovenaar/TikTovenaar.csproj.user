@@ -13,7 +13,13 @@
     <Compile Update="App.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="ConfirmationDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="DeleteUserDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="DeleteUsers.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="DetailsDialog.xaml.cs">
@@ -51,7 +57,13 @@
     <Page Update="App.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="ConfirmationDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="DeleteUserDialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="DeleteUsers.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="DetailsDialog.xaml">
