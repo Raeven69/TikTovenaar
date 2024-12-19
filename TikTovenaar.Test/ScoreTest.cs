@@ -14,11 +14,11 @@ namespace TikTovenaar.Test
              game = new(new DataHandler());
         }
         [TestMethod]
-        [DataRow(10, 1, 5, 2, 2160)]
-        [DataRow(500, 4, 90, 60, 3968)]
-        [DataRow(50, 50, 10, 5, 0)]
+        [DataRow(10, 1, 5, 2, 1, 2160)]
+        [DataRow(500, 4, 90, 60, 2, 7936)]
+        [DataRow(50, 50, 10, 5, 5, 0)]
 
-        public void Score_Test_TimeElapsedIs60(int keyPresses, int incorrectPresses, int TimeInSeconds, int wordsAmount, int ExpectedOutcome)
+        public void Score_Test_TimeElapsedIs60(int keyPresses, int incorrectPresses, int TimeInSeconds, int wordsAmount, int correctWords, int ExpectedOutcome)
         {
             // Arrange
             for (int i = 0; i < TimeInSeconds; i++)
@@ -27,7 +27,7 @@ namespace TikTovenaar.Test
             }
 
             // Assert
-            game.CalculateScore(incorrectPresses, keyPresses, wordsAmount);
+            game.CalculateScore(incorrectPresses, keyPresses, wordsAmount, correctWords);
             
             // Assert
             Assert.AreEqual(ExpectedOutcome, game.Score);
@@ -40,14 +40,15 @@ namespace TikTovenaar.Test
             int incorrectKeys = 5;
             int totalKeys = 50;
             int totalWords = 10;
+            int correctWords = 8;
             for (int i = 0; i < 120; i++)
             {
                 game.TimeTimerElapsed(this, null); //simulate the timer
             }
             // Act
-            game.CalculateScore(incorrectKeys, totalKeys, totalWords);
+            game.CalculateScore(incorrectKeys, totalKeys, totalWords, correctWords);
             // Assert
-            Assert.AreEqual(450, game.Score);
+            Assert.AreEqual(3600, game.Score);
         }
 
         [TestMethod]
@@ -62,10 +63,28 @@ namespace TikTovenaar.Test
             }
 
             // Act
-            int score = game.CalculateScore(incorrectKeys, totalKeys, 10);
+            int score = game.CalculateScore(incorrectKeys, totalKeys, 10, 5);
 
             // Assert
             Assert.AreEqual(0, score); 
+        }
+
+        [TestMethod]
+        public void CalculateScore_ShouldReturnZero_WhenTotalWordsIsLessThanCorrectWords()
+        {
+            int correctWords = 10;
+            int totalWords = 5;
+
+            for (int i = 0; i < 120; i++)
+            {
+                game.TimeTimerElapsed(this, null); //simulate the timer
+            }
+
+            // Act
+            int score = game.CalculateScore(5, 10, totalWords, correctWords);
+
+            // Assert
+            Assert.AreEqual(0, score);
         }
 
         [TestMethod]
@@ -75,16 +94,17 @@ namespace TikTovenaar.Test
             int incorrectKeys = 5000;
             int totalKeys = 10000;  // 50% correct
             int totalWords = 1000;
+            int correctWords = 500;
             for (int i = 0; i < 300; i++)
             {
                 game.TimeTimerElapsed(this, null); //simulate the timer
             }
 
             // Act
-            int score = game.CalculateScore(incorrectKeys, totalKeys, totalWords);
+            int score = game.CalculateScore(incorrectKeys, totalKeys, totalWords, correctWords);
           
             // Assert
-            Assert.AreEqual(10000, score);
+            Assert.AreEqual(5000000, score);
         }
 
     }

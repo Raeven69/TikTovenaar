@@ -181,7 +181,7 @@ public class Game
 
                     WordWrong?.Invoke(this, EventArgs.Empty);
                 }
-                CalculateScore(_incorrectPresses, _totalPresses, WordsCount);
+                CalculateScore(_incorrectPresses, _totalPresses, WordsCount, CorrectWords.Count);
 
                 if (remainingLives <= 0)
                 {
@@ -195,9 +195,9 @@ public class Game
         }
     }
 
-    public int CalculateScore(int incorrectKeys, int totalKeys, int totalWords)
+    public int CalculateScore(int incorrectKeys, int totalKeys, int totalWords, int correctWords)
     {
-        if (totalKeys < incorrectKeys || incorrectKeys < 0 || totalKeys < 0 || totalWords <= 0 || TimeElapsed <= 0)
+        if (totalKeys < incorrectKeys || totalWords < correctWords|| incorrectKeys < 0 || totalKeys < 0 || totalWords <= 0 || TimeElapsed <= 0)
         {
             Score = 0;
             return Score;
@@ -206,7 +206,7 @@ public class Game
         double correctPercentage = ((double)correctKeys / totalKeys) * 100; //calculate the percentage of correctnumbers
         double wpm = CalculateWPM(correctKeys, totalWords); //calculate wpm
 
-        Score = (int)(wpm * correctPercentage); //calculate the total score
+        Score = (int)(wpm * correctPercentage * correctWords); //calculate the total score
         if (Score < 0) Score = 0;
         return Score;
     }
@@ -261,7 +261,7 @@ public class Game
 
         Finished = true;
         CalculateErrorPercentage(_incorrectPresses, _totalPresses);
-        CalculateScore(_incorrectPresses, _totalPresses, WordsCount);
+        CalculateScore(_incorrectPresses, _totalPresses, WordsCount, CorrectWords.Count);
 
         List<string> wrongwordsstrings = new(); // List with wrong Words
         List<char> wrongletterchars = new(); // List with wrong Letters
