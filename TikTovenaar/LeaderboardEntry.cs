@@ -12,10 +12,7 @@ namespace TikTovenaar
         public int Ranking { get; set; }
         public string Name { get; set; }
         public int Score { get; set; }
-        public int WordsTyped { get; set; }
-        public int WPM { get; set; }
-        public int Streak { get; set; }
-        public int TotalScore { get; set; }
-        public Brush Colorcode { get; set; }
+        public double WPM { get; set; }
+        public int Level { get; set; }
     }
 }
