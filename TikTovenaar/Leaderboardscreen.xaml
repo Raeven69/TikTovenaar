@@ -6,6 +6,9 @@
              mc:Ignorable="d"
              d:DesignHeight="800" d:DesignWidth="1200">
     <Grid Background="#000435">
+        <Button Content="terug" Width="50" Height="30" FontSize="16" Foreground="#F0F0F0" Background="#D32F2F" 
+        HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,5,0" 
+        Click="ReturnButton_Click" BorderBrush="Transparent" BorderThickness="0" Panel.ZIndex="10000"/>
         <!-- ComboBox dynamically positioned in the top-left -->
         <ComboBox x:Name="FilterOptions" SelectionChanged="FilterOptions_SelectionChanged"
                   BorderThickness="1" 
@@ -93,18 +96,5 @@
                VerticalAlignment="Bottom" 
                Margin="0,0,0,120" 
                FontSize="30"/>
-
-        <!-- Button centered at the bottom -->
-        <Button Content="Terug" 
-                HorizontalAlignment="Center" 
-                VerticalAlignment="Bottom" 
-                Margin="0,0,0,20" 
-                Click="ReturnButton_Click" 
-                Width="200" 
-                Height="50"
-                Background="#0D1117" 
-                Foreground="#F0F0F0" 
-                FontWeight="Bold" 
-                BorderBrush="#FF0D1117" />
     </Grid>
 </UserControl>
