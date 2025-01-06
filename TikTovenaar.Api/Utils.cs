@@ -93,14 +93,18 @@ namespace TikTovenaar.Api
             int xp = reader.GetInt32(7);
             reader.Close();
             int gainedXP = 0;
-            if ((DateTime.Now - lastLogin).TotalDays > 0)
+            if ((DateTime.Now - lastLogin).TotalDays >= 2)
             {
-                gainedXP = loginStreak * 1000;
+                loginStreak = 1;
+            }
+            else if ((DateTime.Now - lastLogin).TotalDays >= 1)
+            {
+                gainedXP = loginStreak * 10000;
                 loginStreak++;
                 xp += gainedXP;
-                int gainedLevel = xp / 10000;
+                int gainedLevel = xp / 100000;
                 level += gainedLevel;
-                xp %= 10000;
+                xp %= 100000;
             }
             using NpgsqlCommand update = new(@"UPDATE players SET level = @level, lastlogin = @currentDate, loginstreak = @loginstreak, xp = @xp WHERE id = @id", connection);
             update.Parameters.AddWithValue("level", level);
@@ -127,8 +131,8 @@ namespace TikTovenaar.Api
                 int xp = reader.GetInt32(7);
                 reader.Close();
                 xp += gainedXP;
-                level += xp / 10000;
-                xp %= 10000;
+                level += xp / 100000;
+                xp %= 100000;
                 using NpgsqlCommand update = new(@"UPDATE players SET level = @level, xp = @xp WHERE id = @id", connection);
                 update.Parameters.AddWithValue("level", level);
                 update.Parameters.AddWithValue("xp", xp);
