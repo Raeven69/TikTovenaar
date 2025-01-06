@@ -132,7 +132,7 @@ namespace TikTovenaar.DataAccess
             token = token["Bearer ".Length..];
             bool admin = result!.message.admin;
             int gainedXP = result!.message.gainedXP;
-            int streak = result!.message.streak;
+            int streak = result!.message.streak - 1;
             return new(username, token, admin, gainedXP, streak);
         }
 
@@ -190,8 +190,20 @@ namespace TikTovenaar.DataAccess
             string name = result!.message.username;
             bool admin = result!.message.admin;
             int gainedXP = result!.message.gainedXP;
-            int streak = result!.message.streak;
+            int streak = result!.message.streak - 1;
             return new(name, token, admin, gainedXP, streak);
+        }
+
+        public Level GetLevel(string token)
+        {
+            using HttpRequestMessage request = new(HttpMethod.Get, "level");
+            request.Headers.Authorization = new("Bearer", token);
+            HttpResponseMessage response = client.SendAsync(request).Result;
+            ThrowIfError(response);
+            dynamic? result = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result);
+            int level = result!.message.level;
+            int xp = result!.message.xp;
+            return new(level, xp);
         }
     }
 }
