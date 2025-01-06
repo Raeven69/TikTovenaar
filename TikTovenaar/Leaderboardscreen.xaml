@@ -67,7 +67,7 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Score" Binding="{Binding Score}" Width="*">
+                <DataGridTextColumn Header="Value" Binding="{Binding Value}" Width="*">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="TextBlock">
                             <Setter Property="TextAlignment" Value="Center"/>

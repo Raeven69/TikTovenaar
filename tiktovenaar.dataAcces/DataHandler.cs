@@ -65,11 +65,11 @@ namespace TikTovenaar.DataAccess
                 {
                     scores.Add(new((string)score.player, (int)score.value));
                 }
-                foreach (dynamic wpmScore in leaderboards!.scores)
+                foreach (dynamic wpmScore in leaderboards!.wpm)
                 {
                     wpm.Add(new((string)wpmScore.player, (double)wpmScore.value));
                 }
-                foreach (dynamic level in leaderboards!.scores)
+                foreach (dynamic level in leaderboards!.levels)
                 {
                     levels.Add(new((string)level.player, (int)level.value));
                 }
