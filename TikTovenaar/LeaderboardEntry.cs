@@ -6,7 +6,14 @@ namespace TikTovenaar
     {
         public int Ranking { get; set; }
         public string Name { get; set; }
-        public int Score { get; set; }
-        public Brush Colorcode { get; set; }
+        public int Score { get; set; } 
+        public double Value { get; set; }
+
+        public LeaderboardEntry()
+        {
+            // Initialize Value to Score by default
+            Value = Score;
+        }
+
     }
 }
