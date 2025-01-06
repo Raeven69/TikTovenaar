@@ -25,14 +25,14 @@ namespace TikTovenaar
         // Event for notifying when a property changes, used for data binding.
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public string WordCount 
+        public string WordCount
         {
             get => _wordCount;
             set
             {
                 if (_wordCount != value)
                 {
-                    _wordCount = value; 
+                    _wordCount = value;
                     OnPropertyChanged();
                 }
             }
@@ -97,12 +97,12 @@ namespace TikTovenaar
 
         public int Score
         {
-            get => _score; 
+            get => _score;
             set
             {
                 if (_score != value)
                 {
-                    _score = value; 
+                    _score = value;
                     OnPropertyChanged();
                 }
             }
@@ -122,7 +122,7 @@ namespace TikTovenaar
             this._wrongWordList = wrongWordList;
             this._wrongLetterList = wrongLetterList;
 
-            if(!animationPlayed)
+            if (!animationPlayed)
             {
                 StartStoryboardAnimation(); // Starts the storyboard animation when the screen is loaded.
                 animationPlayed = true;

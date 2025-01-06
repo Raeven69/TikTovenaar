@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using TikTovenaar.DataAccess;
 using TikTovenaar.Logic;
 
 namespace TikTovenaar
@@ -19,6 +18,16 @@ namespace TikTovenaar
             _wizardAnimation1.StartAnimation(0.16666, 6, "Images/wizard_idle.png");
             _wizardAnimation2 = new(wizardJumpImageBrush, 0.16666, 6);
             _wizardAnimation2.StartAnimation(0.16666, 6, "Images/wizard_idle.png");
+
+            WelcomeMessage.Text = $"Welkom bij TikTovenaar, {CurrentUser.Instance.Name}!";
+            if (WelcomeMessage.Text.Length > 30)
+            {
+                WelcomeMessage.FontSize = 18;
+            }
+            else
+            {
+                WelcomeMessage.FontSize = 24;
+            }
         }
 
         /// <summary>
@@ -31,6 +40,9 @@ namespace TikTovenaar
         }
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
+            // zorgt dat je token niet meer word onhouden
+            Properties.Settings.Default.inlogToken = null;
+            Properties.Settings.Default.Save();
             CurrentUser.Instance.Unset();
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
             mainWindow.SwitchToLoginScreen();
@@ -52,6 +64,21 @@ namespace TikTovenaar
         {
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
             mainWindow.SwitchToUserStatisticsScreen();
+        }
+
+        private void Settings_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+            mainWindow.SwitchToSettingsScreen();
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            var window = Window.GetWindow(this);
+            if (window != null)
+            {
+                window.Close();
+            }
         }
     }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Media;
 using TikTovenaar.DataAccess;
 using TikTovenaar.Logic;
 
@@ -12,6 +14,8 @@ namespace TikTovenaar
     {
         public string PersonalHighScore { get; set; }
         private readonly DataHandler _data;
+        private int _scoreValue;
+        public string PlayerName { get; private set; }
         private List<PartialScore<int>> _scores;
         private List<PartialScore<double>> _wpm;
         private List<PartialScore<int>> _levels;
@@ -24,6 +28,10 @@ namespace TikTovenaar
 
             InitializeComponent();
 
+            _scoreValue = _data.GetScores(CurrentUser.Instance.Token!).OrderByDescending(x => x.Value).Select(x => x.Value).DefaultIfEmpty(0).First(); //get the highest score of an individual; if there are no scores the value will become 0
+            PersonalHighScore = $"Uw hoogste score is: {_scoreValue}";
+            PersonalHighScoreLabel.Content = PersonalHighScore;
+            HighscoreTable.ItemsSource = (System.Collections.IEnumerable)SortLeaderboard(_data.GetLeaderboards(), CurrentUser.Instance.Token!); //sort and bind it to the highscore datagrid
             // Fetch leaderboards data
             var leaderboards = _data.GetLeaderboards();
             _scores = leaderboards.Scores;
@@ -55,6 +63,19 @@ namespace TikTovenaar
         {
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
             mainWindow.SwitchToHomeScreen();
+        }
+        private object SortLeaderboard(Leaderboards scores, string? token)
+        {
+            return scores.Scores
+                .OrderByDescending(score => score.Value) // Sort by score descending
+                .Select((score, index) => new LeaderboardEntry //class with all the entries needed for the leaderboard screen
+                {
+                    Ranking = index + 1,
+                    Name = score.Player,
+                    Score = score.Value,
+                    Colorcode = (Brush)new BrushConverter().ConvertFromString(score.Player.Equals(CurrentUser.Instance.Name) ? "#2732c2" : "#000435") //decides the hex code needed for the display; should highlight the name of the personal highscore
+                })
+                .ToList();
         }
 
         private void UpdateLeaderboardTable(string filter)

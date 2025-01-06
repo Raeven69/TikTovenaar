@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Npgsql;
+using TikTovenaar.Logic;
 
 namespace TikTovenaar.Api.Controllers
 {
@@ -7,6 +8,26 @@ namespace TikTovenaar.Api.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+        [HttpGet]
+        public JsonResult GetUsers()
+        {
+            int? userID = Utils.Authorize(HttpContext.Request, true);
+            if (userID == null)
+            {
+                return new(new { type = "error", message = "Authorization failed." });
+            }
+            List<PartialUser> users = [];
+            NpgsqlConnection connection = new Database().GetConnection();
+            connection.Open();
+            using NpgsqlCommand cmd = new(@"SELECT * FROM players", connection);
+            using NpgsqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                users.Add(new(reader.GetInt32(0), reader.GetString(1)));
+            }
+            return new(users);
+        }
+
         [HttpPost]
         public JsonResult Register([FromForm] User user)
         {

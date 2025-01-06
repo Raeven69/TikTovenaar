@@ -26,7 +26,7 @@ namespace TikTovenaar.DataAccess
             }
         }
 
-        public void AddScore(string token, Score score)
+        public int AddScore(string token, Score score)
         {
             using HttpRequestMessage request = new(HttpMethod.Post, "score");
             request.Headers.Authorization = new("Bearer", token);
@@ -49,6 +49,7 @@ namespace TikTovenaar.DataAccess
             }
             request.Content = new FormUrlEncodedContent(data);
             ThrowIfError(client.SendAsync(request).Result);
+            return 0;
         }
 
         public Leaderboards GetLeaderboards(int limit = -1)
@@ -117,7 +118,7 @@ namespace TikTovenaar.DataAccess
             return words;
         }
 
-        public string Login(string username, string password, out bool admin)
+        public LoginResponse Login(string username, string password)
         {
             FormUrlEncodedContent data = new([
                 new("username", username),
@@ -127,8 +128,11 @@ namespace TikTovenaar.DataAccess
             ThrowIfError(response);
             dynamic? result = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result);
             string token = result!.message.authentication;
-            admin = result!.message.admin;
-            return token["Bearer ".Length..];
+            token = token["Bearer ".Length..];
+            bool admin = result!.message.admin;
+            int gainedXP = result!.message.gainedXP;
+            int streak = result!.message.streak;
+            return new(username, token, admin, gainedXP, streak);
         }
 
         public void Register(string token, string username, string password)
@@ -175,15 +179,18 @@ namespace TikTovenaar.DataAccess
             return new((string)result!.message.category, (string)result!.message.meaning);
         }
 
-        public string Authorize(string token, out bool admin)
+        public LoginResponse Authorize(string token)
         {
             using HttpRequestMessage request = new(HttpMethod.Post, "authorize");
             request.Headers.Authorization = new("Bearer", token);
             HttpResponseMessage response = client.SendAsync(request).Result;
             ThrowIfError(response);
             dynamic? result = JsonConvert.DeserializeObject(response.Content.ReadAsStringAsync().Result);
-            admin = result!.message.admin;
-            return (string)result!.message.username;
+            string name = result!.message.username;
+            bool admin = result!.message.admin;
+            int gainedXP = result!.message.gainedXP;
+            int streak = result!.message.streak;
+            return new(name, token, admin, gainedXP, streak);
         }
     }
 }

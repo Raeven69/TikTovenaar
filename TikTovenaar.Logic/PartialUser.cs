@@ -1,4 +1,4 @@
-﻿namespace TikTovenaar.Logic
+namespace TikTovenaar.Logic
 {
     public class PartialUser(int id, string name)
     {
