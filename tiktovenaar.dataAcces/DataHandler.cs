@@ -33,7 +33,8 @@ namespace TikTovenaar.DataAccess
             List<KeyValuePair<string, string>> data = [
                 new("wordsAmount", score.WordsAmount.ToString()),
                 new("value", score.Value.ToString()),
-                new("duration", score.Duration.ToString())
+                new("duration", score.Duration.ToString()),
+                new("wpm", score.WPM.ToString().Replace(',', '.'))
             ];
             foreach (string word in score.IncorrectWords)
             {
