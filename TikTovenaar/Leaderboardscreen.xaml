@@ -85,7 +85,6 @@
                 </Style>
             </DataGrid.RowStyle>
         </DataGrid>
-
         <!-- Personal high score label dynamically positioned below the table -->
         <Label x:Name="PersonalHighScoreLabel" 
                Content="{Binding PersonalHighScore}" 
