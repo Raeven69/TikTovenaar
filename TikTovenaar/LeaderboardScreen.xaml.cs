@@ -4,8 +4,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using TikTovenaar.DataAccess;
 using TikTovenaar.Logic;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace TikTovenaar
 {
@@ -101,7 +103,9 @@ namespace TikTovenaar
                         {
                             Ranking = index + 1,
                             Name = x.Player,
-                            Value = x.Value  // Set the dynamic Value to WPM
+                            Value = x.Value,  // Set the dynamic Value to WPM
+                            Colorcode = (Brush)new BrushConverter().ConvertFromString(x.Player.Equals(CurrentUser.Instance.Name) ? "#2732c2" : "#000435") //decides the hex code needed for the display; should highlight the name of the personal highscore
+
                         })
                         .ToList();
                     break;
@@ -119,7 +123,8 @@ namespace TikTovenaar
                         {
                             Ranking = index + 1,
                             Name = x.Player,
-                            Value = x.Value  // Set the dynamic Value to Score
+                            Value = x.Value,  // Set the dynamic Value to Score
+                            Colorcode = (Brush)new BrushConverter().ConvertFromString(x.Player.Equals(CurrentUser.Instance.Name) ? "#2732c2" : "#000435") //decides the hex code needed for the display; should highlight the name of the personal highscore
                         })
                         .ToList();
                     break;
@@ -137,11 +142,12 @@ namespace TikTovenaar
                         {
                             Ranking = index + 1,
                             Name = x.Player,
-                            Value = x.Value  // Set the dynamic Value to Level
+                            Value = x.Value,
+                            Colorcode = (Brush)new BrushConverter().ConvertFromString(x.Player.Equals(CurrentUser.Instance.Name) ? "#2732c2" : "#000435") //decides the hex code needed for the display; should highlight the name of the personal highscore
+                                                                                                                                                              // Set the dynamic Value to Level
                         })
                         .ToList();
                     break;
-
                 default:
                     throw new InvalidOperationException("Ongeldig filter geselecteerd");
             }
