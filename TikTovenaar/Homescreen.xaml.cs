@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using TikTovenaar.DataAccess;
 using TikTovenaar.Logic;
 
 namespace TikTovenaar
@@ -13,7 +14,11 @@ namespace TikTovenaar
         {
             InitializeComponent();
             adminButton.Visibility = CurrentUser.Instance.IsAdmin ? Visibility.Visible : Visibility.Collapsed;
-
+            DataHandler handler = new();
+            Level level = handler.GetLevel(CurrentUser.Instance.Token);
+            LVL.Text = $"Level {level.LVL:n0}";
+            Progress.Value = level.XP;
+            XP.Text = $"{level.XP:n0} / 100.000";
             _wizardAnimation1 = new(wizardIdleImageBrush, 0.16666, 6);
             _wizardAnimation1.StartAnimation(0.16666, 6, "Images/wizard_idle.png");
             _wizardAnimation2 = new(wizardJumpImageBrush, 0.16666, 6);

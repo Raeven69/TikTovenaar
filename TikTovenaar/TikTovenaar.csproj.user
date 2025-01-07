@@ -66,6 +66,9 @@
     <Page Update="DeleteUsers.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="LoginBonus.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="DetailsDialog.xaml">
       <SubType>Designer</SubType>
     </Page>

@@ -8,7 +8,6 @@ namespace TikTovenaar
     public partial class Loginscreen : UserControl
     {
         private DataHandler Handler { get; }
-        string token;
 
         public Loginscreen()
         {
@@ -17,11 +16,16 @@ namespace TikTovenaar
             // moest alles eerst inladen anders wou hij niet switchen naar homescreen
             Loaded += (s, e) =>
             {
-                if (AutoInloggen())
+                LoginResponse? login = AutoLogin();
+                if (login != null)
                 {
                     // als automatis inloggen gelukt is swicht hij naar home schreen
                     MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
                     mainWindow.SwitchToHomeScreen();
+                    if (login.GainedXP > 0)
+                    {
+                        new LoginBonus(login.Streak, login.GainedXP).ShowDialog();
+                    }
                 }
             };
                 
@@ -40,6 +44,10 @@ namespace TikTovenaar
                 Properties.Settings.Default.Save();
                 MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
                 mainWindow.SwitchToHomeScreen();
+                if (login.GainedXP > 0)
+                {
+                    new LoginBonus(login.Streak, login.GainedXP).ShowDialog();
+                }
             }
             catch (RequestFailedException exc)
             {
@@ -48,7 +56,7 @@ namespace TikTovenaar
             }
         }
 
-        private bool AutoInloggen()
+        private LoginResponse? AutoLogin()
         {
             // krijg token die opgeslagen is
             string token = Properties.Settings.Default.inlogToken;
@@ -59,15 +67,11 @@ namespace TikTovenaar
                     //probeert in te loggen
                     LoginResponse login = Handler.Authorize(token);
                     CurrentUser.Instance.Set(login.Name, login.Token, login.Admin);
-                    return true;
+                    return login;
                 }
-                catch (RequestFailedException exc)
-                {
-                    // als niet gelukt is returnt hij false 
-                    return false;
-                }
+                catch (RequestFailedException) {}
             }
-            return false;
+            return null;
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)

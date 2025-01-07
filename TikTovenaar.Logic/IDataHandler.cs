@@ -10,5 +10,6 @@
         public List<Score> GetScores(string token);
         public int AddScore(string token, Score score);
         public LoginResponse Authorize(string token);
+        public Level GetLevel(string token);
     }
 }
