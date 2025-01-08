@@ -134,7 +134,7 @@
                         <Button Name="VolgwordenButton" Grid.Column="1" Content="▲" FontSize="50" Click="VolgwordenButtonClick"/>
 
                         <!-- Sort Options ComboBox (next to search bar) -->
-                        <ComboBox Name="SortOptiesButton" ItemsSource="{Binding sortOpties}" Grid.Column="2" SelectionChanged="SortOptiesVerandering" SelectedIndex="0" FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                        <ComboBox Name="SortOptiesButton" ItemsSource="{Binding SortOpties}" Grid.Column="2" SelectionChanged="SortOptiesVerandering" SelectedIndex="0" FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                     </Grid>
                 </Grid>
 
