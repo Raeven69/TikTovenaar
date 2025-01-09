@@ -105,7 +105,6 @@ namespace TikTovenaar
                             Name = x.Player,
                             Value = x.Value,  // Set the dynamic Value to WPM
                             Colorcode = (Brush)new BrushConverter().ConvertFromString(x.Player.Equals(CurrentUser.Instance.Name) ? "#2732c2" : "#000435") //decides the hex code needed for the display; should highlight the name of the personal highscore
-
                         })
                         .ToList();
                     break;
@@ -143,8 +142,7 @@ namespace TikTovenaar
                             Ranking = index + 1,
                             Name = x.Player,
                             Value = x.Value,
-                            Colorcode = (Brush)new BrushConverter().ConvertFromString(x.Player.Equals(CurrentUser.Instance.Name) ? "#2732c2" : "#000435") //decides the hex code needed for the display; should highlight the name of the personal highscore
-                                                                                                                                                              // Set the dynamic Value to Level
+                            Colorcode = (Brush)new BrushConverter().ConvertFromString(x.Player.Equals(CurrentUser.Instance.Name) ? "#2732c2" : "#000435") //decides the hex code needed for the display; should highlight the name of the personal highscore                                                                                                                              // Set the dynamic Value to Level
                         })
                         .ToList();
                     break;

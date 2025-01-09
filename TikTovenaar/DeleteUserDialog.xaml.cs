@@ -28,7 +28,8 @@ namespace TikTovenaar
                 {
                     DataHandler dataHandler = new();
 
-                    MessageBoxResult knop = MessageBox.Show($"De gebruiker met naam {UserTextbox.Text} staat op het punt om verwijderd te worden", $"Druk {"yes"} om te bevestigen ", MessageBoxButton.YesNo); //add message box
+                    MessageBoxResult knop = MessageBox.Show($"De gebruiker met naam {UserTextbox.Text} staat op het punt om verwijderd te worden", $"Druk {"yes"} om te bevestigen ", 
+                                            MessageBoxButton.YesNo); //add message box
                     if (knop == MessageBoxResult.Yes)
                     {
                         try

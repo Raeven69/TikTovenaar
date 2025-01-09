@@ -13,7 +13,6 @@ namespace TikTovenaar
 
         public LeaderboardEntry()
         {
-            // Initialize Value to Score by default
             Value = Score;
         }
 

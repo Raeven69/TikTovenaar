@@ -1,5 +1,4 @@
-﻿
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Timers;
 using TikTovenaar.Logic;
 
@@ -37,9 +36,8 @@ public class Game
             //Convert the Word objects to strings and add them to _rightWords
             foreach (Word word in _rightWords)
             {
-                _rightWordsStrings.Add(word.getWholeWord());
+                _rightWordsStrings.Add(word.GetWholeWord());
             }
-
             // Return list of correct words as strings
             return _rightWordsStrings;
         }
@@ -72,7 +70,6 @@ public class Game
     public event EventHandler<double>? ProgressUpdated; // Added for progress updates
     public event EventHandler? GameFinished;
     public event EventHandler? WordWrong;
-    private string? token;
     public Game(IDataHandler handler)
     {
         _dataHandler = handler;
@@ -91,15 +88,7 @@ public class Game
         _progressTimer.Start();
     }
 
-    private void GenerateWords()
-    {
-        List<string> words = _dataHandler.GetWords(100);
 
-        foreach (string word in words)
-        {
-            Words.Enqueue(new Word(word));
-        }
-    }
 
     private void NextWord()
     {
@@ -228,12 +217,30 @@ public class Game
         return ErrorPercentage;
     }
 
+    public void StopProgressTimer()
+    {
+        _progressTimer.Stop();
+    }
+    public void StartProgressTimer()
+    {
+        _progressTimer.Start();
+    }
+
     public void TimeTimerElapsed(object? sender, ElapsedEventArgs e)
     {
         TimeElapsed++;
         TimeUpdated?.Invoke(this, EventArgs.Empty);
     }
 
+    private void GenerateWords()
+    {
+        List<string> words = _dataHandler.GetWords(100);
+
+        foreach (string word in words)
+        {
+            Words.Enqueue(new Word(word));
+        }
+    }
     private void ProgressTimerElapsed(object? sender, ElapsedEventArgs e)
     {
         if (_progressValue > 0)
@@ -246,14 +253,7 @@ public class Game
             FinishGame();
         }
     }
-    public void StopProgressTimer()
-    {
-        _progressTimer.Stop();
-    }
-    public void StartProgressTimer()
-    {
-        _progressTimer.Start();
-    }
+
 
     public void FinishGame()
     {
@@ -267,9 +267,9 @@ public class Game
         List<char> wrongletterchars = new(); // List with wrong Letters
         foreach (Word word in WrongWords)
         {
-            if (word.getWholeWord() != null)
+            if (word.GetWholeWord() != null)
             {
-                wrongwordsstrings.Add(word.getWholeWord()); // Convert Words to strings
+                wrongwordsstrings.Add(word.GetWholeWord()); // Convert Words to strings
             }
         }
         foreach (Letter letter in WrongLetters)

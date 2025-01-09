@@ -9,9 +9,9 @@
              d:DesignWidth="1920">
 
     <Grid Background="#000435">
-        <Button Content="terug" Width="50" Height="30" FontSize="16" Foreground="#F0F0F0" Background="#D32F2F" 
+        <Button Content="Terug" Width="50" Height="30" FontSize="16" Foreground="#F0F0F0" Background="#D32F2F" 
         HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,5,0" 
-        Click="Terug_Click" BorderBrush="Transparent" BorderThickness="0" Panel.ZIndex="10000"/>
+        Click="ReturnButton_Click" BorderBrush="Transparent" BorderThickness="0" Panel.ZIndex="10000"/>
         <Border Width="960" Height="810" Background="#F0F0F0" CornerRadius="10"
                 HorizontalAlignment="Center" VerticalAlignment="Center" Padding="20">
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="900">

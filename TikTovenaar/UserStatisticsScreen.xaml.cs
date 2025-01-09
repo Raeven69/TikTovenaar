@@ -8,19 +8,18 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
 using TikTovenaar.Logic;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace TikTovenaar
 {
-    // Dit is de UserControl die het statistiekenscherm voor de gebruiker weergeeft.
+    // This is the UserControl that displays the statistics screen for the user.
     public partial class UserStatisticsScreen : UserControl
     {
-        // Constructor voor het UserStatisticsScreen.
+        // Constructor for the UserStatisticsScreen.
 
-        
-        private List<StatisticsWord> _woorden = new List<StatisticsWord>();
 
-        public ObservableCollection<string> SortOpties { get; set; }
+        private List<StatisticsWord> _words = new List<StatisticsWord>();
+
+        public ObservableCollection<string> SortOptions { get; set; }
 
         private IDataHandler _dataHandler;
 
@@ -33,66 +32,65 @@ namespace TikTovenaar
             loadingScreen.Show();
             this._dataHandler = _dataHandler;
             _userScores = this._dataHandler.GetScores(CurrentUser.Instance.Token);
-            List<string> woordenList = new List<string>();
-            Dictionary<string, (int totaalGoed, int totaalFout)> woordenDictionary = new Dictionary<string, (int, int)>();
-
+            List<string> wordsList = new List<string>();
+            Dictionary<string, (int totalCorrect, int totalIncorrect)> wordsDictionary = new Dictionary<string, (int, int)>();
 
 
 
             InitializeComponent();
 
-            // dit zijn de opties die er zijn
-            SortOpties = new ObservableCollection<string>
+            // These are the available options
+            SortOptions = new ObservableCollection<string>
             {
                 "Alfabetisch",
-                "Aantal goed",
-                "Aantal fout",
-                "Totaal gespeeld"
+                "Aantal woorden goed",
+                "Aantal woorden fout",
+                "Totaal gespeelde spellen"
             };
 
-            // Stel in dat de logica wordt uitgevoerd zodra het scherm volledig geladen is.
+            // Set logic to be executed once the screen is fully loaded.
             this.Loaded += (s, e) =>
             {
                 int totalWordsTypedCorrectly = 0;
                 int totalWordsTypedIncorrectly = 0;
-                
+
                 foreach (Score score in _userScores)
                 {
                     foreach (var incorrectWord in score.IncorrectWords)
                     {
                         totalWordsTypedIncorrectly++;
-                        if (!woordenDictionary.ContainsKey(incorrectWord))
+                        if (!wordsDictionary.ContainsKey(incorrectWord))
                         {
-                            woordenList.Add(incorrectWord);
-                            woordenDictionary.Add(incorrectWord, (0, 1));
+                            wordsList.Add(incorrectWord);
+                            wordsDictionary.Add(incorrectWord, (0, 1));
                         }
                         else
                         {
-                            (int totaalGoed, int totaalFout) current = woordenDictionary[incorrectWord];
-                            woordenDictionary[incorrectWord] = (current.totaalGoed, current.totaalFout + 1);
+                            (int totalCorrect, int totalIncorrect) current = wordsDictionary[incorrectWord];
+                            wordsDictionary[incorrectWord] = (current.totalCorrect, current.totalIncorrect + 1);
                         }
 
                     }
                     foreach (var correctWord in score.CorrectWords)
                     {
                         totalWordsTypedCorrectly++;
-                        if (!woordenDictionary.ContainsKey(correctWord))
+                        if (!wordsDictionary.ContainsKey(correctWord))
                         {
-                            woordenList.Add(correctWord);
-                            woordenDictionary.Add(correctWord, (1, 0));
+                            wordsList.Add(correctWord);
+                            wordsDictionary.Add(correctWord, (1, 0));
                         }
                         else
                         {
-                            (int totaalGoed, int totaalFout) current = woordenDictionary[correctWord];
-                            woordenDictionary[correctWord] = (current.totaalGoed + 1, current.totaalFout);
+                            (int totalCorrect, int totalIncorrect) current = wordsDictionary[correctWord];
+                            wordsDictionary[correctWord] = (current.totalCorrect + 1, current.totalIncorrect);
                         }
                     }
                 }
 
-                woordenList = woordenList.Distinct().ToList();
-                foreach (string woord in woordenList)
+                wordsList = wordsList.Distinct().ToList();
+                foreach (string word in wordsList)
                 {
-                    _woorden.Add(new StatisticsWord(woord, woordenDictionary[woord].totaalGoed, woordenDictionary[woord].totaalFout));
+                    _words.Add(new StatisticsWord(word, wordsDictionary[word].totalCorrect, wordsDictionary[word].totalIncorrect));
                 }
                 PrintButtons();
 
@@ -101,18 +99,20 @@ namespace TikTovenaar
                 int totalWordsTyped = 0;
 
                 int totalGamesPlayed = _userScores.Count;
-                
 
-                // Voorbeeldgegevens voor grafieken.
-                List<int> wpmData = new List<int> { }; // WPM-waarden.
-                List<int> goodPercentageData = new List<int> { }; // Foutpercentages.
-                List<int> rightWordsData = new List<int> { }; // Correcte woorden.
-                List<int> wrongWordsData = new List<int> { }; // Foute woorden
 
-                foreach ( Score score in _userScores ) {
+
+                // Sample data for graphs.
+                List<int> wpmData = new List<int> { }; // WPM values.
+                List<int> goodPercentageData = new List<int> { }; // Error percentages.
+                List<int> rightWordsData = new List<int> { }; // Correct words.
+                List<int> wrongWordsData = new List<int> { }; // Incorrect words.
+
+                foreach (Score score in _userScores)
+                {
                     double gameTime = score.Duration.TotalMinutes;
                     wpmData.Add(gameTime == 0 ? 0 : (int)(score.WordsAmount / gameTime));
-                    goodPercentageData.Add(score.WordsAmount == 0 ? 0 : (int)(((double)score.CorrectWords.Count/score.WordsAmount)*100));
+                    goodPercentageData.Add(score.WordsAmount == 0 ? 0 : (int)(((double)score.CorrectWords.Count / score.WordsAmount) * 100));
                     rightWordsData.Add(score.CorrectWords.Count);
                     wrongWordsData.Add(score.IncorrectWords.Count);
 
@@ -120,34 +120,32 @@ namespace TikTovenaar
                     totalScore += score.Value;
                     totalWordsTyped += score.WordsAmount;
 
-
-
-
                 }
 
                 if (_userScores.Count == 0)
                 {
                     averageScore = 0;
                 }
-                else {
+                else
+                {
                     averageScore /= _userScores.Count;
                 }
 
-                // Voorbeeldgegevens om de statistieken te tonen - vervang door echte gegevens.
-                AvgScoreText.Text = averageScore.ToString(); // Gemiddelde score.
-                TotalScoreText.Text = totalScore.ToString(); // Totale score.
-                TotalWordsTypedText.Text = totalWordsTyped.ToString(); // Totaal aantal getypte woorden..
-                TotalWordsTypedIncorrectly.Text = totalWordsTypedIncorrectly.ToString(); // Totaal aantal fout getypte woorden.
-                TotalWordsTypedCorrectly.Text = totalWordsTypedCorrectly.ToString(); // Totaal aantal correct getypte woorden.
-                TotalGamesPlayed.Text = totalGamesPlayed.ToString(); // Totaal aantal gespeelde spellen.
+                // Sample data to display the statistics - replace with actual data.
+                AvgScoreText.Text = averageScore.ToString(); // Average score.
+                TotalScoreText.Text = totalScore.ToString(); // Total score.
+                TotalWordsTypedText.Text = totalWordsTyped.ToString(); // Total words typed..
+                TotalWordsTypedIncorrectly.Text = totalWordsTypedIncorrectly.ToString(); // Total incorrect words typed.
+                TotalWordsTypedCorrectly.Text = totalWordsTypedCorrectly.ToString(); // Total correct words typed.
+                TotalGamesPlayed.Text = totalGamesPlayed.ToString(); // Total games played.
 
-                // Teken de verschillende grafieken met de voorbeeldgegevens.
+                // Draw the various graphs with the sample data.
                 DrawWPMGraph(wpmData);
                 DrawGoodPercentageGraph(goodPercentageData);
                 DrawRightWrongGraph(rightWordsData, wrongWordsData);
 
 
-                // breng de scrollsnelheid naar beneden anders gaat die wel heel snel
+                // Lower the scroll speed to avoid it scrolling too fast.
                 scrollViewer.PreviewMouseWheel += (s, e) => scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset + (e.Delta > 0 ? -20 : 20));
                 loadingScreen.Close();
             };
@@ -156,21 +154,21 @@ namespace TikTovenaar
 
         }
 
-        // Methode om terug te keren naar het beginscherm.
-        private void Terug_Click(object sender, RoutedEventArgs e)
+        // Method to return to the home screen.
+        private void Return_Click(object sender, RoutedEventArgs e)
         {
-            // Verkrijg een referentie naar het hoofdvenster.
+            // Get a reference to the main window.
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            // Wissel naar het beginscherm.
+            // Switch to the home screen.
             mainWindow.SwitchToHomeScreen();
         }
 
-        // Methode om de klikgebeurtenissen van de dynamisch gemaakte woordknoppen te verwerken.
+        // Method to handle the click events of the dynamically created word buttons.
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            // Verkrijg de knop die is aangeklikt.
+            // Get the clicked button.
             Button clickedButton = sender as Button;
-            // Toon de naam van de aangeklikte knop in een berichtvenster.
+            // Show the name of the clicked button in a message window.
             DetailsDialog detailsDialog = new DetailsDialog(clickedButton.Tag.ToString());
             detailsDialog.ShowDialog();
         }
@@ -179,22 +177,22 @@ namespace TikTovenaar
 
         private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
-            //de extra code is nodig zodat er minder berekeningen zijn en het programma sneller is
-            // Als de timer nog niet bestaat, maak deze aan.
+            // The extra code is needed to perform fewer calculations and make the program faster
+            // If the timer doesn't exist, create it.
             if (_searchDebounceTimer == null)
             {
                 _searchDebounceTimer = new DispatcherTimer
                 {
                     Interval = TimeSpan.FromMilliseconds(300)
                 };
-                // Voer de filterfunctie uit zodra de timer afloopt.
+                // Execute the filter function once the timer expires.
                 _searchDebounceTimer.Tick += (s, args) =>
                 {
                     _searchDebounceTimer.Stop();
-                    PrintButtons(); // Voer de PrintFunctie uit
+                    PrintButtons(); // Execute the Print function
                 };
             }
-            // Als de timer al loopt, stop deze en start opnieuw.
+            // If the timer is already running, stop it and start again.
             _searchDebounceTimer.Stop();
             _searchDebounceTimer.Start();
         }
@@ -202,81 +200,81 @@ namespace TikTovenaar
 
         private void PrintButtons()
         {
-            StatisticsWord[] gesorteerdeWoorden;
+            StatisticsWord[] sortedWords;
 
             string searchText = searchBar.Text.ToLower();
 
-            // hier worden de worden gesorteerd en geordert
-            if (VolgwordenButton.Content.Equals("▲"))
+            // Here, the words are sorted and ordered
+            if (OrderButton.Content.Equals("▲"))
             {
-                if (SortOptiesButton.SelectedItem.Equals("Alfabetisch"))
+                if (SortOptionsButton.SelectedItem.Equals("Alfabetisch"))
                 {
-                    // word gesorteerd op alfabetische volgorde
-                    gesorteerdeWoorden = _woorden.Where(woord => woord.woord.StartsWith(searchText)).OrderBy(w => w.woord).ToArray();
+                    // Sort by alphabetical order
+                    sortedWords = _words.Where(word => word.Word.StartsWith(searchText)).OrderBy(w => w.Word).ToArray();
                 }
-                else if (SortOptiesButton.SelectedItem.Equals("Aantal goed"))
+                else if (SortOptionsButton.SelectedItem.Equals("Aantal woorden goed"))
                 {
-                    // word gesorteerd op aantal goed groot naar klein en als er 2 het zelfde aantal goed hebben worden ze op alfabetische volgorde gesorteerd
-                    gesorteerdeWoorden = _woorden.Where(woord => woord.woord.StartsWith(searchText)).OrderByDescending(w => w.totaalGoed).ThenBy(w => w.woord).ToArray();
+                    // Sort by number of correct, large to small, and if two have the same number of correct, sort alphabetically
+                    sortedWords = _words.Where(word => word.Word.StartsWith(searchText)).OrderByDescending(w => w.TotalCorrect).ThenBy(w => w.Word).ToArray();
                 }
-                else if (SortOptiesButton.SelectedItem.Equals("Aantal fout"))
+                else if (SortOptionsButton.SelectedItem.Equals("Aantal woorden fout"))
                 {
-                    // word gesorteerd op aantal fout groot naar klein en als er 2 het zelfde aantal fout hebben worden ze op alfabetische volgorde gesorteerd
-                    gesorteerdeWoorden = _woorden.Where(woord => woord.woord.StartsWith(searchText)).OrderByDescending(w => w.totaalFout).ThenBy(w => w.woord).ToArray();
+                    // Sort by number of incorrect, large to small, and if two have the same number of incorrect, sort alphabetically
+                    sortedWords = _words.Where(word => word.Word.StartsWith(searchText)).OrderByDescending(w => w.TotalWrong).ThenBy(w => w.Word).ToArray();
                 }
-                else if (SortOptiesButton.SelectedItem.Equals("Totaal gespeeld"))
+                else if (SortOptionsButton.SelectedItem.Equals("Totaal gespeelde spellen"))
                 {
-                    // word gesorteerd op totaal gespeelt groot naar klein en als er 2 het zelfde aantal totaal gespeelt hebben worden ze op alfabetische volgorde gesorteerd
-                    gesorteerdeWoorden = _woorden.Where(woord => woord.woord.StartsWith(searchText)).OrderByDescending(w => w.totaalGespeelt).ThenBy(w => w.woord).ToArray();
+                    // Sort by total played, large to small, and if two have the same total played, sort alphabetically
+                    sortedWords = _words.Where(word => word.Word.StartsWith(searchText)).OrderByDescending(w => w.TotalPlayed).ThenBy(w => w.Word).ToArray();
                 }
-                else // als er geen optie is geselecteert dit is onmogelijk maar als er een bug is is dit handig word gewoon op alfabetisch gedaan
+                else // if no option is selected, this is impossible but in case of a bug, just sort alphabetically
                 {
-                    gesorteerdeWoorden = _woorden.Where(woord => woord.woord.StartsWith(searchText)).OrderBy(w => w.woord).ToArray();
+                    sortedWords = _words.Where(word => word.Word.StartsWith(searchText)).OrderBy(w => w.Word).ToArray();
                 }
             }
             else
             {
-                if (SortOptiesButton.SelectedItem.Equals("Alfabetisch"))
+                if (SortOptionsButton.SelectedItem.Equals("Alfabetisch"))
                 {
-                    // word gesorteerd op omgekeerde alfabetische volgorde
-                    gesorteerdeWoorden = _woorden.Where(woord => woord.woord.StartsWith(searchText)).OrderByDescending(w => w.woord).ToArray();
+                    // Sort in reverse alphabetical order
+                    sortedWords = _words.Where(word => word.Word.StartsWith(searchText)).OrderByDescending(w => w.Word).ToArray();
                 }
-                else if (SortOptiesButton.SelectedItem.Equals("Aantal goed"))
+                else if (SortOptionsButton.SelectedItem.Equals("Aantal woorden goed"))
                 {
-                    // word gesorteerd op aantal goed klein naar groot en als er 2 het zelfde aantal goed hebben worden ze op alfabetische volgorde gesorteerd
-                    gesorteerdeWoorden = _woorden.Where(woord => woord.woord.StartsWith(searchText)).OrderBy(w => w.totaalGoed).ThenBy(w => w.woord).ToArray();
+                    // Sort by number of correct, small to large, and if two have the same number of correct, sort alphabetically
+                    sortedWords = _words.Where(word => word.Word.StartsWith(searchText)).OrderBy(w => w.TotalCorrect).ThenBy(w => w.Word).ToArray();
                 }
-                else if (SortOptiesButton.SelectedItem.Equals("Aantal fout"))
+                else if (SortOptionsButton.SelectedItem.Equals("Aantal woorden fout"))
                 {
-                    // word gesorteerd op aantal fout klein naar groot en als er 2 het zelfde aantal fout hebben worden ze op alfabetische volgorde gesorteerd
-                    gesorteerdeWoorden = _woorden.Where(woord => woord.woord.StartsWith(searchText)).OrderBy(w => w.totaalFout).ThenBy(w => w.woord).ToArray();
+                    // Sort by number of incorrect, small to large, and if two have the same number of incorrect, sort alphabetically
+                    sortedWords = _words.Where(word => word.Word.StartsWith(searchText)).OrderBy(w => w.TotalWrong).ThenBy(w => w.Word).ToArray();
                 }
-                else if (SortOptiesButton.SelectedItem.Equals("Totaal gespeeld"))
+                else if (SortOptionsButton.SelectedItem.Equals("Totaal gespeelde spellen"))
                 {
-                    // word gesorteerd op totaal gespeelt klein naar grooten als er 2 het zelfde aantal totaal gespeelt hebben worden ze op alfabetische volgorde gesorteerd
-                    gesorteerdeWoorden = _woorden.Where(woord => woord.woord.StartsWith(searchText)).OrderBy(w => w.totaalGespeelt).ThenBy(w => w.woord).ToArray();
+                    // Sort by total played, small to large, and if two have the same total played, sort alphabetically
+                    sortedWords = _words.Where(word => word.Word.StartsWith(searchText)).OrderBy(w => w.TotalPlayed).ThenBy(w => w.Word).ToArray();
                 }
-                else // als er geen optie is geselecteert dit is onmogelijk maar als er een bug is is dit handig word gewoon op omgekeerd alfabetisch gedaan
+                else // if no option is selected, this is impossible but in case of a bug, just sort in reverse alphabetical order
                 {
-                    gesorteerdeWoorden = _woorden.Where(woord => woord.woord.StartsWith(searchText)).OrderByDescending(w => w.woord).ToArray();
+                    sortedWords = _words.Where(word => word.Word.StartsWith(searchText)).OrderByDescending(w => w.Word).ToArray();
                 }
 
             }
 
 
-            // maakt het grid weer leeg zodat er weer voor de gesorteerde worden een nieuwe grid gemaakt kan worden 
+            // Clears the grid to make room for a new grid with the sorted words
             DynamicGrid.Children.Clear();
             DynamicGrid.RowDefinitions.Clear();
             DynamicGrid.ColumnDefinitions.Clear();
-            int aantalWorden = gesorteerdeWoorden.Length;
+            int wordCount = sortedWords.Length;
             int cellCount;
-            if (aantalWorden > 30)
+            if (wordCount > 30)
             {
                 cellCount = 30;
             }
             else
             {
-                 cellCount = gesorteerdeWoorden.Length;
+                cellCount = sortedWords.Length;
             }
             int numCols = 2;
             int numRows = (int)Math.Ceiling((double)cellCount / numCols);
@@ -306,7 +304,7 @@ namespace TikTovenaar
             {
                 Button button = new Button
                 {
-                    Tag = gesorteerdeWoorden[i].woord,
+                    Tag = sortedWords[i].Word,
                     Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0D1117")),
                     Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F0F0F0")),
                     BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F0F0F0")),
@@ -317,13 +315,13 @@ namespace TikTovenaar
                             new TextBlock
                             {
                                 FontSize = 20,
-                                Text = gesorteerdeWoorden[i].ToStringWord(),
+                                Text = sortedWords[i].ToStringWord(),
                                 TextAlignment = TextAlignment.Center
                             },
                             new TextBlock
                             {
                                 FontSize = 15,
-                                Text = gesorteerdeWoorden[i].ToStringStats(),
+                                Text = sortedWords[i].ToStringStats(),
                                 TextAlignment = TextAlignment.Center
                             }
                         }
@@ -334,24 +332,21 @@ namespace TikTovenaar
 
                 DynamicGrid.Children.Add(button);
 
-
-
                 button.SetValue(Grid.RowProperty, i / numCols);
                 button.SetValue(Grid.ColumnProperty, i % numCols);
             }
         }
+    
 
-
-        // zorgt er voor dat de button werkt en dus het anders sorteert
-        private void VolgwordenButtonClick(object sender, RoutedEventArgs e)
+        private void OrderButtonClick(object sender, RoutedEventArgs e)
         {
-            if (VolgwordenButton.Content.Equals("▲"))
+            if (OrderButton.Content.Equals("▲"))
             {
-                VolgwordenButton.Content = "▼";
+                OrderButton.Content = "▼";
             }
             else
             {
-                VolgwordenButton.Content = "▲";
+                OrderButton.Content = "▲";
             }
             PrintButtons();
         }
@@ -361,10 +356,9 @@ namespace TikTovenaar
             PrintButtons();
         }
 
-        // Methode om een grafiek te tekenen die het gemiddelde WPM toont.
+        // Method to draw wpm graph
         private void DrawWPMGraph(List<int> data)
         {
-
             if (data.Count <= 2)
             {
                 // Show the message and hide the graph
@@ -377,22 +371,22 @@ namespace TikTovenaar
             WPMPlotView.Visibility = Visibility.Visible;
             WPMMessageText.Visibility = Visibility.Collapsed;
 
-            // Maak een nieuw grafiekmodel voor WPM.
-            var plotModel = new PlotModel { Title = "Gemiddelde WPM" };
+            // Create a new chart model for WPM.
+            var plotModel = new PlotModel { Title = "Gemiddeld WPM" };
 
-            // Stel stijlen in voor de grafiek.
+            // Set styles for the chart.
             plotModel.SubtitleColor = OxyColors.White;
             plotModel.TextColor = OxyColors.White;
             plotModel.PlotAreaBorderColor = OxyColors.White;
 
-            // Maak een lijnserie voor de WPM-waarden.
+            // Create a line series for the WPM values.
             var lineSeries = new LineSeries
             {
                 Title = "WPM",
                 Color = OxyColors.Blue
             };
 
-            // Bepaal het maximale WPM-waarde voor de y-as.
+            // Determine the maximum WPM value for the y-axis.
             double maxValue = 0;
             for (int i = 0; i < data.Count; i++)
             {
@@ -401,14 +395,14 @@ namespace TikTovenaar
                     maxValue = data[i];
             }
 
-            // Voeg de serie toe aan het grafiekmodel.
+            // Add the series to the chart model.
             plotModel.Series.Add(lineSeries);
 
-            // Voeg een x-as toe die het aantal spellen vertegenwoordigt.
+            // Add an x-axis representing the number of games.
             var xAxis = new LinearAxis
             {
                 Position = AxisPosition.Bottom,
-                Title = "Aantal Spellen",
+                Title = "Aantal gespeelde spellen",
                 Minimum = 0,
                 Maximum = data.Count - 1,
                 MajorStep = 1,
@@ -416,13 +410,13 @@ namespace TikTovenaar
                 IsZoomEnabled = false
             };
 
-            // Voeg een y-as toe voor de WPM-waarden.
+            // Add a y-axis for the WPM values.
             var yAxis = new LinearAxis
             {
                 Position = AxisPosition.Left,
                 Title = "WPM",
                 Minimum = 0,
-                Maximum = maxValue + (maxValue * 0.1), // Voeg 10% marge toe aan de maximumwaarde.
+                Maximum = maxValue + (maxValue * 0.1), // Add a 10% margin to the maximum value.
                 AbsoluteMinimum = 0,
                 IsZoomEnabled = false
             };
@@ -430,11 +424,11 @@ namespace TikTovenaar
             plotModel.Axes.Add(xAxis);
             plotModel.Axes.Add(yAxis);
 
-            // Koppel het grafiekmodel aan de WPM-plotweergave.
+            // Bind the chart model to the WPM plot view.
             WPMPlotView.Model = plotModel;
         }
 
-        // Methode om een grafiek te tekenen voor het gemiddelde foutpercentage.
+        // Method to draw a graph for the average correct percentage.
         private void DrawGoodPercentageGraph(List<int> data)
         {
             if (data.Count <= 2)
@@ -448,22 +442,22 @@ namespace TikTovenaar
             WrongPercentagePlotView.Visibility = Visibility.Visible;
             GoodPercentageMessageText.Visibility = Visibility.Collapsed;
 
-            // Maak een nieuw grafiekmodel voor foutpercentages.
-            var plotModel = new PlotModel { Title = "Gemiddeld Goed Percentage" };
+            // Create a new chart model for correct percentages.
+            var plotModel = new PlotModel { Title = "Gemiddeld goed percentage (%)" };
 
-            // Stel stijlen in voor de grafiek.
+            // Set styles for the chart.
             plotModel.SubtitleColor = OxyColors.White;
             plotModel.TextColor = OxyColors.White;
             plotModel.PlotAreaBorderColor = OxyColors.White;
 
-            // Maak een lijnserie voor foutpercentages.
+            // Create a line series for correct percentages.
             var lineSeries = new LineSeries
             {
-                Title = "Goed Percentage",
+                Title = "Correct percentage (%)",
                 Color = OxyColors.Green
             };
 
-            // Bepaal het maximale foutpercentage voor de y-as.
+            // Determine the maximum correct percentage for the y-axis.
             double maxValue = 0;
             for (int i = 0; i < data.Count; i++)
             {
@@ -472,14 +466,14 @@ namespace TikTovenaar
                     maxValue = data[i];
             }
 
-            // Voeg de serie toe aan het grafiekmodel.
+            // Add the series to the chart model.
             plotModel.Series.Add(lineSeries);
 
-            // Voeg een x-as toe die het aantal spellen vertegenwoordigt.
+            // Add an x-axis representing the number of games.
             var xAxis = new LinearAxis
             {
                 Position = AxisPosition.Bottom,
-                Title = "Aantal Spellen",
+                Title = "Aantal gespeelde spellen",
                 Minimum = 0,
                 Maximum = data.Count - 1,
                 MajorStep = 1,
@@ -487,13 +481,13 @@ namespace TikTovenaar
                 IsZoomEnabled = false
             };
 
-            // Voeg een y-as toe voor foutpercentages.
+            // Add a y-axis for correct percentages.
             var yAxis = new LinearAxis
             {
                 Position = AxisPosition.Left,
                 Title = "Goed Percentage (%)",
                 Minimum = 0,
-                Maximum = Math.Min(maxValue + (maxValue * 0.1), 100), // Zorg dat het percentage niet boven 100% komt.
+                Maximum = Math.Min(maxValue + (maxValue * 0.1), 100), // Ensure the percentage does not exceed 100%.
                 AbsoluteMinimum = 0,
                 AbsoluteMaximum = 100,
                 IsZoomEnabled = false
@@ -502,9 +496,10 @@ namespace TikTovenaar
             plotModel.Axes.Add(xAxis);
             plotModel.Axes.Add(yAxis);
 
-            // Koppel het grafiekmodel aan de foutpercentage-plotweergave.
+            // Bind the chart model to the correct percentage plot view.
             WrongPercentagePlotView.Model = plotModel;
         }
+
 
         // Methode om een grafiek te tekenen die het aantal correcte en foute woorden toont.
         private void DrawRightWrongGraph(List<int> rightWordsData, List<int> wrongWordsData)
@@ -516,34 +511,30 @@ namespace TikTovenaar
                 RightWrongMessageText.Visibility = Visibility.Visible;
                 return;
             }
-
             // Hide the message and show the graph
             RightWrongPlotView.Visibility = Visibility.Visible;
             RightWrongMessageText.Visibility = Visibility.Collapsed;
-
-            // Maak een nieuw grafiekmodel voor correcte en foute woorden.
-            var plotModel = new PlotModel { Title = "Totaal Aantal Woorden Goed en Fout" };
-
-            // Stel stijlen in voor de grafiek.
+            // Create a new chart model for correct and incorrect words.
+            var plotModel = new PlotModel { Title = "Totaal aantal woorden goed en fout" };
+            // Set styles for the chart.
             plotModel.SubtitleColor = OxyColors.White;
             plotModel.TextColor = OxyColors.White;
             plotModel.PlotAreaBorderColor = OxyColors.White;
-
-            // Maak een lijnserie voor correcte woorden.
+            // Create a line series for correct words.
             var rightSeries = new LineSeries
             {
-                Title = "Goed Getypt",
+                Title = "Goed getypt",
                 Color = OxyColors.Green
             };
 
-            // Maak een lijnserie voor foute woorden.
+            // Create a line series for incorrect words.
             var wrongSeries = new LineSeries
             {
-                Title = "Fout Getypt",
+                Title = "Foute woorden",
                 Color = OxyColors.Red
             };
 
-            // Bepaal het maximale aantal woorden voor de y-as.
+            // Determine the maximum number of words for the y-axis.
             double maxValue = 0;
             for (int i = 0; i < rightWordsData.Count; i++)
             {
@@ -552,15 +543,15 @@ namespace TikTovenaar
                 maxValue = Math.Max(maxValue, Math.Max(rightWordsData[i], wrongWordsData[i]));
             }
 
-            // Voeg de series toe aan het grafiekmodel.
+            // Add the series to the chart model.
             plotModel.Series.Add(rightSeries);
             plotModel.Series.Add(wrongSeries);
 
-            // Voeg een x-as toe die het aantal spellen vertegenwoordigt.
+            // Add an x-axis representing the number of games.
             var xAxis = new LinearAxis
             {
                 Position = AxisPosition.Bottom,
-                Title = "Aantal Spellen",
+                Title = "Aantal gespeelde spellen",
                 Minimum = 0,
                 Maximum = rightWordsData.Count - 1,
                 MajorStep = 1,
@@ -568,13 +559,13 @@ namespace TikTovenaar
                 IsZoomEnabled = false
             };
 
-            // Voeg een y-as toe voor het aantal woorden.
+            // Add a y-axis for the number of words.
             var yAxis = new LinearAxis
             {
                 Position = AxisPosition.Left,
-                Title = "Aantal Woorden",
+                Title = "Aantal getypte woorden",
                 Minimum = 0,
-                Maximum = maxValue + (maxValue * 0.1), // Voeg 10% marge toe aan de maximumwaarde.
+                Maximum = maxValue + (maxValue * 0.1), // Add a 10% margin to the maximum value.
                 AbsoluteMinimum = 0,
                 IsZoomEnabled = false
             };
@@ -582,9 +573,10 @@ namespace TikTovenaar
             plotModel.Axes.Add(xAxis);
             plotModel.Axes.Add(yAxis);
 
-            // Koppel het grafiekmodel aan de plotweergave voor correcte en foute woorden.
+            // Bind the chart model to the plot view for correct and incorrect words.
             RightWrongPlotView.Model = plotModel;
         }
+
 
     }
 }

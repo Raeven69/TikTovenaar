@@ -26,8 +26,7 @@ namespace TikTovenaar
         public LoadingScreen(string text)
         {
             InitializeComponent();
-            LodingText.Text = text;
+            LoadingText.Text = text;
         }
-
     }
 }

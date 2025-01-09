@@ -16,25 +16,6 @@ namespace TikTovenaar
     {
 
         public ObservableCollection<string> BackgroundMusicOptions { get; set; }
-        public SettingsScreen()
-        {
-            InitializeComponent();
-            DataContext = this;
-            BackgroundMusicOptions = new ObservableCollection<string>();
-            LoadBackGroundMusic();
-            // dit zorgt voor het automatisch selecteren van de laatst geselecteerde volume
-            _musicVolume = Properties.Settings.Default.backgroundMusicVolume;
-            _soundEffectVolume = Properties.Settings.Default.soundEffectVolume;
-            //dit zorgt voor het automatisch selecteren van de laatst geselecteerde achtergrond muziek
-            if (BackgroundMusicOptions.Contains(Properties.Settings.Default.lastSelectedBackgroundMusic))
-            {
-                BackgroundMusicComboBox.SelectedItem = Properties.Settings.Default.lastSelectedBackgroundMusic;
-            }
-            else
-            {
-                BackgroundMusicComboBox.SelectedItem = "Geen achtergrond muziek";
-            }
-        }
 
         private int _musicVolume;
 
@@ -75,6 +56,26 @@ namespace TikTovenaar
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
+
+        public SettingsScreen()
+        {
+            InitializeComponent();
+            DataContext = this;
+            BackgroundMusicOptions = new ObservableCollection<string>();
+            LoadBackGroundMusic();
+            // auto selects current settings
+            _musicVolume = Properties.Settings.Default.backgroundMusicVolume;
+            _soundEffectVolume = Properties.Settings.Default.soundEffectVolume;
+            if (BackgroundMusicOptions.Contains(Properties.Settings.Default.lastSelectedBackgroundMusic))
+            {
+                BackgroundMusicComboBox.SelectedItem = Properties.Settings.Default.lastSelectedBackgroundMusic;
+            }
+            else
+            {
+                BackgroundMusicComboBox.SelectedItem = "Geen achtergrond muziek";
+            }
+        }
+
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -95,17 +96,15 @@ namespace TikTovenaar
             }
         }
 
-        private void Terug_Click(object sender, RoutedEventArgs e)
+        private void ReturnButton_Click(object sender, RoutedEventArgs e)
         {
-            // Verkrijg een referentie naar het hoofdvenster.
             MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
-            // Wissel naar het beginscherm.
             mainWindow.SwitchToHomeScreen();
         }
 
         private void BackgroundMusicComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // zorgt er voor dat de backgrondmusiccombobox niet null is
+            // compares the currently selected music with the music selected in settings
             if (BackgroundMusicComboBox.SelectedItem != null)
             {
                 string SelectedMusic = BackgroundMusicComboBox.SelectedItem.ToString();
@@ -129,7 +128,7 @@ namespace TikTovenaar
 
         private void AddMusic_Click(object sender, RoutedEventArgs e)
         {
-            // Open een dialoogvenster om een bestand te selecteren.
+            // Open explorer dialog
             CommonOpenFileDialog dialog = new CommonOpenFileDialog();
 
             dialog.Filters.Add(new CommonFileDialogFilter("MP3 Bestanden", "*.mp3"));
@@ -144,7 +143,7 @@ namespace TikTovenaar
                 
                 if (!System.IO.File.Exists(destinationPath))
                 {
-                    // Kopieer het bestand naar de map met achtergrondmuziek.
+                    // copy file path
                     System.IO.File.Copy(selectedPath, destinationPath);
                     LoadBackGroundMusic();
                     Properties.Settings.Default.lastSelectedBackgroundMusic = fileName;
@@ -153,8 +152,7 @@ namespace TikTovenaar
                 } 
                 else
                 {
-                    // Als het bestand al bestaat, toon een foutmelding.
-                    MessageBox.Show("bestamd bestaat al");
+                    MessageBox.Show("bestand bestaat al");
                 }
                 
             }
@@ -165,7 +163,7 @@ namespace TikTovenaar
             
             if (BackgroundMusicComboBox.SelectedItem != null)
             {
-                // Verwijder het geselecteerde bestand.
+                // if the music is not allowed to be deleted show error
                 if (!BackgroundMusicComboBox.SelectedItem.ToString().Equals("Geen achtergrond muziek") && !BackgroundMusicComboBox.SelectedItem.ToString().Equals("wizard_theme_music.mp3"))
                 {
                     LoadingScreen loadingScreen = new LoadingScreen("Laden");
@@ -180,7 +178,6 @@ namespace TikTovenaar
                 {
                     MessageBox.Show("Kan niet verwijderd worden");
                 }
-
             }
         }
 
