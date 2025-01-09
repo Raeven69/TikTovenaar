@@ -13,13 +13,12 @@ namespace TikTovenaar
         {
             Handler = new();
             InitializeComponent();
-            // moest alles eerst inladen anders wou hij niet switchen naar homescreen
             Loaded += (s, e) =>
+            // loads everything in
             {
                 LoginResponse? login = AutoLogin();
                 if (login != null)
                 {
-                    // als automatis inloggen gelukt is swicht hij naar home schreen
                     MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
                     mainWindow.SwitchToHomeScreen();
                     if (login.GainedXP > 0)
@@ -38,6 +37,7 @@ namespace TikTovenaar
         {
             try
             {
+                // attempts auto login
                 LoginResponse login = Handler.Login(UsernameTextBox.Text, PasswordBox.Password);
                 CurrentUser.Instance.Set(UsernameTextBox.Text, login.Token, login.Admin);
                 Properties.Settings.Default.inlogToken = login.Token;
@@ -58,13 +58,13 @@ namespace TikTovenaar
 
         private LoginResponse? AutoLogin()
         {
-            // krijg token die opgeslagen is
+            // gets saved token
             string token = Properties.Settings.Default.inlogToken;
             if (token != null)
             {
                 try
                 {
-                    //probeert in te loggen
+                    //tries login
                     LoginResponse login = Handler.Authorize(token);
                     CurrentUser.Instance.Set(login.Name, login.Token, login.Admin);
                     return login;

@@ -108,14 +108,14 @@ namespace TikTovenaar
             }
         }
 
-        public GameStatisticsScreen(string totaltime, string wordsperminuut, int score, string errorpercentage, string wordcount, List<Word> wordList, List<Word> wrongWordList, List<Letter> wrongLetterList)
+        public GameStatisticsScreen(string totaltime, string wordsperminute, int score, string errorpercentage, string wordcount, List<Word> wordList, List<Word> wrongWordList, List<Letter> wrongLetterList)
         {
             InitializeComponent(); // Initializes the XAML components.
             DataContext = this; // Sets the current class as the data source for bindings.
             this.Score = score;
             this.TotalTime = totaltime;
             this.WordCount = wordcount;
-            this.WordsPerMinute = wordsperminuut;
+            this.WordsPerMinute = wordsperminute;
             this.ErrorPercentage = errorpercentage;
 
             this._wordList = wordList;

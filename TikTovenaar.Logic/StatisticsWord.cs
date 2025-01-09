@@ -9,33 +9,33 @@ namespace TikTovenaar.Logic
     public class StatisticsWord
     {
 
-        public string woord { get; set; }
+        public string Word { get; set; }
 
-        public int totaalGespeelt 
+        public int TotalPlayed 
         {
-            get { return totaalGoed + totaalFout; }
+            get { return TotalCorrect + TotalWrong; }
         }
-        public int totaalFout { get; set; }
+        public int TotalWrong { get; set; }
 
 
-        public int totaalGoed { get; set; }
+        public int TotalCorrect { get; set; }
 
 
-        public StatisticsWord(string woord, int totaalGoed, int totaalFout) 
+        public StatisticsWord(string word, int totaalGoed, int totaalFout) 
         { 
-            this.woord = woord;
-            this.totaalGoed = totaalGoed;
-            this.totaalFout = totaalFout;
+            this.Word = word;
+            this.TotalCorrect = totaalGoed;
+            this.TotalWrong = totaalFout;
         }
 
         public string ToStringWord()
         {
-            return woord;
+            return Word;
         }
 
         public string ToStringStats()
         {
-            return $"totaal gespeelt: {totaalGespeelt}       ✅ {totaalGoed}       ❎ {totaalFout}";
+            return $"totaal gespeelt: {TotalPlayed}       ✅ {TotalCorrect}       ❎ {TotalWrong}";
         }
 
     }

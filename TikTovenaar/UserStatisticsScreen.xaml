@@ -10,9 +10,9 @@
              d:DesignHeight="720">
     <Grid Background="#000435">
         <!-- Back Button -->
-        <Button Content="terug" Width="50" Height="30" FontSize="16" Foreground="#F0F0F0" Background="#D32F2F" 
+        <Button Content="Terug" Width="50" Height="30" FontSize="16" Foreground="#F0F0F0" Background="#D32F2F" 
                 HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,5,0" 
-                Click="Terug_Click" BorderBrush="Transparent" BorderThickness="0" Panel.ZIndex="10000"/>
+                Click="Return_Click" BorderBrush="Transparent" BorderThickness="0" Panel.ZIndex="10000"/>
 
         <!-- ScrollViewer to allow scrolling -->
         <ScrollViewer x:Name="scrollViewer" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
@@ -84,13 +84,12 @@
                     <TextBlock Text="Totaal aantal woorden goed getyped:" FontSize="25" Foreground="#F0F0F0" VerticalAlignment="Center"/>
                     <TextBlock Name="TotalWordsTypedCorrectly" FontSize="25" Foreground="#F0F0F0" VerticalAlignment="Center" Grid.Column="1" HorizontalAlignment="Center" Margin="0,0,500,0"/>
                 </Grid>
-                <!-- Totaal aantal games gespeelt -->
                 <Grid Grid.Row="6" Margin="75,5,5,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="Totaal aantal spellen gespeelt:" FontSize="25" Foreground="#F0F0F0" VerticalAlignment="Center"/>
+                    <TextBlock Text="Totaal aantal spellen gespeeld:" FontSize="25" Foreground="#F0F0F0" VerticalAlignment="Center"/>
                     <TextBlock Name="TotalGamesPlayed" FontSize="25" Foreground="#F0F0F0" VerticalAlignment="Center" Grid.Column="1" HorizontalAlignment="Center" Margin="0,0,500,0"/>
                 </Grid>
 
@@ -131,10 +130,10 @@
                         <TextBox Name="searchBar" FontSize="30" TextChanged="SearchBar_TextChanged" Grid.Column="0" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
 
                         <!-- Sort Order Button (▲ or ▼) -->
-                        <Button Name="VolgwordenButton" Grid.Column="1" Content="▲" FontSize="50" Click="VolgwordenButtonClick"/>
+                        <Button Name="OrderButton" Grid.Column="1" Content="▲" FontSize="50" Click="OrderButtonClick"/>
 
                         <!-- Sort Options ComboBox (next to search bar) -->
-                        <ComboBox Name="SortOptiesButton" ItemsSource="{Binding SortOpties}" Grid.Column="2" SelectionChanged="SortOptiesVerandering" SelectedIndex="0" FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                        <ComboBox Name="SortOptionsButton" ItemsSource="{Binding SortOptions}" Grid.Column="2" SelectionChanged="SortOptiesVerandering" SelectedIndex="0" FontSize="20" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                     </Grid>
                 </Grid>
 
