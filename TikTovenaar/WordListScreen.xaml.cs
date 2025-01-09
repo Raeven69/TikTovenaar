@@ -29,7 +29,7 @@ namespace TikTovenaar
             ListBoxWords.Items.Clear();
             foreach (Word word in _wordList)
             {
-                AddItemToDisplay(word.getWholeWord(), true);
+                AddItemToDisplay(word.GetWholeWord(), true);
             }
         }
 
@@ -45,7 +45,7 @@ namespace TikTovenaar
                 ListBoxWords.Items.Clear();
                 foreach (Word word in _wordList)
                 {
-                    AddItemToDisplay(word.getWholeWord(), true);
+                    AddItemToDisplay(word.GetWholeWord(), true);
                 }
             }
             else if (selectedFilter.Content.ToString() == "Fout getypte woorden")
@@ -53,7 +53,7 @@ namespace TikTovenaar
                 ListBoxWords.Items.Clear();
                 foreach (Word word in _wrongWordList)
                 {
-                    AddItemToDisplay(word.getWholeWord(), true);
+                    AddItemToDisplay(word.GetWholeWord(), true);
                 }
             }
             else if (selectedFilter.Content.ToString() == "Fout getypte letters")

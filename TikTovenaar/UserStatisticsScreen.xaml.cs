@@ -8,7 +8,6 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
 using TikTovenaar.Logic;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace TikTovenaar
 {

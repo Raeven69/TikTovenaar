@@ -41,7 +41,7 @@ namespace TikTovenaar.Logic
             }
         }
 
-        public string getWholeWord()
+        public string GetWholeWord()
         {
             StringBuilder word = new();
             foreach (Letter letter in Letters)

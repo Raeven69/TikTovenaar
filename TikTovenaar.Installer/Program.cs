@@ -10,9 +10,7 @@ namespace TikTovenaar.Installer
 {
     public class Program
     {
-        /// <summary>
-        /// This is a script that's 
-        /// </summary>
+       
         static void Main()
         {
             string workingDirectory = Environment.CurrentDirectory;
