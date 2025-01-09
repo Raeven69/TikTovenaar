@@ -22,7 +22,7 @@
                         <ColumnDefinition Width="12*"/>
                         <ColumnDefinition Width="12*"/>
                     </Grid.ColumnDefinitions>
-                    <ComboBox Name="BackgroundMusicComboBox" Grid.Column="0" FontSize="20" HorizontalContentAlignment="Center" ItemsSource="{Binding backgroundMusicOptions}" SelectionChanged="BackgroundMusicComboBox_SelectionChanged"/>
+                    <ComboBox Name="BackgroundMusicComboBox" Grid.Column="0" FontSize="20" HorizontalContentAlignment="Center" ItemsSource="{Binding BackgroundMusicOptions}" SelectionChanged="BackgroundMusicComboBox_SelectionChanged"/>
                     <Button Content="Verwijder" Background="#D32F2F" Foreground="#F0F0F0" FontSize="20" HorizontalContentAlignment="Center" Grid.Column="1" VerticalAlignment="Center" Click="Remove_Click"/>
                     <Button Content="Toevoegen" Background="#4CAF50"  FontSize="20" HorizontalContentAlignment="Center" Grid.Column="2" VerticalAlignment="Center" Click="AddMusic_Click"/>
                 </Grid>

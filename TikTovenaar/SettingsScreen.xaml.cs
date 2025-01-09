@@ -15,18 +15,18 @@ namespace TikTovenaar
     public partial class SettingsScreen : UserControl, INotifyPropertyChanged
     {
 
-        public ObservableCollection<string> backgroundMusicOptions { get; set; }
+        public ObservableCollection<string> BackgroundMusicOptions { get; set; }
         public SettingsScreen()
         {
             InitializeComponent();
             DataContext = this;
-            backgroundMusicOptions = new ObservableCollection<string>();
+            BackgroundMusicOptions = new ObservableCollection<string>();
             LoadBackGroundMusic();
             // dit zorgt voor het automatisch selecteren van de laatst geselecteerde volume
-            musicVolume = Properties.Settings.Default.backgroundMusicVolume;
-            soundEffectVolume = Properties.Settings.Default.soundEffectVolume;
+            _musicVolume = Properties.Settings.Default.backgroundMusicVolume;
+            _soundEffectVolume = Properties.Settings.Default.soundEffectVolume;
             //dit zorgt voor het automatisch selecteren van de laatst geselecteerde achtergrond muziek
-            if (backgroundMusicOptions.Contains(Properties.Settings.Default.lastSelectedBackgroundMusic))
+            if (BackgroundMusicOptions.Contains(Properties.Settings.Default.lastSelectedBackgroundMusic))
             {
                 BackgroundMusicComboBox.SelectedItem = Properties.Settings.Default.lastSelectedBackgroundMusic;
             }
@@ -36,40 +36,40 @@ namespace TikTovenaar
             }
         }
 
-        private int musicVolume;
+        private int _musicVolume;
 
         public int MusicVolume
         {
-            get => musicVolume;
+            get => _musicVolume;
             set
             {
                 if (value == 0)
                 {
                     SoundManager.StopBackgroundSound();
                 }
-                if (musicVolume == 0 && value > 0)
+                if (_musicVolume == 0 && value > 0)
                 {
                     SoundManager.PlayBackgroundSound("Sounds/Background/" + Properties.Settings.Default.lastSelectedBackgroundMusic);
                 }
-                musicVolume = value;
-                Properties.Settings.Default.backgroundMusicVolume = musicVolume;
+                _musicVolume = value;
+                Properties.Settings.Default.backgroundMusicVolume = _musicVolume;
                 Properties.Settings.Default.Save();
-                SoundManager.SetBackgroundVulume(musicVolume);
+                SoundManager.SetBackgroundVulume(_musicVolume);
                 OnPropertyChanged(nameof(MusicVolume));
             }
         }
 
-        private int soundEffectVolume;
+        private int _soundEffectVolume;
 
         public int SoundEffectVolume
         {
-            get => soundEffectVolume;
+            get => _soundEffectVolume;
             set
             {
-                soundEffectVolume = value;
-                Properties.Settings.Default.soundEffectVolume = soundEffectVolume;
+                _soundEffectVolume = value;
+                Properties.Settings.Default.soundEffectVolume = _soundEffectVolume;
                 Properties.Settings.Default.Save();
-                SoundManager.SetSoundEffectVulume(soundEffectVolume);
+                SoundManager.SetSoundEffectVulume(_soundEffectVolume);
                 OnPropertyChanged(nameof(SoundEffectVolume));
             }
         }
@@ -82,15 +82,15 @@ namespace TikTovenaar
 
         private void LoadBackGroundMusic()
         {
-            backgroundMusicOptions.Clear();
-            backgroundMusicOptions.Add("Geen achtergrond muziek");
+            BackgroundMusicOptions.Clear();
+            BackgroundMusicOptions.Add("Geen achtergrond muziek");
             string folderPath = "Sounds/Background";
             if (Directory.Exists(folderPath))
             {
                 string[] mp3Files = Directory.GetFiles(folderPath, "*.mp3");
                 foreach (string file in mp3Files)
                 {
-                    backgroundMusicOptions.Add(Path.GetFileName(file));
+                    BackgroundMusicOptions.Add(Path.GetFileName(file));
                 }
             }
         }
@@ -108,15 +108,15 @@ namespace TikTovenaar
             // zorgt er voor dat de backgrondmusiccombobox niet null is
             if (BackgroundMusicComboBox.SelectedItem != null)
             {
-                string selectedMusic = BackgroundMusicComboBox.SelectedItem.ToString();
-                string lastSelectedBackgroundMusic = Properties.Settings.Default.lastSelectedBackgroundMusic;
-                if (!selectedMusic.Equals(lastSelectedBackgroundMusic))
+                string SelectedMusic = BackgroundMusicComboBox.SelectedItem.ToString();
+                string LastSelectedBackgroundMusic = Properties.Settings.Default.lastSelectedBackgroundMusic;
+                if (!SelectedMusic.Equals(LastSelectedBackgroundMusic))
                 {
-                    Properties.Settings.Default.lastSelectedBackgroundMusic = selectedMusic;
+                    Properties.Settings.Default.lastSelectedBackgroundMusic = SelectedMusic;
                     Properties.Settings.Default.Save();
-                    if (!selectedMusic.Equals("Geen achtergrond muziek"))
+                    if (!SelectedMusic.Equals("Geen achtergrond muziek"))
                     {
-                        SoundManager.PlayBackgroundSound("Sounds/Background/" + selectedMusic);
+                        SoundManager.PlayBackgroundSound("Sounds/Background/" + SelectedMusic);
                     }
                     else
                     {
